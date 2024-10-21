@@ -11,13 +11,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,42 +28,33 @@ class MainActivity : ComponentActivity() {
         setContent {
             TaratorTheme {
                 MainScreen()
-                }
             }
         }
     }
-
-
+}
 
 @Composable
 fun MainScreen() {
-    Scaffold (topBar = { AppBar()}){ padding->
-        Column (
+    Scaffold(topBar = { AppBar() }) { padding ->
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-        ){
-            AppBar()
+        ) {
+            //AppBar()
+            Spacer(modifier = Modifier.height(8.dp))
+            TaratorIcon()
         }
     }
-    Spacer(modifier = Modifier.height(8.dp))
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-
-        ){
-        TaratorIcon()
-    }
-
-    }
-
+}
 
 @Composable
 fun TaratorIcon() {
-
     Image(
-        painter = painterResource(id = R.drawable.icon),
-        contentDescription = stringResource(id = R.string.icon)
+        painter = painterResource(id = R.drawable.applicationicon),
+        contentDescription = stringResource(id = R.string.application_icon),
+        alignment = Alignment.Center,
+        modifier = Modifier.padding(start = 10.dp, end = 10.dp)
     )
 }
 
