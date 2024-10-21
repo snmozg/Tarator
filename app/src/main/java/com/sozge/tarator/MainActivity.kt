@@ -41,6 +41,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     Scaffold(topBar = { AppBar() },
+        bottomBar = {BottomNavigationBar()},
         modifier = Modifier.fillMaxSize()) { padding ->
         Column(
             modifier = Modifier
@@ -54,7 +55,8 @@ fun MainScreen() {
             LetsEditButton()
             Spacer(modifier = Modifier.height(8.dp))
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
@@ -97,7 +99,8 @@ fun FeedBackButton() {
         onClick = { },
         modifier = Modifier
             .height(80.dp)
-            .width(150.dp).padding(5.dp)
+            .width(150.dp)
+            .padding(5.dp)
     ) {
         Text(text = "Feed Back")
 
@@ -110,7 +113,8 @@ fun SettingsButton() {
         onClick = { },
         modifier = Modifier
             .height(80.dp)
-            .width(150.dp).padding(5.dp)
+            .width(150.dp)
+            .padding(5.dp)
     ) {
         Text(text = "Settings")
 
