@@ -1,4 +1,4 @@
-package com.sozge.tarator
+package com.sozge.tarator.data
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
