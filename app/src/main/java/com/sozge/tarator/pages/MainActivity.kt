@@ -92,11 +92,6 @@ fun MainScreen() {
 }
 
 @Composable
-fun damn(){
-
-}
-
-@Composable
 fun TaratorIcon() {
     Image(
         painter = painterResource(id = R.drawable.applicationicon),
@@ -164,6 +159,7 @@ fun SettingsButton() {
 
 @Preview(showBackground = true)
 @Composable
+
 fun GreetingPreview() {
     TaratorTheme {
         MainScreen()
