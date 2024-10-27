@@ -30,7 +30,8 @@ import com.sozge.tarator.ui.theme.TaratorTheme
 fun AppBar(
     actionImageVector: ImageVector,
     actionContentDescription: String,
-    isHomeScreen: Boolean
+    isHomeScreen: Boolean,
+    onClick: () -> Unit
 ) {
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -53,7 +54,8 @@ fun AppBar(
         }
 
     }, actions = {
-        IconButton(onClick = {  }) {
+        IconButton(
+            onClick = onClick) {
             Icon(
                 imageVector = actionImageVector, contentDescription = actionContentDescription
             )
@@ -69,7 +71,9 @@ fun AppBarPreview() {
         AppBar(
             actionImageVector = Icons.Rounded.Star,
             actionContentDescription = "star",
-            isHomeScreen = false
+            isHomeScreen = false,
+            onClick = {
+            }
         )
     }
 }

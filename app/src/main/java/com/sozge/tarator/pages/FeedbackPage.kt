@@ -25,11 +25,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.sozge.tarator.bars.AppBar
 import com.sozge.tarator.ui.theme.TaratorTheme
 
 @Composable
-fun FeedBackScreen() {
+fun FeedBackScreen(navController: NavController) {
     val itemName = remember {
         mutableStateOf("")
     }
@@ -38,7 +39,10 @@ fun FeedBackScreen() {
         AppBar(
             actionImageVector = Icons.Rounded.Logout,
             actionContentDescription = "Logout",
-            isHomeScreen = false
+            isHomeScreen = false,
+            onClick = {
+                println("belirsiz")
+            }
         )
     }) { innerpadding ->
         println(innerpadding)
@@ -93,6 +97,6 @@ fun FeedBackScreen() {
 @Composable
 fun FeedBackPreview() {
     TaratorTheme {
-        FeedBackScreen()
+
     }
 }
