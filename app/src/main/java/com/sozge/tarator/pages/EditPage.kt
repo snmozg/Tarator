@@ -54,19 +54,17 @@ fun EditPageScreen(navController: NavController) {
     val context = LocalContext.current
     var imageUri by remember { mutableStateOf<Uri?>(null) }
 
-
     val galleryLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         imageUri = uri
     }
 
-
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            galleryLauncher.launch("image/*") // İzin verilirse galeriyi aç
+            galleryLauncher.launch("image/*")
         } else {
             println("İzin verilmedi")
         }
@@ -92,7 +90,6 @@ fun EditPageScreen(navController: NavController) {
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 imageUri?.let {
                     Image(
                         painter = rememberAsyncImagePainter(
@@ -103,13 +100,15 @@ fun EditPageScreen(navController: NavController) {
                             .fillMaxWidth()
                             .height(600.dp)
                             .padding(10.dp)
+                            .clickable {
+                                navController.navigate("previewScreen/${it}")
+                            }
                     )
                 } ?: Image(
                     imageVector = Icons.Rounded.AddCircleOutline,
                     contentDescription = "add icon",
                     modifier = Modifier
                         .clickable {
-
                             val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                 Manifest.permission.READ_MEDIA_IMAGES
                             } else {
@@ -147,7 +146,7 @@ fun EditPageScreen(navController: NavController) {
                         "Filter Button",
                         "FILTERS",
                         onClick = {
-                            println("filter button clicked")
+                            navController.navigate("FilterPageScreen")
                         }
                     )
                     CustomButton(

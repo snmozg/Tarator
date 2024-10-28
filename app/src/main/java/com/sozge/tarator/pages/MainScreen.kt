@@ -1,4 +1,4 @@
-package com.sozge.tarator
+package com.sozge.tarator.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.sozge.tarator.R
 import com.sozge.tarator.bars.AppBar
 import com.sozge.tarator.bars.BottomNavigationBar
 
@@ -110,7 +111,7 @@ fun LetsEditButton(navController: NavController) {
 fun FeedBackButton(navController: NavController) {
     Button(
         onClick = {
-            navController.navigate(("FeedBackScreen"))
+            navController.navigate("FeedBackScreen")
         },
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
