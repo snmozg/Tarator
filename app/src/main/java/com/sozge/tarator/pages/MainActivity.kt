@@ -37,25 +37,26 @@ fun NavController() {
         composable(route = "EditPageScreen") {
             EditPageScreen(navController)
         }
-        composable(route="FeedBackScreen") {
+        composable(route = "FeedBackScreen") {
             FeedBackScreen(navController)
         }
         composable("editPageScreen") {
-            EditPageScreen(navController) }
-        composable(
-            "FilterPageScreen/{imageUri}",
-            arguments = listOf(navArgument("imageUri") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val imageUri = backStackEntry.arguments?.getString("imageUri")
-            imageUri?.let {
-                FilterPageScreen(imageUri=it, navController = navController)
-            }
+            EditPageScreen(navController)
         }
-
+        composable(
+            "FilterPageScreen" + "?imageUri={imageUri}",
+            arguments = listOf(
+                navArgument("imageUri") {
+                    type = NavType.StringType
+                    defaultValue = "0000"
+                }
+            )
+        ){
+            val imageUri = it.arguments?.getString("imageUri")!!
+            FilterPageScreen(imageUri, navController)
+        }
     }
 }
-
-
 
 
 @Preview(showBackground = true)

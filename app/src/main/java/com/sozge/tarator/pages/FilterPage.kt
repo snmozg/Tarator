@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,10 +32,11 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.sozge.tarator.CustomButton
 import com.sozge.tarator.bars.AppBar
-import com.sozge.tarator.ui.theme.TaratorTheme
+
+
 
 @Composable
-fun FilterPageScreen(imageUri: String,navController: NavController) {
+fun FilterPageScreen(imageUri: String, navController: NavController) {
     val context = LocalContext.current
     val uri = Uri.parse(imageUri)
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {

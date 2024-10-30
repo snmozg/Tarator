@@ -109,11 +109,12 @@ fun EditPageScreen(navController: NavController) {
                     contentDescription = "add icon",
                     modifier = Modifier
                         .clickable {
-                            val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                Manifest.permission.READ_MEDIA_IMAGES
-                            } else {
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                            }
+                            val permission =
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                    Manifest.permission.READ_MEDIA_IMAGES
+                                } else {
+                                    Manifest.permission.READ_EXTERNAL_STORAGE
+                                }
 
                             if (ContextCompat.checkSelfPermission(
                                     context,
@@ -146,7 +147,7 @@ fun EditPageScreen(navController: NavController) {
                         "Filter Button",
                         "FILTERS",
                         onClick = {
-                            navController.navigate("FilterPageScreen")
+                            navController.navigate("FilterPageScreen"+"?imageUri=${imageUri.toString()}")
                         }
                     )
                     CustomButton(
