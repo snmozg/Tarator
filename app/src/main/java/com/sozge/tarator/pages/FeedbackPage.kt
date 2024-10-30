@@ -37,6 +37,7 @@ fun FeedBackScreen(navController: NavController) {
 
     Scaffold(topBar = {
         AppBar(
+            navController,
             actionImageVector = Icons.Rounded.Logout,
             actionContentDescription = "Logout",
             isHomeScreen = false,

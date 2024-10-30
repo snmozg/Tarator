@@ -18,41 +18,35 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Adb
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.FilterAlt
 import androidx.compose.material.icons.rounded.SaveAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.sozge.tarator.CustomButton
+import com.sozge.tarator.data.CustomButton
+import com.sozge.tarator.options.FilterSection
 import com.sozge.tarator.bars.AppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,15 +59,15 @@ fun EditPageScreen(navController: NavController) {
     //izin isteme işlemi için launcher
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
-    ) {
-        isGranted ->
+    ) { isGranted ->
         hasPermission = isGranted
     }
 
     //galeriden görsel seçmek için launcher
-    val galleryLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
-        uri: Uri? -> imageUri = uri
-    }
+    val galleryLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+            imageUri = uri
+        }
 
     LaunchedEffect(Unit) {
         val permission: String;
@@ -92,6 +86,7 @@ fun EditPageScreen(navController: NavController) {
         modifier = Modifier.fillMaxSize(),
         topBar = {
             AppBar(
+                navController,
                 actionImageVector = Icons.Rounded.SaveAlt,
                 actionContentDescription = "save button",
                 isHomeScreen = false,
@@ -142,7 +137,6 @@ fun EditPageScreen(navController: NavController) {
                         .fillMaxWidth()
                         .height(600.dp)
                         .padding(10.dp)
-                        .background(Color.Magenta)
                 )
 
                 Spacer(modifier = Modifier.height(50.dp))
@@ -150,42 +144,29 @@ fun EditPageScreen(navController: NavController) {
                 var isSheetOpen by rememberSaveable {
                     mutableStateOf(false)
                 }
-                if(isSheetOpen) {
+                if (isSheetOpen) {
                     ModalBottomSheet(
                         sheetState = sheetState,
                         onDismissRequest = {
-                            isSheetOpen = false },
+                            isSheetOpen = false
+                        },
                     ) {
-                       LazyRow() {
-                           items(1){
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                               Icon(imageVector = Icons.Rounded.Adb, contentDescription = "")
-                           }
-                       }
+                        Row() {
+                            FilterSection()
+                        }
                     }
                 }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(2.dp)
-                        .background(Color.Blue),
+                        .padding(2.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     CustomButton(
                         Icons.Rounded.FilterAlt,
                         "Filter Button",
                         "FILTERS",
-                        onClick = { isSheetOpen=true}
+                        onClick = { isSheetOpen = true }
                     )
                     CustomButton(
                         Icons.Rounded.Crop,

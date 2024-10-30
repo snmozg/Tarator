@@ -23,11 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.sozge.tarator.ui.theme.TaratorTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
+    navController : NavController,
     actionImageVector: ImageVector,
     actionContentDescription: String,
     isHomeScreen: Boolean,
@@ -48,7 +50,7 @@ fun AppBar(
         }
     }, navigationIcon = {
         if (!isHomeScreen) {
-            IconButton(onClick = { println("clicked") }) {
+            IconButton(onClick = { navController.popBackStack() }) {
                 Icon(Icons.Rounded.ArrowBack, contentDescription = "Back")
             }
         }
@@ -63,17 +65,3 @@ fun AppBar(
     })
 }
 
-@Preview(showBackground = true)
-@Composable
-fun AppBarPreview() {
-    TaratorTheme {
-
-        AppBar(
-            actionImageVector = Icons.Rounded.Star,
-            actionContentDescription = "star",
-            isHomeScreen = false,
-            onClick = {
-            }
-        )
-    }
-}
