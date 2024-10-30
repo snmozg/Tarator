@@ -43,18 +43,6 @@ fun NavController() {
         composable("editPageScreen") {
             EditPageScreen(navController)
         }
-        composable(
-            "FilterPageScreen" + "?imageUri={imageUri}",
-            arguments = listOf(
-                navArgument("imageUri") {
-                    type = NavType.StringType
-                    defaultValue = "0000"
-                }
-            )
-        ){
-            val imageUri = it.arguments?.getString("imageUri")!!
-            FilterPageScreen(imageUri, navController)
-        }
     }
 }
 

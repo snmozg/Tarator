@@ -1,6 +1,7 @@
 package com.sozge.tarator.pages
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 
@@ -27,6 +28,7 @@ import androidx.compose.material.icons.rounded.SaveAlt
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,23 +53,34 @@ import com.sozge.tarator.ui.theme.TaratorTheme
 
 @Composable
 fun EditPageScreen(navController: NavController) {
+    var hasPermission by remember { mutableStateOf(false) }
     val context = LocalContext.current
     var imageUri by remember { mutableStateOf<Uri?>(null) }
 
-    val galleryLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        imageUri = uri
+    //izin isteme işlemi için launcher
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) {
+        isGranted ->
+        hasPermission = isGranted
     }
 
-    val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            galleryLauncher.launch("image/*")
+    //galeriden görsel seçmek için launcher
+    val galleryLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
+        uri: Uri? -> imageUri = uri
+    }
+
+    LaunchedEffect(Unit) {
+        val permission: String;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permission = Manifest.permission.READ_MEDIA_IMAGES;
         } else {
-            println("İzin verilmedi")
+            permission = Manifest.permission.READ_EXTERNAL_STORAGE;
         }
+        hasPermission = ContextCompat.checkSelfPermission(
+            context,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     Scaffold(
@@ -101,7 +114,6 @@ fun EditPageScreen(navController: NavController) {
                             .height(600.dp)
                             .padding(10.dp)
                             .clickable {
-                                navController.navigate("previewScreen/${it}")
                             }
                     )
                 } ?: Image(
@@ -109,20 +121,15 @@ fun EditPageScreen(navController: NavController) {
                     contentDescription = "add icon",
                     modifier = Modifier
                         .clickable {
-                            val permission =
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                    Manifest.permission.READ_MEDIA_IMAGES
-                                } else {
-                                    Manifest.permission.READ_EXTERNAL_STORAGE
-                                }
-
-                            if (ContextCompat.checkSelfPermission(
-                                    context,
-                                    permission
-                                ) == android.content.pm.PackageManager.PERMISSION_GRANTED
-                            ) {
+                            if (hasPermission) {
                                 galleryLauncher.launch("image/*")
                             } else {
+                                val permission: String;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                    permission = Manifest.permission.READ_MEDIA_IMAGES;
+                                } else {
+                                    permission = Manifest.permission.READ_EXTERNAL_STORAGE;
+                                }
                                 permissionLauncher.launch(permission)
                             }
                         }
@@ -147,7 +154,6 @@ fun EditPageScreen(navController: NavController) {
                         "Filter Button",
                         "FILTERS",
                         onClick = {
-                            navController.navigate("FilterPageScreen"+"?imageUri=${imageUri.toString()}")
                         }
                     )
                     CustomButton(
