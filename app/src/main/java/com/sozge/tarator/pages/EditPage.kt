@@ -38,7 +38,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -48,6 +47,8 @@ import coil.request.ImageRequest
 import com.sozge.tarator.data.CustomButton
 import com.sozge.tarator.options.FilterSection
 import com.sozge.tarator.bars.AppBar
+import com.sozge.tarator.options.BrushSection
+import com.sozge.tarator.options.ToolsSection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,6 +56,7 @@ fun EditPageScreen(navController: NavController) {
     var hasPermission by remember { mutableStateOf(false) }
     val context = LocalContext.current
     var imageUri by remember { mutableStateOf<Uri?>(null) }
+
 
     //izin isteme işlemi için launcher
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -144,6 +146,12 @@ fun EditPageScreen(navController: NavController) {
                 var isSheetOpen by rememberSaveable {
                     mutableStateOf(false)
                 }
+                var isSheetOpen1 by rememberSaveable {
+                    mutableStateOf(false)
+                }
+                var isSheetOpen2 by rememberSaveable {
+                    mutableStateOf(false)
+                }
                 if (isSheetOpen) {
                     ModalBottomSheet(
                         sheetState = sheetState,
@@ -156,6 +164,31 @@ fun EditPageScreen(navController: NavController) {
                         }
                     }
                 }
+                if (isSheetOpen1) {
+                    ModalBottomSheet(
+                        sheetState = sheetState,
+                        onDismissRequest = {
+                            isSheetOpen = false
+                        },
+                    ) {
+                        Row {
+                            ToolsSection()
+                        }
+                    }
+                }
+                if (isSheetOpen2) {
+                    ModalBottomSheet(
+                        sheetState = sheetState,
+                        onDismissRequest = {
+                            isSheetOpen = false
+                        },
+                    ) {
+                        Row {
+                            BrushSection()
+                        }
+                    }
+                }
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -172,17 +205,13 @@ fun EditPageScreen(navController: NavController) {
                         Icons.Rounded.Crop,
                         "Tools Button",
                         "TOOLS",
-                        onClick = {
-                            println("tools button clicked")
-                        }
+                        onClick = { isSheetOpen1 = true }
                     )
                     CustomButton(
                         Icons.Rounded.Brush,
                         "Brush Button",
                         "BRUSH",
-                        onClick = {
-                            println("brush button clicked")
-                        }
+                        onClick = {isSheetOpen2 = true }
                     )
                 }
             }
