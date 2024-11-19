@@ -13,9 +13,10 @@ val Pink40 = Color(0xFF7D5260)
 //Tarator
 
 //light
-val darkBlue = Color(0xff1c2638)
+val darkBlue = Color(0xFF111825)
 val orange = Color(0xfffa6b44)
 val bej = Color(0xfff3e5c0)
+val offWhite = Color(0xffc8c8c8)
 
 //dark
 val darkSchemeBlue = Color(0xFF131B29)

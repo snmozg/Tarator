@@ -11,7 +11,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.sozge.tarator.data.BottomNavigation
 
@@ -29,7 +28,7 @@ val items = listOf(
 fun BottomNavigationBar() {
     NavigationBar {
         Row(
-            modifier = Modifier.background(Color.White)
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
         ) {
             items.forEachIndexed { index, item ->
                 NavigationBarItem(
@@ -38,13 +37,12 @@ fun BottomNavigationBar() {
                     icon = {
                         Icon(
                             imageVector = item.icon,
-                            tint = MaterialTheme.colorScheme.onBackground,
+                            tint = MaterialTheme.colorScheme.primary,
                             contentDescription = "icon"
                         )
                     }
                 )
             }
-
         }
     }
 }

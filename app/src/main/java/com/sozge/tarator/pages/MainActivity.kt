@@ -16,7 +16,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            NavController()
+            TaratorTheme {
+                NavController()
+            }
         }
     }
 }

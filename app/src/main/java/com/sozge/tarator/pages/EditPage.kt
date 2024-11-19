@@ -38,6 +38,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -56,7 +58,6 @@ fun EditPageScreen(navController: NavController) {
     var hasPermission by remember { mutableStateOf(false) }
     val context = LocalContext.current
     var imageUri by remember { mutableStateOf<Uri?>(null) }
-
 
     //izin isteme işlemi için launcher
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -121,6 +122,7 @@ fun EditPageScreen(navController: NavController) {
                 } ?: Image(
                     imageVector = Icons.Rounded.AddCircleOutline,
                     contentDescription = "add icon",
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
                     modifier = Modifier
                         .clickable {
                             if (hasPermission) {
@@ -155,6 +157,8 @@ fun EditPageScreen(navController: NavController) {
                 if (isSheetOpen) {
                     ModalBottomSheet(
                         sheetState = sheetState,
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.primary,
                         onDismissRequest = {
                             isSheetOpen = false
                         },
@@ -167,6 +171,8 @@ fun EditPageScreen(navController: NavController) {
                 if (isSheetOpen1) {
                     ModalBottomSheet(
                         sheetState = sheetState,
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.primary,
                         onDismissRequest = {
                             isSheetOpen = false
                         },
@@ -179,6 +185,8 @@ fun EditPageScreen(navController: NavController) {
                 if (isSheetOpen2) {
                     ModalBottomSheet(
                         sheetState = sheetState,
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.primary,
                         onDismissRequest = {
                             isSheetOpen = false
                         },

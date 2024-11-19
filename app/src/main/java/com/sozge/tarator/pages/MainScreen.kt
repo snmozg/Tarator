@@ -23,6 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -103,13 +106,14 @@ fun LetsEditButton(navController: NavController) {
         modifier = Modifier
             .clip(RoundedCornerShape(10.dp))
             .fillMaxWidth()
-            .padding(start = 50.dp, end = 50.dp)
+            .padding(start = 60.dp, end = 60.dp)
             .height(100.dp)
-            .width(200.dp)
+            .width(150.dp)
     ) {
         Text(
             text = "Let's edit!",
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            color = Color.White
         )
     }
 }
@@ -128,7 +132,8 @@ fun FeedBackButton(navController: NavController) {
     ) {
         Text(
             text = "Feed Back",
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            color = Color.White
         )
 
     }
@@ -146,7 +151,8 @@ fun SettingsButton() {
     ) {
         Text(
             text = "Settings",
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            color = Color.White
         )
 
     }

@@ -2,14 +2,11 @@
 
 package com.sozge.tarator.bars
 
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,21 +19,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import com.sozge.tarator.ui.theme.TaratorTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
-    navController : NavController,
+    navController: NavController,
     actionImageVector: ImageVector,
     actionContentDescription: String,
     isHomeScreen: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        containerColor = MaterialTheme.colorScheme.background,
         titleContentColor = MaterialTheme.colorScheme.primary,
     ), title = {
         Box(
@@ -51,17 +46,22 @@ fun AppBar(
     }, navigationIcon = {
         if (!isHomeScreen) {
             IconButton(onClick = { navController.popBackStack() }) {
-                Icon(Icons.Rounded.ArrowBack, contentDescription = "Back")
+                Icon(
+                    Icons.Rounded.ArrowBack,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.primary
+                )
             }
         }
-
     }, actions = {
         IconButton(
-            onClick = onClick) {
+            onClick = onClick
+        ) {
             Icon(
-                imageVector = actionImageVector, contentDescription = actionContentDescription
+                imageVector = actionImageVector,
+                contentDescription = actionContentDescription,
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     })
 }
-

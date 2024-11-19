@@ -13,24 +13,32 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = darkSchemeBlue,
-    secondary = darkSchemeOrange,
-    tertiary = darkSchemeBej,
+    primary = orange,
+    secondary = bej,
+    background = darkBlue,
+    onPrimary = offWhite,
+    onBackground = offWhite,
 
-    background = Color(0xff1c2638),
+    /*
     surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
+    tertiary = darkSchemeBej,
     onSecondary = Color.White,
     onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
+     */
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = darkBlue,
-    secondary = orange,
-    tertiary = bej,
+    primary = orange,
+    secondary = bej,
+    background = darkBlue,
+    onPrimary = offWhite,
+    onBackground = offWhite,
 
+    /*
+    primary = orange,
+    secondary = bej,
+    tertiary = bej,
     background = Color(0xff1c2638),
     surface = Color(0xFFFFFBFE),
     onPrimary = Color.White,
@@ -38,26 +46,22 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Color.White,
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
+     */
 )
 
 @Composable
 fun TaratorTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+    val colors = if (darkTheme) {
+        DarkColorScheme
+    } else {
+        LightColorScheme
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = colors,
         typography = Typography,
         content = content
     )
