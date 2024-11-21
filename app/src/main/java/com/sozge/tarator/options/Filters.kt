@@ -6,10 +6,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,6 +23,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,8 +31,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.R
 import com.sozge.tarator.data.DataCardSection
+import java.util.zip.DataFormatException
 
 val filterCards = listOf(
     DataCardSection(
@@ -50,22 +58,20 @@ val filterCards = listOf(
     )
 )
 
-@Preview
 @Composable
-fun FilterSection() {
+fun FilterSection(viewModel: ImageViewModel) {
     LazyRow {
-        items(filterCards.size) { index ->
-            FilterCardItem(index)
+        itemsIndexed(filterCards) { index, item ->
+            FilterCardItem(index, item, viewModel)
         }
     }
 }
 
 @Composable
-fun FilterCardItem(index: Int) {
-    val card = filterCards[index]
-
-    val image = card.image
-    val text = card.text
+fun FilterCardItem(index: Int, item: DataCardSection, viewModel: ImageViewModel) {
+    val context = LocalContext.current
+    val image = viewModel.myImage.value
+    val text = item.text
 
     Column(
         modifier = Modifier.padding(start = 10.dp, 5.dp),
@@ -85,6 +91,22 @@ fun FilterCardItem(index: Int) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
+                viewModel.myImage.value.let {
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            ImageRequest.Builder(context).data(it).build()
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(600.dp)
+                            .padding(10.dp)
+                            .clickable {
+                            }
+                    )
+                }
+                /*
                 Image(
                     painterResource(image),
                     contentDescription = "logos",
@@ -94,18 +116,12 @@ fun FilterCardItem(index: Int) {
                             enabled = true,
                             onClickLabel = "Clickable Image",
                             onClick = {
-                                if (text == "Bear") {
-                                    print("a")
-                                } else if (text == "Boar") {
-                                    println("Boar Clicked")
-                                } else if (text == "Camel") {
-                                    println("Camel Clicked")
-                                } else if (text == "Cat") {
-                                    println("Cat Clicked")
-                                }
+                                println(item.text)
                             }
                         )
                 )
+
+                 */
             }
         }
         Text(

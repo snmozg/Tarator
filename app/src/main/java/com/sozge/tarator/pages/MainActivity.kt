@@ -6,9 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.ui.theme.TaratorTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,13 +18,31 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val viewModel: ImageViewModel = viewModel()
+            val navController = rememberNavController()
+
             TaratorTheme {
-                NavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = "MainScreen"
+                ) {
+                    composable(route = "MainScreen") {
+                        MainScreen(navController)
+                    }
+                    composable(route = "EditPageScreen") {
+                        EditPageScreen(navController, viewModel= viewModel)
+                    }
+                    composable(route = "FeedBackScreen") {
+                        FeedBackScreen(navController)
+                    }
+                }
             }
+
+
         }
     }
 }
-
+/*
 @Composable
 fun NavController() {
     val navController = rememberNavController()
@@ -45,6 +65,8 @@ fun NavController() {
         }
     }
 }
+
+ */
 
 
 @Preview(showBackground = true)
