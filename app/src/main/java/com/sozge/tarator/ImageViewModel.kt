@@ -11,4 +11,7 @@ class ImageViewModel : ViewModel() {
     fun updateImage(newValue: Uri) {
         _myImage.value = newValue
     }
+    fun deleteImage(){
+        _myImage.value = null
+    }
 }

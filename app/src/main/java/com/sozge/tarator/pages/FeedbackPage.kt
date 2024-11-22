@@ -27,12 +27,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.bars.AppBar
 import com.sozge.tarator.ui.theme.TaratorTheme
 
 @Composable
-fun FeedBackScreen(navController: NavController) {
+fun FeedBackScreen(navController: NavController, viewModel: ImageViewModel) {
     val itemName = remember {
         mutableStateOf("")
     }
@@ -43,6 +45,7 @@ fun FeedBackScreen(navController: NavController) {
             actionImageVector = Icons.Rounded.Logout,
             actionContentDescription = "Logout",
             isHomeScreen = false,
+            viewModel = viewModel,
             onClick = {
                 println("belirsiz")
             }

@@ -19,43 +19,67 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.R
 import com.sozge.tarator.data.DataCardSection
-import java.util.zip.DataFormatException
 
 val filterCards = listOf(
     DataCardSection(
         R.drawable.applicationicon,
-        "Bear"
+        "BlackAndWhite"
     ),
     DataCardSection(
         R.drawable.applicationicon,
-        "Boar"
+        "Vibrant"
     ),
     DataCardSection(
         R.drawable.applicationicon,
-        "Camel"
+        "Retro"
     ),
     DataCardSection(
         R.drawable.applicationicon,
-        "Cat"
+        "Sunset"
+    ),
+    DataCardSection(
+        R.drawable.applicationicon,
+        "OceanBreeze"
+    ),
+    DataCardSection(
+        R.drawable.applicationicon,
+        "Cinematic"
+    ),
+    DataCardSection(
+        R.drawable.applicationicon,
+        "Vignette"
+    ),
+    DataCardSection(
+        R.drawable.applicationicon,
+        "High Saturation"
+    ),
+    DataCardSection(
+        R.drawable.applicationicon,
+        "Light Leak"
+    ),
+    DataCardSection(
+        R.drawable.applicationicon,
+        "Moonbeam"
+    ),
+    DataCardSection(
+        R.drawable.applicationicon,
+        "Inverted Colors"
     )
+
 )
 
 @Composable
@@ -91,37 +115,288 @@ fun FilterCardItem(index: Int, item: DataCardSection, viewModel: ImageViewModel)
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                image?.let {
+                    if (item.text == "BlackAndWhite") {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context).data(it).build()
+                            ),
+                            colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(600.dp)
+                                .padding(10.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClickLabel = "Clickable Image",
+                                    onClick = {
+                                    }
+                                )
+                        )
+                    }
+                    if (item.text == "Vibrant") {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context).data(it).build()
+                            ),
+                            colorFilter = ColorFilter.colorMatrix(ColorMatrix(
+                                floatArrayOf(
+                                    2f, 0f, 0f, 0f, 0f,    // Kırmızı kanal (doygunluğu artır)
+                                    0f, 2f, 0f, 0f, 0f,    // Yeşil kanal (doygunluğu artır)
+                                    0f, 0f, 2f, 0f, 0f,    // Mavi kanal (doygunluğu artır)
+                                    0f, 0f, 0f, 1f, 0f     // Alpha (şeffaflık) değiştirme
+                                )
+                            )),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(600.dp)
+                                .padding(10.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClickLabel = "Clickable Image",
+                                    onClick = {
+                                    }
+                                )
+                        )
+                    }
+                    if (item.text == "Retro") {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context).data(it).build()
+                            ),
+                            colorFilter = ColorFilter.colorMatrix(ColorMatrix(
+                                floatArrayOf(
+                                    1.5f, 0f, 0f, 0f, -20f, // Kırmızı kanal
+                                    0f, 1.2f, 0f, 0f, 10f,   // Yeşil kanal
+                                    0f, 0f, 1.3f, 0f, -10f,  // Mavi kanal
+                                    0f, 0f, 0f, 1f, 0f       // Alpha (şeffaflık) değiştirme
+                                )
+                            )),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(600.dp)
+                                .padding(10.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClickLabel = "Clickable Image",
+                                    onClick = {
+                                    }
+                                )
+                        )
+                    }
+                    if (item.text == "Cinematic") {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context).data(it).build()
+                            ),
+                            colorFilter = ColorFilter.colorMatrix(ColorMatrix(
+                                floatArrayOf(
+                                1.1f, 0f, 0f, 0f, 20f,   // Kırmızı kanal (altın tonları için)
+                                0f, 1.2f, 0f, 0f, 20f,   // Yeşil kanal
+                                0f, 0f, 1.4f, 0f, -30f,  // Mavi kanal (soğuk mavi tonları)
+                                0f, 0f, 0f, 1f, 0f       // Alpha (şeffaflık)
+                            )
+                            )),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(600.dp)
+                                .padding(10.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClickLabel = "Clickable Image",
+                                    onClick = {
+                                    }
+                                )
+                        )
+                    }
+                    if (item.text == "OceanBreeze") {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context).data(it).build()
+                            ),
+                            colorFilter = ColorFilter.colorMatrix(ColorMatrix(
+                                floatArrayOf(
+                                    0.8f, 0f, 0f, 0f, 0f,    // Kırmızı kanalı azalt
+                                    0f, 0.8f, 0f, 0f, 0f,    // Yeşil kanalı azalt
+                                    0f, 0f, 1.5f, 0f, 0f,    // Mavi kanalı artır
+                                    0f, 0f, 0f, 1f, 0f       // Alpha (şeffaflık) değiştirme
+                                )
+                            )),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(600.dp)
+                                .padding(10.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClickLabel = "Clickable Image",
+                                    onClick = {
+                                    }
+                                )
+                        )
+                    }
+                    if (item.text == "Vignette") {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context).data(it).build()
+                            ),
+                            colorFilter = ColorFilter.colorMatrix(ColorMatrix(
+                                floatArrayOf(
+                                    1f, 0f, 0f, 0f, -30f, // Kırmızı kanal için hafif karartma
+                                    0f, 1f, 0f, 0f, -30f, // Yeşil kanal için hafif karartma
+                                    0f, 0f, 1f, 0f, -30f, // Mavi kanal için hafif karartma
+                                    0f, 0f, 0f, 1f, 0f     // Alpha (şeffaflık) değiştirme
+                                )
+                            )),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(600.dp)
+                                .padding(10.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClickLabel = "Clickable Image",
+                                    onClick = {
+                                    }
+                                )
+                        )
+                    }
+                    if (item.text == "High Saturation") {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context).data(it).build()
+                            ),
+                            colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(2f) } // Doygunluğu 2 kat artırır
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(600.dp)
+                                .padding(10.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClickLabel = "Clickable Image",
+                                    onClick = {
+                                    }
+                                )
+                        )
+                    }
+                    if (item.text == "Light Leak") {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context).data(it).build()
+                            ),
+                            colorFilter = ColorFilter.colorMatrix(ColorMatrix(floatArrayOf(
+                                1.2f, 0f, 0f, 0f, 30f,   // Kırmızı kanal
+                                0f, 1f, 0f, 0f, 10f,     // Yeşil kanal
+                                0f, 0f, 1f, 0f, 0f,      // Mavi kanal
+                                0f, 0f, 0f, 1f, 0f       // Alpha (şeffaflık)
+                            ))
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(600.dp)
+                                .padding(10.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClickLabel = "Clickable Image",
+                                    onClick = {
+                                    }
+                                )
+                        )
+                    }
+                    if (item.text == "Moonbeam") {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context).data(it).build()
+                            ),
+                            colorFilter = ColorFilter.colorMatrix(ColorMatrix(
+                                floatArrayOf(
+                                    0.8f, 0f, 0f, 0f, 0f,   // Kırmızı kanal
+                                    0f, 0.8f, 0f, 0f, 0f,   // Yeşil kanal
+                                    0f, 0f, 0.8f, 0f, 0f,   // Mavi kanal
+                                    0f, 0f, 0f, 1.2f, 0f    // Alpha (şeffaflık)
+                                )
+                            )),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(600.dp)
+                                .padding(10.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClickLabel = "Clickable Image",
+                                    onClick = {
+                                    }
+                                )
+                        )
+                    }
+                    if (item.text == "Inverted Colors") {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context).data(it).build()
+                            ),
+                            colorFilter = ColorFilter.colorMatrix(ColorMatrix(
+                                floatArrayOf(
+                                    -1f, 0f, 0f, 0f, 255f,
+                                    0f, -1f, 0f, 0f, 255f,
+                                    0f, 0f, -1f, 0f, 255f,
+                                    0f, 0f, 0f, 1f, 0f
+                                )
+                            )),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(600.dp)
+                                .padding(10.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClickLabel = "Clickable Image",
+                                    onClick = {
+                                    }
+                                )
+                        )
+                    }
+                    if (item.text == "Sunset") {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context).data(it).build()
+                            ),
+                            colorFilter = ColorFilter.colorMatrix(ColorMatrix(
+                                floatArrayOf(
+                                    1.2f, 0f, 0f, 0f, 50f,   // Kırmızı kanal (gün batımı etkisi)
+                                    0f, 0.8f, 0f, 0f, 20f,    // Yeşil kanal
+                                    0f, 0f, 0.6f, 0f, 0f,    // Mavi kanal
+                                    0f, 0f, 0f, 1f, 0f       // Alpha (şeffaflık)
+                                )
+                            )),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(600.dp)
+                                .padding(10.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClickLabel = "Clickable Image",
+                                    onClick = {
+                                    }
+                                )
+                        )
+                    }
 
-                viewModel.myImage.value.let {
-                    Image(
-                        painter = rememberAsyncImagePainter(
-                            ImageRequest.Builder(context).data(it).build()
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(600.dp)
-                            .padding(10.dp)
-                            .clickable {
-                            }
-                    )
-                }
-                /*
-                Image(
-                    painterResource(image),
+
+                } ?: Image(
+                    painterResource(item.image),
                     contentDescription = "logos",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .clickable(
-                            enabled = true,
-                            onClickLabel = "Clickable Image",
-                            onClick = {
-                                println(item.text)
-                            }
-                        )
-                )
 
-                 */
+                )
             }
         }
         Text(

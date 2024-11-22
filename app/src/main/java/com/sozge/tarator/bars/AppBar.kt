@@ -19,7 +19,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.sozge.tarator.ImageViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,6 +30,7 @@ fun AppBar(
     actionImageVector: ImageVector,
     actionContentDescription: String,
     isHomeScreen: Boolean,
+    viewModel: ImageViewModel,
     onClick: () -> Unit,
 ) {
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
@@ -45,7 +48,10 @@ fun AppBar(
         }
     }, navigationIcon = {
         if (!isHomeScreen) {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = {
+                navController.popBackStack()
+                viewModel.deleteImage()
+            }) {
                 Icon(
                     Icons.Rounded.ArrowBack,
                     contentDescription = "Back",

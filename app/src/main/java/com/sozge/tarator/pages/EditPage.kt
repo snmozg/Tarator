@@ -2,15 +2,8 @@ package com.sozge.tarator.pages
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.Paint
 import android.net.Uri
 import android.os.Build
-
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -30,7 +23,6 @@ import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.FilterAlt
 import androidx.compose.material.icons.rounded.SaveAlt
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -41,29 +33,26 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.data.CustomButton
 import com.sozge.tarator.options.FilterSection
 import com.sozge.tarator.bars.AppBar
 import com.sozge.tarator.options.BrushSection
 import com.sozge.tarator.options.ToolsSection
+import com.sozge.tarator.ImageViewModel as viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditPageScreen(navController: NavController, viewModel: ImageViewModel) {
+fun EditPageScreen(navController: NavController, viewModel: viewModel) {
     var hasPermission by remember { mutableStateOf(false) }
     val context = LocalContext.current
     //var imageUri by remember { mutableStateOf<Uri?>(null) }
@@ -75,14 +64,16 @@ fun EditPageScreen(navController: NavController, viewModel: ImageViewModel) {
     )
 
     //izin isteme işlemi için launcher
-    val permissionLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) { isGranted ->
-        hasPermission = isGranted
-    }
+    val permissionLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) { isGranted ->
+            hasPermission = isGranted
+        }
 
     //galeriden görsel seçmek için launcher
     val galleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()) {
-        uri: Uri? -> viewModel.updateImage(uri!!)
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        viewModel.updateImage(uri!!)
     }
 
     LaunchedEffect(Unit) {
@@ -106,6 +97,7 @@ fun EditPageScreen(navController: NavController, viewModel: ImageViewModel) {
                 actionImageVector = Icons.Rounded.SaveAlt,
                 actionContentDescription = "save button",
                 isHomeScreen = false,
+                viewModel = viewModel,
                 onClick = {
                     println("download the photo")
                 }
@@ -167,6 +159,21 @@ fun EditPageScreen(navController: NavController, viewModel: ImageViewModel) {
                 var isSheetOpen2 by rememberSaveable {
                     mutableStateOf(false)
                 }
+
+
+                ?: Image(
+                    painterResource(image),
+                    contentDescription = "logos",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clickable(
+                            enabled = true,
+                            onClickLabel = "Clickable Image",
+                            onClick = {
+                                println(item.text)
+                            }
+                        )
+                )
                 */
 
                 if (isFilterSheetOpen) {
@@ -234,7 +241,7 @@ fun EditPageScreen(navController: NavController, viewModel: ImageViewModel) {
                         Icons.Rounded.Brush,
                         "Brush Button",
                         "BRUSH",
-                        onClick = {isBrushSheetOpen = true }
+                        onClick = { isBrushSheetOpen = true }
                     )
                 }
             }

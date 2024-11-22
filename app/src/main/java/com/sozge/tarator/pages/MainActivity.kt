@@ -27,13 +27,13 @@ class MainActivity : ComponentActivity() {
                     startDestination = "MainScreen"
                 ) {
                     composable(route = "MainScreen") {
-                        MainScreen(navController)
+                        MainScreen(navController, viewModel= viewModel)
                     }
                     composable(route = "EditPageScreen") {
                         EditPageScreen(navController, viewModel= viewModel)
                     }
                     composable(route = "FeedBackScreen") {
-                        FeedBackScreen(navController)
+                        FeedBackScreen(navController, viewModel= viewModel)
                     }
                 }
             }

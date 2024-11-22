@@ -75,12 +75,11 @@ dependencies {
 
     //Navigation
     val nav_version = "2.6.0-rc01"
-
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
     //BottomSheet
     implementation(platform("androidx.compose:compose-bom:2023.06.01"))
 
-
-
+    //Filters
+    implementation("androidx.compose.material3:material3:1.2.0")
 }

@@ -33,13 +33,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.R
 import com.sozge.tarator.bars.AppBar
 import com.sozge.tarator.bars.BottomNavigationBar
 import kotlin.system.exitProcess
 
 @Composable
-fun MainScreen(navController: NavController) {
+fun MainScreen(navController: NavController, viewModel: ImageViewModel) {
     val activity = (LocalContext.current as? Activity)
     Scaffold(
         topBar = {
@@ -48,6 +49,7 @@ fun MainScreen(navController: NavController) {
                 actionImageVector = Icons.Rounded.Logout,
                 actionContentDescription = "logout",
                 isHomeScreen = true,
+                viewModel = viewModel,
                 onClick = {
                     activity?.finish()
                 }
