@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sozge.tarator.FilterViewModel
 import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.ui.theme.TaratorTheme
 
@@ -18,7 +19,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val viewModel: ImageViewModel = viewModel()
+            val imageViewModel: ImageViewModel = viewModel()
+            val filterViewModel: FilterViewModel = viewModel()
             val navController = rememberNavController()
 
             TaratorTheme {
@@ -27,13 +29,21 @@ class MainActivity : ComponentActivity() {
                     startDestination = "MainScreen"
                 ) {
                     composable(route = "MainScreen") {
-                        MainScreen(navController, viewModel= viewModel)
+                        MainScreen(
+                            navController,
+                            imageViewModel= imageViewModel,
+                            filterViewModel=filterViewModel
+                            )
                     }
                     composable(route = "EditPageScreen") {
-                        EditPageScreen(navController, viewModel= viewModel)
+                        EditPageScreen(navController,
+                            imageViewModel= imageViewModel,
+                            filterViewModel=filterViewModel)
                     }
                     composable(route = "FeedBackScreen") {
-                        FeedBackScreen(navController, viewModel= viewModel)
+                        FeedBackScreen(navController,
+                            imageViewModel= imageViewModel,
+                            filterViewModel=filterViewModel)
                     }
                 }
             }

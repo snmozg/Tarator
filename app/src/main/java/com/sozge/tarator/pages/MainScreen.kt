@@ -1,9 +1,7 @@
 package com.sozge.tarator.pages
 
 import android.app.Activity
-import android.app.Application
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,9 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -33,14 +29,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.sozge.tarator.FilterViewModel
 import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.R
 import com.sozge.tarator.bars.AppBar
 import com.sozge.tarator.bars.BottomNavigationBar
-import kotlin.system.exitProcess
 
 @Composable
-fun MainScreen(navController: NavController, viewModel: ImageViewModel) {
+fun MainScreen(
+    navController: NavController,
+    imageViewModel: ImageViewModel,
+    filterViewModel: FilterViewModel
+) {
     val activity = (LocalContext.current as? Activity)
     Scaffold(
         topBar = {
@@ -49,7 +49,7 @@ fun MainScreen(navController: NavController, viewModel: ImageViewModel) {
                 actionImageVector = Icons.Rounded.Logout,
                 actionContentDescription = "logout",
                 isHomeScreen = true,
-                viewModel = viewModel,
+                viewModel = imageViewModel,
                 onClick = {
                     activity?.finish()
                 }

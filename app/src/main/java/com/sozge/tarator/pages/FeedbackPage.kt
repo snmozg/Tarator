@@ -1,6 +1,6 @@
 package com.sozge.tarator.pages
 
-import android.view.View
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,11 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Logout
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,14 +25,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.sozge.tarator.FilterViewModel
 import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.bars.AppBar
 import com.sozge.tarator.ui.theme.TaratorTheme
 
 @Composable
-fun FeedBackScreen(navController: NavController, viewModel: ImageViewModel) {
+fun FeedBackScreen(navController: NavController,
+                   imageViewModel: ImageViewModel,
+                   filterViewModel: FilterViewModel
+) {
     val itemName = remember {
         mutableStateOf("")
     }
@@ -45,7 +46,7 @@ fun FeedBackScreen(navController: NavController, viewModel: ImageViewModel) {
             actionImageVector = Icons.Rounded.Logout,
             actionContentDescription = "Logout",
             isHomeScreen = false,
-            viewModel = viewModel,
+            viewModel = imageViewModel,
             onClick = {
                 println("belirsiz")
             }

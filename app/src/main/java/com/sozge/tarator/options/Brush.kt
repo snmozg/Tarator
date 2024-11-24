@@ -31,19 +31,19 @@ import com.sozge.tarator.data.DataCardSection
 val brushCards = listOf(
     DataCardSection(
         R.drawable.applicationicon,
-        "Fish"
+        "Fish", id = 1
     ),
     DataCardSection(
         R.drawable.applicationicon,
-        "Boar"
+        "Boar", id = 2
     ),
     DataCardSection(
         R.drawable.applicationicon,
-        "Camel"
+        "Camel", id = 3
     ),
     DataCardSection(
         R.drawable.applicationicon,
-        "Cat"
+        "Cat", id = 4
     )
 )
 

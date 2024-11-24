@@ -43,16 +43,21 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.sozge.tarator.FilterViewModel
+import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.data.CustomButton
 import com.sozge.tarator.options.FilterSection
 import com.sozge.tarator.bars.AppBar
 import com.sozge.tarator.options.BrushSection
 import com.sozge.tarator.options.ToolsSection
-import com.sozge.tarator.ImageViewModel as viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditPageScreen(navController: NavController, viewModel: viewModel) {
+fun EditPageScreen(
+    navController: NavController,
+    imageViewModel: ImageViewModel,
+    filterViewModel: FilterViewModel
+) {
     var hasPermission by remember { mutableStateOf(false) }
     val context = LocalContext.current
     //var imageUri by remember { mutableStateOf<Uri?>(null) }
@@ -62,6 +67,7 @@ fun EditPageScreen(navController: NavController, viewModel: viewModel) {
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
+
 
     //izin isteme işlemi için launcher
     val permissionLauncher =
@@ -73,7 +79,7 @@ fun EditPageScreen(navController: NavController, viewModel: viewModel) {
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        viewModel.updateImage(uri!!)
+        imageViewModel.updateImage(uri!!)
     }
 
     LaunchedEffect(Unit) {
@@ -97,7 +103,7 @@ fun EditPageScreen(navController: NavController, viewModel: viewModel) {
                 actionImageVector = Icons.Rounded.SaveAlt,
                 actionContentDescription = "save button",
                 isHomeScreen = false,
-                viewModel = viewModel,
+                viewModel = imageViewModel,
                 onClick = {
                     println("download the photo")
                 }
@@ -111,11 +117,12 @@ fun EditPageScreen(navController: NavController, viewModel: viewModel) {
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                viewModel.myImage.value?.let {
+                imageViewModel.myImage.value?.let {
                     Image(
                         painter = rememberAsyncImagePainter(
                             ImageRequest.Builder(context).data(it).build()
                         ),
+                        colorFilter = filterViewModel.filter.value,
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -186,7 +193,7 @@ fun EditPageScreen(navController: NavController, viewModel: viewModel) {
                         },
                     ) {
                         Row() {
-                            FilterSection(viewModel)
+                            FilterSection(imageViewModel, filterViewModel)
                         }
                     }
                 }
