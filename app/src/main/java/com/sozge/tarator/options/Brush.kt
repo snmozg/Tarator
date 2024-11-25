@@ -15,7 +15,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,24 +28,14 @@ import androidx.compose.ui.unit.sp
 import com.sozge.tarator.R
 import com.sozge.tarator.data.DataCardSection
 
-
-
 val brushCards = listOf(
     DataCardSection(
-        R.drawable.applicationicon,
-        "Fish", id = 1
+        R.drawable.orangebrush,
+        "Brush", id = 1
     ),
     DataCardSection(
-        R.drawable.applicationicon,
-        "Boar", id = 2
-    ),
-    DataCardSection(
-        R.drawable.applicationicon,
-        "Camel", id = 3
-    ),
-    DataCardSection(
-        R.drawable.applicationicon,
-        "Cat", id = 4
+        R.drawable.orangeeraser,
+        "Eraser", id = 2
     )
 )
 
@@ -65,16 +57,16 @@ fun BrushCardItem(index: Int) {
     val text = card.text
 
     Column(
-        modifier = androidx.compose.ui.Modifier.padding(start = 10.dp, 5.dp),
+        modifier = Modifier.padding(start = 10.dp, 5.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = androidx.compose.ui.Modifier
+            modifier = Modifier
                 .padding(start = 10.dp, 5.dp)
         ) {
             Column(
-                modifier = androidx.compose.ui.Modifier
+                modifier = Modifier
                     .clip(RoundedCornerShape(20.dp))
                     .width(100.dp)
                     .height(100.dp)
@@ -86,7 +78,7 @@ fun BrushCardItem(index: Int) {
                     painterResource(image),
                     contentDescription = "logos",
                     contentScale = ContentScale.Crop,
-                    modifier = androidx.compose.ui.Modifier
+                    modifier = Modifier.padding(25.dp)
                         .clickable(
                             enabled = true,
                             onClickLabel = "Clickable Image",
@@ -106,7 +98,7 @@ fun BrushCardItem(index: Int) {
             }
         }
         Text(
-            modifier = androidx.compose.ui.Modifier.padding(start = 10.dp),
+            modifier = Modifier.padding(start = 10.dp),
             text = text,
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
