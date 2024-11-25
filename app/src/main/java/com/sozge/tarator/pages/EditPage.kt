@@ -60,7 +60,6 @@ fun EditPageScreen(
 ) {
     var hasPermission by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    //var imageUri by remember { mutableStateOf<Uri?>(null) }
     var isBrushSheetOpen by remember { mutableStateOf(false) }
     var isFilterSheetOpen by remember { mutableStateOf(false) }
     var isToolsSheetOpen by remember { mutableStateOf(false) }
@@ -156,32 +155,6 @@ fun EditPageScreen(
                 )
 
                 Spacer(modifier = Modifier.height(50.dp))
-                /*
-                //var isSheetOpen by rememberSaveable {
-                  //  mutableStateOf(false)
-                //}
-                //var isSheetOpen1 by rememberSaveable {
-                    mutableStateOf(false)
-                }
-                var isSheetOpen2 by rememberSaveable {
-                    mutableStateOf(false)
-                }
-
-
-                ?: Image(
-                    painterResource(image),
-                    contentDescription = "logos",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .clickable(
-                            enabled = true,
-                            onClickLabel = "Clickable Image",
-                            onClick = {
-                                println(item.text)
-                            }
-                        )
-                )
-                */
 
                 if (isFilterSheetOpen) {
                     ModalBottomSheet(
@@ -221,7 +194,7 @@ fun EditPageScreen(
                         },
                     ) {
                         Row {
-                            BrushSection()
+                            BrushSection(0)
                         }
                     }
                 }

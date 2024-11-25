@@ -59,7 +59,6 @@ fun ToolsSection() {
 @Composable
 fun ToolsCardItem(index: Int) {
     val card = toolsCards[index]
-
     val image = card.image
     val text = card.text
 
