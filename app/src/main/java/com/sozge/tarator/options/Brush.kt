@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.R
 import com.sozge.tarator.data.DataCardSection
 
@@ -68,7 +69,7 @@ fun BrushSection(index: Int) {
         }
     }
 
-    // Tek ModalBottomSheet burada kullanılır
+
     selectedCardId?.let { id ->
         ModalBottomSheet(
             sheetState = sheetState,
@@ -79,8 +80,8 @@ fun BrushSection(index: Int) {
             },
         ) {
             when (id) {
-                1 -> ToolsSection() // Brush içeriği
-                2 -> BrushSection(index) // Eraser içeriği
+                1 -> DrawingSection(imageViewModel = ImageViewModel())
+                2 -> BrushSection(index)
             }
         }
     }

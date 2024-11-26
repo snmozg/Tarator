@@ -45,8 +45,6 @@ val toolsCards = listOf(
         "Cat", id = 4
     )
 )
-
-@Preview
 @Composable
 fun ToolsSection() {
     LazyRow {
