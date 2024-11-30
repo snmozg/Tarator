@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sozge.tarator.DrawingViewModel
 import com.sozge.tarator.FilterViewModel
 import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.ui.theme.TaratorTheme
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val imageViewModel: ImageViewModel = viewModel()
             val filterViewModel: FilterViewModel = viewModel()
+            val drawingViewModel: DrawingViewModel = viewModel()
             val navController = rememberNavController()
 
             TaratorTheme {
@@ -32,18 +34,24 @@ class MainActivity : ComponentActivity() {
                         MainScreen(
                             navController,
                             imageViewModel= imageViewModel,
-                            filterViewModel=filterViewModel
+                            filterViewModel=filterViewModel,
+                            drawingViewModel=drawingViewModel
+
                             )
                     }
                     composable(route = "EditPageScreen") {
                         EditPageScreen(navController,
                             imageViewModel= imageViewModel,
-                            filterViewModel=filterViewModel)
+                            filterViewModel=filterViewModel,
+                            drawingViewModel=drawingViewModel
+                        )
                     }
                     composable(route = "FeedBackScreen") {
                         FeedBackScreen(navController,
                             imageViewModel= imageViewModel,
-                            filterViewModel=filterViewModel)
+                            filterViewModel=filterViewModel,
+                            drawingViewModel=drawingViewModel
+                        )
                     }
                 }
             }

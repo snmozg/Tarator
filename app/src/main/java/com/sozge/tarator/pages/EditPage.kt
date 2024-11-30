@@ -43,6 +43,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.sozge.tarator.DrawingViewModel
 import com.sozge.tarator.FilterViewModel
 import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.data.CustomButton
@@ -56,7 +57,8 @@ import com.sozge.tarator.options.ToolsSection
 fun EditPageScreen(
     navController: NavController,
     imageViewModel: ImageViewModel,
-    filterViewModel: FilterViewModel
+    filterViewModel: FilterViewModel,
+    drawingViewModel: DrawingViewModel
 ) {
     var hasPermission by remember { mutableStateOf(false) }
     val context = LocalContext.current

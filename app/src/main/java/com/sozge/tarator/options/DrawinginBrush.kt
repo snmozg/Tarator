@@ -1,5 +1,10 @@
 package com.sozge.tarator.options
 
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,13 +33,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sozge.tarator.DrawingViewModel
 import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.R
 import com.sozge.tarator.data.DataCardSection
@@ -42,19 +50,21 @@ import com.sozge.tarator.data.DataCardSection
 enum class BrushType {
     BRUSH, BRUSH2
 }
+
 val DrawingCards = listOf(
     DataCardSection(
         R.drawable.orangebrush,
-        "Brush", id = 1),
+        "Brush", id = 1
+    ),
     DataCardSection(
         R.drawable.orangebrush,
-        "Brush2", id = 2)
+        "Brush2", id = 2
+    )
 )
 
 @Composable
-fun DrawingSection(imageViewModel: ImageViewModel) {
+fun DrawingSection(imageViewModel: ImageViewModel, drawingViewModel: DrawingViewModel) {
     var brushType by remember { mutableStateOf(BrushType.BRUSH) }
-
 
     Column {
         LazyRow {
@@ -63,19 +73,25 @@ fun DrawingSection(imageViewModel: ImageViewModel) {
                     index = index,
                     selectedBrushType = brushType,
                     onBrushSelected = { newBrushType ->
-                        brushType = newBrushType // Fırça tipini güncelle
+                        Log.d("DrawingSection", "Brush selected: $newBrushType")
+                        brushType = newBrushType
                     }
                 )
             }
         }
-
-        DrawingCanvas(brushType = brushType, ImageViewModel = imageViewModel)
+        DrawingCanvas(
+            brushType = brushType,
+            imageViewModel = imageViewModel
+        )
     }
 }
 
-
 @Composable
-fun DrawingCardItem(index: Int, selectedBrushType: BrushType, onBrushSelected: (BrushType) -> Unit) {
+fun DrawingCardItem(
+    index: Int,
+    selectedBrushType: BrushType,
+    onBrushSelected: (BrushType) -> Unit,
+) {
     val card = DrawingCards[index]
     val image = card.image
     val text = card.text
@@ -84,6 +100,7 @@ fun DrawingCardItem(index: Int, selectedBrushType: BrushType, onBrushSelected: (
         "Brush2" -> BrushType.BRUSH2
         else -> BrushType.BRUSH
     }
+
     Column(
         modifier = Modifier.padding(start = 10.dp, 5.dp),
         verticalArrangement = Arrangement.Center,
@@ -111,7 +128,7 @@ fun DrawingCardItem(index: Int, selectedBrushType: BrushType, onBrushSelected: (
                             enabled = true,
                             onClickLabel = "Clickable Image",
                             onClick = {
-                                onBrushSelected(currentBrushType) // Fırça seçimi yapılınca güncelle
+                                onBrushSelected(currentBrushType)
                             }
                         )
                 )
@@ -127,52 +144,90 @@ fun DrawingCardItem(index: Int, selectedBrushType: BrushType, onBrushSelected: (
     }
 }
 
-    @Composable
-    fun DrawingCanvas(brushType: BrushType, ImageViewModel: ImageViewModel) {
-        // Çizim yapmak için bir state
-        val pathPoints = remember { mutableStateListOf<Offset>() }
-        var brushColor = Color.Black // Varsayılan renk
-        var brushSize = 8f // Varsayılan boyut
 
-        // Fırça türüne göre özellikleri değiştir
-        when (brushType) {
-            BrushType.BRUSH -> {
-                brushColor = Color.Red // Brush seçildiğinde kırmızı fırça
-                brushSize = 12f // Fırça boyutu
-            }
+@Composable
+fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
+    val pathPoints = remember { mutableStateListOf<Offset>() }
+    val context = LocalContext.current
 
-            BrushType.BRUSH2 -> {
-                brushColor = Color.Blue // Brush2 seçildiğinde mavi fırça
-                brushSize = 6f // Fırça boyutu
+    // -----CHAT------Image URI'den bitmap oluşturuluyor
+    val bitmap = remember(imageViewModel.myImage.value) {
+        try {
+            imageViewModel.myImage.value?.let { uri ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    val source = ImageDecoder.createSource(context.contentResolver, uri)
+                    ImageDecoder.decodeBitmap(source)
+                } else {
+                    @Suppress("DEPRECATION")
+                    MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+                }
             }
+        } catch (e: Exception) {
+            Log.e("DrawingCanvas", "Error decoding image: ${e.message}")
+            null
+        }
+    }
+    var brushColor = Color.Black
+    var brushSize = 8f
+    when (brushType) {
+        BrushType.BRUSH -> {
+            brushColor = Color.Red
+            brushSize = 12f
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .pointerInput(Unit) {
-                    detectDragGestures(
-                        onDragStart = { offset ->
-                            pathPoints.add(offset)
-                        },
-                        onDrag = { change, _ ->
-                            pathPoints.add(change.position)
-                        }
-                    )
-                }
-        ) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                // Çizim yap
-                for (i in 1 until pathPoints.size) {
-                    drawLine(
-                        color = brushColor,
-                        start = pathPoints[i - 1],
-                        end = pathPoints[i],
-                        strokeWidth = brushSize
-                    )
-                }
+        BrushType.BRUSH2 -> {
+            brushColor = Color.Blue
+            brushSize = 6f
+        }
+    }
+
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDragStart = { offset ->
+                        pathPoints.add(offset) // Başlangıç noktası
+                    },
+                    onDrag = { change, _ ->
+                        pathPoints.add(change.position) // Çizim noktası
+                    }
+                )
+            }
+    ) {
+
+        bitmap?.let {
+            Image(
+                bitmap = it.asImageBitmap(),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+        }
+
+//çizim
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            for (i in 1 until pathPoints.size) {
+                drawLine(
+                    color = brushColor,
+                    start = pathPoints[i - 1],
+                    end = pathPoints[i],
+                    strokeWidth = brushSize
+                )
             }
         }
     }
+}
+
+
+
+
+
+
+
+
+
+
+
 

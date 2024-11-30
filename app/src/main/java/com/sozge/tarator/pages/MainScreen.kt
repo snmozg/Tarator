@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.sozge.tarator.DrawingViewModel
 import com.sozge.tarator.FilterViewModel
 import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.R
@@ -39,7 +40,8 @@ import com.sozge.tarator.bars.BottomNavigationBar
 fun MainScreen(
     navController: NavController,
     imageViewModel: ImageViewModel,
-    filterViewModel: FilterViewModel
+    filterViewModel: FilterViewModel,
+    drawingViewModel: DrawingViewModel
 ) {
     val activity = (LocalContext.current as? Activity)
     Scaffold(

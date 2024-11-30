@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.sozge.tarator.DrawingViewModel
 import com.sozge.tarator.FilterViewModel
 import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.bars.AppBar
@@ -34,7 +35,8 @@ import com.sozge.tarator.ui.theme.TaratorTheme
 @Composable
 fun FeedBackScreen(navController: NavController,
                    imageViewModel: ImageViewModel,
-                   filterViewModel: FilterViewModel
+                   filterViewModel: FilterViewModel,
+                   drawingViewModel: DrawingViewModel
 ) {
     val itemName = remember {
         mutableStateOf("")
