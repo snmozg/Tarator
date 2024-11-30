@@ -48,7 +48,7 @@ val brushCards = listOf(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BrushSection(index: Int) {
+fun BrushSection(index: Int, imageViewModel: ImageViewModel, drawingViewModel: DrawingViewModel) {
     val card = brushCards[index]
     val text = card.text
 
@@ -78,8 +78,10 @@ fun BrushSection(index: Int) {
             },
         ) {
             when (id) {
-                1 -> DrawingSection(imageViewModel = ImageViewModel(), drawingViewModel = DrawingViewModel())
-                2 -> BrushSection(index)
+                1 -> DrawingSection(imageViewModel = imageViewModel, drawingViewModel = drawingViewModel)
+                2 -> BrushSection(imageViewModel = imageViewModel, drawingViewModel = drawingViewModel,
+                    index = index
+                )
             }
         }
     }

@@ -5,11 +5,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.ViewModel
 
-
 class DrawingViewModel : ViewModel() {
     // Çizim noktalarını saklayan mutable state listesi
     private val _drawingPaths = mutableStateListOf<Offset>()
-    val drawingPaths: List<Offset> get() = _drawingPaths // Sadece getter olarak expose ediyoruz
+    val drawingPaths: List<Offset> = _drawingPaths // Sadece getter olarak expose ediyoruz
 
     // Yeni nokta eklemek için fonksiyon
     fun addPoint(point: Offset) {
@@ -21,6 +20,3 @@ class DrawingViewModel : ViewModel() {
         _drawingPaths.clear()
     }
 }
-
-
-

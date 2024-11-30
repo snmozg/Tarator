@@ -196,7 +196,9 @@ fun EditPageScreen(
                         },
                     ) {
                         Row {
-                            BrushSection(0)
+                            BrushSection(0,
+                                imageViewModel= imageViewModel,
+                                drawingViewModel = drawingViewModel)
                         }
                     }
                 }

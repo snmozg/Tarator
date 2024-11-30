@@ -1,5 +1,6 @@
 package com.sozge.tarator.options
 
+import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -23,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +48,7 @@ import com.sozge.tarator.DrawingViewModel
 import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.R
 import com.sozge.tarator.data.DataCardSection
+import com.sozge.tarator.helpers.uriToBitmap
 
 enum class BrushType {
     BRUSH, BRUSH2
@@ -73,7 +76,7 @@ fun DrawingSection(imageViewModel: ImageViewModel, drawingViewModel: DrawingView
                     index = index,
                     selectedBrushType = brushType,
                     onBrushSelected = { newBrushType ->
-                        Log.d("DrawingSection", "Brush selected: $newBrushType")
+                        println(newBrushType)
                         brushType = newBrushType
                     }
                 )
@@ -150,23 +153,21 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
     val pathPoints = remember { mutableStateListOf<Offset>() }
     val context = LocalContext.current
 
-    // -----CHAT------Image URI'den bitmap oluşturuluyor
-    val bitmap = remember(imageViewModel.myImage.value) {
-        try {
-            imageViewModel.myImage.value?.let { uri ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    val source = ImageDecoder.createSource(context.contentResolver, uri)
-                    ImageDecoder.decodeBitmap(source)
-                } else {
-                    @Suppress("DEPRECATION")
-                    MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
-                }
-            }
-        } catch (e: Exception) {
-            Log.e("DrawingCanvas", "Error decoding image: ${e.message}")
-            null
+    var bitmap by remember { mutableStateOf<Bitmap?>(null) }
+    val imageUri = imageViewModel.myImage.value
+    println("image uri1: ${imageUri}")
+
+
+    // URI'yi Bitmap'e dönüştür
+
+        imageUri?.let {
+            println("image uri2: ${imageUri}")
+            bitmap = uriToBitmap(context, it)
+            println("bitmap uri: ${bitmap}")
         }
-    }
+
+    // -----CHAT------Image URI'den bitmap oluşturuluyor
+
     var brushColor = Color.Black
     var brushSize = 8f
     when (brushType) {
@@ -197,6 +198,7 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
             }
     ) {
 
+        /*
         bitmap?.let {
             Image(
                 bitmap = it.asImageBitmap(),
@@ -204,6 +206,19 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
+        }
+
+         */
+
+        // Bitmap'i göster
+        if (bitmap != null) {
+            Image(
+                bitmap = bitmap!!.asImageBitmap(),
+                contentDescription = "Selected Image",
+                modifier = Modifier.fillMaxSize()
+            )
+        } else {
+            Text("No image selected", modifier = Modifier.fillMaxSize())
         }
 
 //çizim

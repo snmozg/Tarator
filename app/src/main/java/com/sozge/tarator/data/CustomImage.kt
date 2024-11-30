@@ -1,6 +1,5 @@
 package com.sozge.tarator.data
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,8 +13,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.sozge.tarator.ImageViewModel
-
-
 
 @Composable
 fun CustomImage(
