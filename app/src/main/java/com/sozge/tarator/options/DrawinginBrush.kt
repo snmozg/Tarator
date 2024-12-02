@@ -1,7 +1,13 @@
 package com.sozge.tarator.options
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -10,6 +16,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,10 +39,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.boundsInParent
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,6 +62,9 @@ import com.sozge.tarator.R
 import com.sozge.tarator.data.DataCardSection
 import com.sozge.tarator.helpers.Drawing
 import com.sozge.tarator.helpers.uriToBitmap
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 enum class BrushType {
     BRUSH, BRUSH2
@@ -146,6 +163,55 @@ fun DrawingCardItem(
     }
 }
 
+
+fun applyDrawingsToBitmap(bitmap: Bitmap, drawings: List<Drawing>): Bitmap {
+    val resultBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+    val canvas = android.graphics.Canvas(resultBitmap)
+    val paint = android.graphics.Paint().apply {  // Burada android.graphics.Paint kullanıyoruz
+        isAntiAlias = true
+        strokeWidth = 8f // Fırça boyutunu burada ayarlayabilirsiniz
+    }
+
+    drawings.forEach { drawing ->
+        paint.color = drawing.color.toArgb() // Color'ı Int'e dönüştürerek kullanıyoruz
+        paint.strokeWidth = drawing.strokeWidth // Çizim fırçası genişliği
+        paint.style = android.graphics.Paint.Style.STROKE // Çizgileri çizmek için STROKE kullanıyoruz
+
+        for (i in 1 until drawing.path.size) {
+            val start = drawing.path[i - 1]
+            val end = drawing.path[i]
+            canvas.drawLine(start.x, start.y, end.x, end.y, paint) // Çizim işlemi
+        }
+    }
+    return resultBitmap
+}
+
+// Bitmap'i depolamaya kaydet
+fun saveBitmapToStorage(context: Context, bitmap: Bitmap): Uri {
+    val filename = "edited_image_${System.currentTimeMillis()}.png"
+    val fos: OutputStream? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val contentResolver = context.contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+        }
+        val imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        imageUri?.let { contentResolver.openOutputStream(it) }
+    } else {
+        val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        val image = File(imagesDir, filename)
+        FileOutputStream(image)
+    }
+    fos?.use {
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+    }
+    return Uri.parse(filename)
+}
+
+
+
+
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
@@ -188,102 +254,102 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        TextButton(
 
-            onClick = {
-                if (imageUri != null) {
-                    imageViewModel.updateImage(imageUri, imageViewModel.drawings.value)
-                }
-            },
-            modifier = Modifier.align(Alignment.End)
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Text(
-                fontSize = 20.sp,
-                text = "Save changes"
-            )
-        }
+            var imageOffset = Offset.Zero
+            var imageSize = Size.Zero
 
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = { offset ->
-                        // Yeni bir path başlatılıyor
-                        currentPath.value = mutableListOf(offset) // Yeni bir path başlatılıyor
-                        println("Path Start: $offset")
-                        //currentPath.value = mutableListOf(offset)
-                        //imageViewModel.addDrawing(currentPath.value)
-                        //println("Path Value: ${drawings.size}")
-                    },
-                    onDrag = { change, _ ->
-                        // Çizim devam ediyor
-                        currentPath.value?.add(change.position)
-                    },
-                    onDragEnd = {
-                        // Çizim bitiyor ve ViewModel'e ekleniyor
-                        currentPath.value?.let { path ->
-                            val drawing = Drawing(
-                                brushType = brushType,
-                                color = brushColor,
-                                strokeWidth = brushSize,
-                                path = path
-                            )
-                            imageViewModel.addDrawing(drawing)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .pointerInput(Unit) {
+                        detectDragGestures(
+                            onDragStart = { offset ->
+                                if (offset.x >= imageOffset.x &&
+                                    offset.x <= imageOffset.x + imageSize.width &&
+                                    offset.y >= imageOffset.y &&
+                                    offset.y <= imageOffset.y + imageSize.height
+                                ) {
+                                    currentPath.value = mutableListOf(offset - imageOffset)
+                                }
+                            },
+                            onDrag = { change, _ ->
+                                if (change.position.x >= imageOffset.x &&
+                                    change.position.x <= imageOffset.x + imageSize.width &&
+                                    change.position.y >= imageOffset.y &&
+                                    change.position.y <= imageOffset.y + imageSize.height
+                                ) {
+                                    currentPath.value?.add(change.position - imageOffset)
+                                }
+                            },
+                            onDragEnd = {
+                                currentPath.value?.let { path ->
+                                    val drawing = Drawing(
+                                        brushType = brushType,
+                                        color = brushColor,
+                                        strokeWidth = brushSize,
+                                        path = path
+                                    )
+                                    imageViewModel.addDrawing(drawing)
+                                }
+                                currentPath.value = mutableListOf()
+                            }
+                        )
+                    }
+            ) {
+                if (bitmap != null) {
+                    Image(
+                        bitmap = bitmap!!.asImageBitmap(),
+                        contentDescription = "Selected Image",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
+                            val position = layoutCoordinates.positionInParent()
+                            val size = layoutCoordinates.size
+                            imageOffset = Offset(position.x, position.y)
+                            imageSize = Size(size.width.toFloat(), size.height.toFloat())
                         }
-                        currentPath.value = mutableListOf() // Path sıfırlanıyor
+                    )
+                } else {
+                    Text("No image selected", modifier = Modifier.fillMaxSize())
+                }
 
-                    }
-                )
-            }
-        )
-        {
-            // Bitmap'i göster
-            if (bitmap != null) {
-                Image(
-                    bitmap = bitmap!!.asImageBitmap(),
-                    contentDescription = "Selected Image",
-                    contentScale = ContentScale.Fit
-                )
-            } else {
-                Text("No image selected", modifier = Modifier.fillMaxSize())
-            }
-
-
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                // Debug log ekleyelim
-                // Çizimlerin sayısını kontrol edelim
-                println("Drawing count: ${drawings.size}")
-
-                drawings.forEach { drawing ->
-                    // Çizimlerin her biri için line çiziyoruz
-                    for (i in 1 until drawing.path.size) {
-                        drawLine(
-                            color = drawing.color,
-                            start = drawing.path[i - 1],
-                            end = drawing.path[i],
-                            strokeWidth = drawing.strokeWidth
-                        )
+                Canvas(modifier = Modifier.fillMaxSize()) {
+                    drawings.forEach { drawing ->
+                        for (i in 1 until drawing.path.size) {
+                            drawLine(
+                                color = drawing.color,
+                                start = drawing.path[i - 1] + imageOffset,
+                                end = drawing.path[i] + imageOffset,
+                                strokeWidth = drawing.strokeWidth
+                            )
+                        }
                     }
                 }
             }
-
-            /*
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                drawings.forEach { drawing ->
-                    for (i in 1 until drawing.path.size) {
-                        drawLine(
-                            color = drawing.color,
-                            start = drawing.path[i - 1],
-                            end = drawing.path[i],
-                            strokeWidth = drawing.strokeWidth
+            TextButton(
+                onClick = {
+                    val updatedBitmap = bitmap?.let {
+                        applyDrawingsToBitmap(it, imageViewModel.drawings.value)
+                    }
+                    updatedBitmap?.let { finalBitmap ->
+                        val updatedUri = saveBitmapToStorage(context, finalBitmap)
+                        imageViewModel.updateImage(updatedUri,imageViewModel.drawings.value
                         )
                     }
-                }
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+            ) {
+                Text(
+                    fontSize = 20.sp,
+                    text = "Save changes"
+                )
             }
-
-             */
         }
-    }
-}
+    }}
+
 
 
