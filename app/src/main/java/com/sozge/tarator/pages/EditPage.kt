@@ -49,6 +49,7 @@ import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.data.CustomButton
 import com.sozge.tarator.options.FilterSection
 import com.sozge.tarator.bars.AppBar
+import com.sozge.tarator.helpers.Drawing
 import com.sozge.tarator.options.BrushSection
 import com.sozge.tarator.options.ToolsSection
 
@@ -80,7 +81,7 @@ fun EditPageScreen(
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        imageViewModel.updateImage(uri!!)
+        imageViewModel.updateImage(uri!!,imageViewModel.drawings.value)
     }
 
     LaunchedEffect(Unit) {

@@ -1,10 +1,7 @@
 package com.sozge.tarator.options
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.graphics.ImageDecoder
-import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -15,6 +12,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,8 +21,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -48,6 +46,7 @@ import com.sozge.tarator.DrawingViewModel
 import com.sozge.tarator.ImageViewModel
 import com.sozge.tarator.R
 import com.sozge.tarator.data.DataCardSection
+import com.sozge.tarator.helpers.Drawing
 import com.sozge.tarator.helpers.uriToBitmap
 
 enum class BrushType {
@@ -147,24 +146,23 @@ fun DrawingCardItem(
     }
 }
 
-
+@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
-    val pathPoints = remember { mutableStateListOf<Offset>() }
+    val paths = remember { mutableStateListOf<MutableList<Offset>>() }
+    val currentPath = remember { mutableStateOf<MutableList<Offset>>(mutableListOf()) }
+    val drawings = imageViewModel.drawings.value
+
     val context = LocalContext.current
 
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
     val imageUri = imageViewModel.myImage.value
-    println("image uri1: ${imageUri}")
-
 
     // URI'yi Bitmap'e dönüştür
 
-        imageUri?.let {
-            println("image uri2: ${imageUri}")
-            bitmap = uriToBitmap(context, it)
-            println("bitmap uri: ${bitmap}")
-        }
+    imageUri?.let {
+        bitmap = uriToBitmap(context, it)
+    }
 
     // -----CHAT------Image URI'den bitmap oluşturuluyor
 
@@ -178,71 +176,114 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
 
         BrushType.BRUSH2 -> {
             brushColor = Color.Blue
-            brushSize = 6f
+            brushSize = 12f
         }
     }
 
-
-    Box(
+    Column(
         modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    )
+    {
+        TextButton(
+
+            onClick = {
+                if (imageUri != null) {
+                    imageViewModel.updateImage(imageUri, imageViewModel.drawings.value)
+                }
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text(
+                fontSize = 20.sp,
+                text = "Save changes"
+            )
+        }
+
+        Box(modifier = Modifier
             .fillMaxSize()
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = { offset ->
-                        pathPoints.add(offset) // Başlangıç noktası
+                        // Yeni bir path başlatılıyor
+                        currentPath.value = mutableListOf(offset) // Yeni bir path başlatılıyor
+                        println("Path Start: $offset")
+                        //currentPath.value = mutableListOf(offset)
+                        //imageViewModel.addDrawing(currentPath.value)
+                        //println("Path Value: ${drawings.size}")
                     },
                     onDrag = { change, _ ->
-                        pathPoints.add(change.position) // Çizim noktası
+                        // Çizim devam ediyor
+                        currentPath.value?.add(change.position)
+                    },
+                    onDragEnd = {
+                        // Çizim bitiyor ve ViewModel'e ekleniyor
+                        currentPath.value?.let { path ->
+                            val drawing = Drawing(
+                                brushType = brushType,
+                                color = brushColor,
+                                strokeWidth = brushSize,
+                                path = path
+                            )
+                            imageViewModel.addDrawing(drawing)
+                        }
+                        currentPath.value = mutableListOf() // Path sıfırlanıyor
+
                     }
                 )
             }
-    ) {
-
-        /*
-        bitmap?.let {
-            Image(
-                bitmap = it.asImageBitmap(),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-        }
-
-         */
-
-        // Bitmap'i göster
-        if (bitmap != null) {
-            Image(
-                bitmap = bitmap!!.asImageBitmap(),
-                contentDescription = "Selected Image",
-                modifier = Modifier.fillMaxSize()
-            )
-        } else {
-            Text("No image selected", modifier = Modifier.fillMaxSize())
-        }
-
-//çizim
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            for (i in 1 until pathPoints.size) {
-                drawLine(
-                    color = brushColor,
-                    start = pathPoints[i - 1],
-                    end = pathPoints[i],
-                    strokeWidth = brushSize
+        )
+        {
+            // Bitmap'i göster
+            if (bitmap != null) {
+                Image(
+                    bitmap = bitmap!!.asImageBitmap(),
+                    contentDescription = "Selected Image",
+                    contentScale = ContentScale.Fit
                 )
+            } else {
+                Text("No image selected", modifier = Modifier.fillMaxSize())
             }
+
+
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                // Debug log ekleyelim
+                // Çizimlerin sayısını kontrol edelim
+                println("Drawing count: ${drawings.size}")
+
+                drawings.forEach { drawing ->
+                    // Çizimlerin her biri için line çiziyoruz
+                    for (i in 1 until drawing.path.size) {
+                        drawLine(
+                            color = drawing.color,
+                            start = drawing.path[i - 1],
+                            end = drawing.path[i],
+                            strokeWidth = drawing.strokeWidth
+                        )
+                    }
+                }
+            }
+
+            /*
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                drawings.forEach { drawing ->
+                    for (i in 1 until drawing.path.size) {
+                        drawLine(
+                            color = drawing.color,
+                            start = drawing.path[i - 1],
+                            end = drawing.path[i],
+                            strokeWidth = drawing.strokeWidth
+                        )
+                    }
+                }
+            }
+
+             */
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 
