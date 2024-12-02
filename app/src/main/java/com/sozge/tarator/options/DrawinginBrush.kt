@@ -162,57 +162,6 @@ fun DrawingCardItem(
         )
     }
 }
-
-
-fun applyDrawingsToBitmap(bitmap: Bitmap, drawings: List<Drawing>): Bitmap {
-    val resultBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-    val canvas = android.graphics.Canvas(resultBitmap)
-    val paint = android.graphics.Paint().apply {  // Burada android.graphics.Paint kullanıyoruz
-        isAntiAlias = true
-        strokeWidth = 8f // Fırça boyutunu burada ayarlayabilirsiniz
-    }
-
-    drawings.forEach { drawing ->
-        paint.color = drawing.color.toArgb() // Color'ı Int'e dönüştürerek kullanıyoruz
-        paint.strokeWidth = drawing.strokeWidth // Çizim fırçası genişliği
-        paint.style = android.graphics.Paint.Style.STROKE // Çizgileri çizmek için STROKE kullanıyoruz
-
-        for (i in 1 until drawing.path.size) {
-            val start = drawing.path[i - 1]
-            val end = drawing.path[i]
-            canvas.drawLine(start.x, start.y, end.x, end.y, paint) // Çizim işlemi
-        }
-    }
-    return resultBitmap
-}
-
-// Bitmap'i depolamaya kaydet
-fun saveBitmapToStorage(context: Context, bitmap: Bitmap): Uri {
-    val filename = "edited_image_${System.currentTimeMillis()}.png"
-    val fos: OutputStream? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        val contentResolver = context.contentResolver
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
-            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-        }
-        val imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-        imageUri?.let { contentResolver.openOutputStream(it) }
-    } else {
-        val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val image = File(imagesDir, filename)
-        FileOutputStream(image)
-    }
-    fos?.use {
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-    }
-    return Uri.parse(filename)
-}
-
-
-
-
-@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
     val paths = remember { mutableStateListOf<MutableList<Offset>>() }
@@ -224,13 +173,9 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
     val imageUri = imageViewModel.myImage.value
 
-    // URI'yi Bitmap'e dönüştür
-
     imageUri?.let {
         bitmap = uriToBitmap(context, it)
     }
-
-    // -----CHAT------Image URI'den bitmap oluşturuluyor
 
     var brushColor = Color.Black
     var brushSize = 8f
@@ -252,14 +197,26 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    )
-    {
+    ) {
+        TextButton(
+            onClick = {
+                imageUri?.let { uri ->
+                    imageViewModel.updateImage(uri, drawings) // Resmi ve çizimleri güncelle
+                }
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text(
+                fontSize = 20.sp,
+                text = "Save changes"
+            )
+        }
 
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            var imageOffset = Offset.Zero
-            var imageSize = Size.Zero
+            var imageOffset = Offset.Zero // Resmin başlangıç pozisyonu
+            var imageSize = Size.Zero // Resmin genişlik ve yüksekliği
 
             Box(
                 modifier = Modifier
@@ -270,8 +227,7 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
                                 if (offset.x >= imageOffset.x &&
                                     offset.x <= imageOffset.x + imageSize.width &&
                                     offset.y >= imageOffset.y &&
-                                    offset.y <= imageOffset.y + imageSize.height
-                                ) {
+                                    offset.y <= imageOffset.y + imageSize.height) {
                                     currentPath.value = mutableListOf(offset - imageOffset)
                                 }
                             },
@@ -279,8 +235,7 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
                                 if (change.position.x >= imageOffset.x &&
                                     change.position.x <= imageOffset.x + imageSize.width &&
                                     change.position.y >= imageOffset.y &&
-                                    change.position.y <= imageOffset.y + imageSize.height
-                                ) {
+                                    change.position.y <= imageOffset.y + imageSize.height) {
                                     currentPath.value?.add(change.position - imageOffset)
                                 }
                             },
@@ -328,28 +283,10 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
                     }
                 }
             }
-            TextButton(
-                onClick = {
-                    val updatedBitmap = bitmap?.let {
-                        applyDrawingsToBitmap(it, imageViewModel.drawings.value)
-                    }
-                    updatedBitmap?.let { finalBitmap ->
-                        val updatedUri = saveBitmapToStorage(context, finalBitmap)
-                        imageViewModel.updateImage(updatedUri,imageViewModel.drawings.value
-                        )
-                    }
-                },
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-            ) {
-                Text(
-                    fontSize = 20.sp,
-                    text = "Save changes"
-                )
-            }
         }
-    }}
+    }
+}
+
 
 
 

@@ -19,9 +19,7 @@ class ImageViewModel : ViewModel() {
 
     fun updateImage(newValue: Uri, newDrawings: List<Drawing>) {
         _myImage.value = newValue
-        newDrawings.let {  //mevcut çizimleri koru
-            _drawings.value = it
-        }
+        _drawings.value = newDrawings 
     }
 
     fun deleteImage() {
