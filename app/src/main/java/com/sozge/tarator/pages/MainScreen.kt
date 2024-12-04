@@ -83,7 +83,7 @@ fun MainScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 FeedBackButton(navController)
-                SettingsButton()
+                SettingsButton(navController)
             }
         }
     }
@@ -135,7 +135,7 @@ fun FeedBackButton(navController: NavController) {
             .padding(5.dp)
     ) {
         Text(
-            text = "Feed Back",
+            text = "Feedback",
             fontSize = 16.sp,
             color = Color.White
         )
@@ -144,9 +144,9 @@ fun FeedBackButton(navController: NavController) {
 }
 
 @Composable
-fun SettingsButton() {
+fun SettingsButton(navController: NavController) {
     Button(
-        onClick = { },
+        onClick = {navController.navigate("SettingsScreen") },
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .height(100.dp)
@@ -158,6 +158,5 @@ fun SettingsButton() {
             fontSize = 16.sp,
             color = Color.White
         )
-
     }
 }

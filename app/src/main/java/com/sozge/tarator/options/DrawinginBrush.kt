@@ -1,14 +1,6 @@
 package com.sozge.tarator.options
 
-import android.annotation.SuppressLint
-import android.content.ContentValues
-import android.content.Context
 import android.graphics.Bitmap
-import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,7 +8,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,15 +30,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
@@ -62,9 +49,6 @@ import com.sozge.tarator.R
 import com.sozge.tarator.data.DataCardSection
 import com.sozge.tarator.helpers.Drawing
 import com.sozge.tarator.helpers.uriToBitmap
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 
 enum class BrushType {
     BRUSH, BRUSH2
@@ -141,7 +125,7 @@ fun DrawingCardItem(
                 Image(
                     painter = painterResource(image),
                     contentDescription = "logos",
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .clickable(
                             enabled = true,
@@ -162,6 +146,7 @@ fun DrawingCardItem(
         )
     }
 }
+
 @Composable
 fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
     val paths = remember { mutableStateListOf<MutableList<Offset>>() }
@@ -227,7 +212,8 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
                                 if (offset.x >= imageOffset.x &&
                                     offset.x <= imageOffset.x + imageSize.width &&
                                     offset.y >= imageOffset.y &&
-                                    offset.y <= imageOffset.y + imageSize.height) {
+                                    offset.y <= imageOffset.y + imageSize.height
+                                ) {
                                     currentPath.value = mutableListOf(offset - imageOffset)
                                 }
                             },
@@ -235,7 +221,8 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
                                 if (change.position.x >= imageOffset.x &&
                                     change.position.x <= imageOffset.x + imageSize.width &&
                                     change.position.y >= imageOffset.y &&
-                                    change.position.y <= imageOffset.y + imageSize.height) {
+                                    change.position.y <= imageOffset.y + imageSize.height
+                                ) {
                                     currentPath.value?.add(change.position - imageOffset)
                                 }
                             },
@@ -286,7 +273,3 @@ fun DrawingCanvas(brushType: BrushType, imageViewModel: ImageViewModel) {
         }
     }
 }
-
-
-
-

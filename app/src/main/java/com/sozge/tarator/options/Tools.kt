@@ -96,8 +96,6 @@ fun ToolsCardItem(index: Int) {
                                 } else if (text == "Cat") {
                                     println("Cat Clicked")
                                 }
-
-
                             }
                         )
                 )
@@ -109,7 +107,6 @@ fun ToolsCardItem(index: Int) {
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Normal,
-
             )
     }
 }

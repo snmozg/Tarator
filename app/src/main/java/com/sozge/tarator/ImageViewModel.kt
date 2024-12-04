@@ -30,6 +30,6 @@ class ImageViewModel : ViewModel() {
     fun addDrawing(drawing: Drawing) {
         val currentList = _drawings.value.toMutableList()
         currentList.add(drawing)
-        _drawings.value = currentList // Listi tekrar atıyoruz
+        _drawings.value = currentList
     }
 }

@@ -59,7 +59,7 @@ fun EditPageScreen(
     navController: NavController,
     imageViewModel: ImageViewModel,
     filterViewModel: FilterViewModel,
-    drawingViewModel: DrawingViewModel
+    drawingViewModel: DrawingViewModel,
 ) {
     var hasPermission by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -69,7 +69,6 @@ fun EditPageScreen(
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
-
 
     //izin isteme işlemi için launcher
     val permissionLauncher =
@@ -81,7 +80,7 @@ fun EditPageScreen(
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        imageViewModel.updateImage(uri!!,imageViewModel.drawings.value)
+        imageViewModel.updateImage(uri!!, imageViewModel.drawings.value)
     }
 
     LaunchedEffect(Unit) {
@@ -197,13 +196,14 @@ fun EditPageScreen(
                         },
                     ) {
                         Row {
-                            BrushSection(0,
-                                imageViewModel= imageViewModel,
-                                drawingViewModel = drawingViewModel)
+                            BrushSection(
+                                0,
+                                imageViewModel = imageViewModel,
+                                drawingViewModel = drawingViewModel
+                            )
                         }
                     }
                 }
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()

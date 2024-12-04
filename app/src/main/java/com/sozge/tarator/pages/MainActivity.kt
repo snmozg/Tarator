@@ -36,7 +36,6 @@ class MainActivity : ComponentActivity() {
                             imageViewModel= imageViewModel,
                             filterViewModel=filterViewModel,
                             drawingViewModel=drawingViewModel
-
                             )
                     }
                     composable(route = "EditPageScreen") {
@@ -53,40 +52,17 @@ class MainActivity : ComponentActivity() {
                             drawingViewModel=drawingViewModel
                         )
                     }
+                    composable(route = "SettingsScreen") {
+                        SettingsScreen(
+                            navController,
+                            imageViewModel = imageViewModel,
+                        )
+                    }
                 }
             }
-
-
         }
     }
 }
-/*
-@Composable
-fun NavController() {
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = "MainScreen"
-    ) {
-        composable(route = "MainScreen") {
-            MainScreen(navController)
-        }
-        composable(route = "EditPageScreen") {
-            EditPageScreen(navController,)
-        }
-        composable(route = "FeedBackScreen") {
-            FeedBackScreen(navController)
-        }
-        composable("editPageScreen") {
-            EditPageScreen(navController,)
-        }
-    }
-}
-
- */
-
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
