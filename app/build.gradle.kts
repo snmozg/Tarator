@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.sozge.taratornew"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.sozge.taratornew"
@@ -66,4 +66,20 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Extended Icons
+    implementation("androidx.compose.material:material-icons-extended:1.7.4")
+
+    // Image
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+    //Navigation
+    val nav_version = "2.6.0-rc01"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    //BottomSheet
+    implementation(platform("androidx.compose:compose-bom:2023.06.01"))
+
+    //Filters
+    implementation("androidx.compose.material3:material3:1.2.0")
 }

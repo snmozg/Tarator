@@ -11,6 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.sozge.taratornew.models.ImageViewModel
+import com.sozge.taratornew.pages.EditPage
+import com.sozge.taratornew.pages.FeedbackPage
+import com.sozge.taratornew.pages.HomePage
+import com.sozge.taratornew.pages.SettingsPage
 import com.sozge.taratornew.ui.theme.TaratorNewTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,30 +27,28 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
+            val imageViewModel: ImageViewModel = viewModel()
+
             TaratorNewTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                NavHost(
+                    navController = navController,
+                    startDestination = "HomePage"
+                ) {
+                    composable(route = "HomePage") {
+                        HomePage(navController, imageViewModel)
+                    }
+                    composable(route = "EditPage") {
+                        EditPage(navController)
+                    }
+                    composable(route = "FeedbackPage") {
+                        FeedbackPage(navController)
+                    }
+                    composable(route = "SettingsPage") {
+                        SettingsPage(navController)
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TaratorNewTheme {
-        Greeting("Android")
     }
 }
