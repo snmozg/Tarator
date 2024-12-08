@@ -1,4 +1,4 @@
-package com.sozge.taratornew.components
+package com.sozge.taratornew.components.filters
 
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -11,7 +11,7 @@ import com.sozge.taratornew.models.ImageViewModel
 fun FilterSection(imageViewModel: ImageViewModel, filterViewModel: FilterViewModel) {
     LazyRow {
         itemsIndexed(filterCards) { index, item ->
-            CustomCardItem(index, item, imageViewModel, filterViewModel)
+            FilterCardItem(index, item, imageViewModel, filterViewModel)
         }
     }
 }

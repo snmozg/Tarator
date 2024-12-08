@@ -1,4 +1,4 @@
-package com.sozge.taratornew.components
+package com.sozge.taratornew.components.filters
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -15,7 +15,7 @@ import coil.request.ImageRequest
 import com.sozge.taratornew.models.ImageViewModel
 
 @Composable
-fun CustomCardImage(
+fun FilterCardImage(
     viewModel: ImageViewModel,
     colorFilter: ColorFilter,
     onClick: () -> Unit,

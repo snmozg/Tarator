@@ -1,4 +1,4 @@
-package com.sozge.taratornew.components
+package com.sozge.taratornew.components.filters
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,7 +26,7 @@ import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 
 @Composable
-fun CustomCardItem(index: Int, item: OptionCard, imageViewModel: ImageViewModel, filterViewModel: FilterViewModel) {
+fun FilterCardItem(index: Int, item: OptionCard, imageViewModel: ImageViewModel, filterViewModel: FilterViewModel) {
     val image = imageViewModel.myImage.value
     val text = item.text
 

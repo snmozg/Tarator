@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.sozge.taratornew"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -82,4 +82,8 @@ dependencies {
 
     //Filters
     implementation("androidx.compose.material3:material3:1.2.0")
+
+    implementation ("androidx.compose.ui:ui:1.7.5") // veya daha yeni sürüm
+    implementation ("androidx.compose.foundation:foundation:1.7.5") // veya daha yeni sürüm
+    //implementation ("com.github.QuadFlask:colorpicker:0.0.13")
 }

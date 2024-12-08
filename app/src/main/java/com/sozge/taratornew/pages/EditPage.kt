@@ -11,11 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.sozge.taratornew.components.CustomOptionsButton
 import com.sozge.taratornew.components.EditPageImage
-import com.sozge.taratornew.components.FilterSection
+import com.sozge.taratornew.components.filters.FilterSection
 import com.sozge.taratornew.components.HeaderBar
 import com.sozge.taratornew.components.RowButtons
+import com.sozge.taratornew.components.brushes.BrushSection
+import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.checkPermission
@@ -29,7 +30,8 @@ fun EditPage(
     navController: NavController,
     imageViewModel: ImageViewModel,
     bottomSheetViewModel: BottomSheetViewModel,
-    filterViewModel: FilterViewModel
+    filterViewModel: FilterViewModel,
+    drawingViewModel: DrawingViewModel
 ) {
     var hasPermission by remember { mutableStateOf(false) }
     val permissionLauncher = rememberPermissionLauncher(mutableStateOf(hasPermission))
@@ -83,6 +85,8 @@ fun EditPage(
                 // ModalBottomSheets controlled by ViewModel
                 if (bottomSheetViewModel.isFilterSheetOpen.value) {
                     ModalBottomSheet(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.primary,
                         onDismissRequest = { bottomSheetViewModel.closeFilterSheet() },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                     ) {
@@ -92,6 +96,8 @@ fun EditPage(
 
                 if (bottomSheetViewModel.isToolsSheetOpen.value) {
                     ModalBottomSheet(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.primary,
                         onDismissRequest = { bottomSheetViewModel.closeToolsSheet() },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                     ) {
@@ -101,10 +107,16 @@ fun EditPage(
 
                 if (bottomSheetViewModel.isBrushSheetOpen.value) {
                     ModalBottomSheet(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.primary,
                         onDismissRequest = { bottomSheetViewModel.closeBrushSheet() },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                     ) {
-                        //BrushSection(0, imageViewModel = imageViewModel, drawingViewModel = drawingViewModel)
+                        BrushSection(
+                            imageViewModel = imageViewModel,
+                            filterViewModel = filterViewModel,
+                            drawingViewModel = drawingViewModel
+                        )
                     }
                 }
             }

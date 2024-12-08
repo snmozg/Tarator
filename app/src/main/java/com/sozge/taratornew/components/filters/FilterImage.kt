@@ -1,4 +1,4 @@
-package com.sozge.taratornew.components
+package com.sozge.taratornew.components.filters
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ColorFilter
@@ -105,7 +105,7 @@ fun FilterImage(filterId: Int, imageViewModel: ImageViewModel, filterViewModel: 
         else -> ColorFilter.colorMatrix(ColorMatrix())
     }
 
-    CustomCardImage(viewModel = imageViewModel, colorFilter = colorFilter) {
+    FilterCardImage(viewModel = imageViewModel, colorFilter = colorFilter) {
         filterViewModel.updateFilter(colorFilter)
     }
 }
