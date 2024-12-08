@@ -40,7 +40,7 @@ fun HomePage(
                 actionImageVector = Icons.Rounded.Logout,
                 actionContentDescription = "logout",
                 isBackButtonEnable = false,
-                viewModel = imageViewModel,
+                imageViewModel = imageViewModel,
                 onClick = {
                     activity?.finish()
                 }

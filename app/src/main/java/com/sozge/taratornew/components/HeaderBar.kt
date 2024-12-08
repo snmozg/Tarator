@@ -27,7 +27,7 @@ fun HeaderBar(
     actionImageVector: ImageVector,
     actionContentDescription: String,
     isBackButtonEnable: Boolean,
-    viewModel: ImageViewModel,
+    imageViewModel: ImageViewModel,
     onClick: () -> Unit,
 ) {
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
@@ -47,7 +47,7 @@ fun HeaderBar(
         if (isBackButtonEnable) {
             IconButton(onClick = {
                 navController.popBackStack()
-                viewModel.deleteImage()
+                imageViewModel.deleteImage()
             }) {
                 Icon(
                     Icons.Rounded.ArrowBack,

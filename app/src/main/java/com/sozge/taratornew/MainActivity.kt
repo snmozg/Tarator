@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                         HomePage(navController, imageViewModel)
                     }
                     composable(route = "EditPage") {
-                        EditPage(navController)
+                        EditPage(navController, imageViewModel)
                     }
                     composable(route = "FeedbackPage") {
                         FeedbackPage(navController)
