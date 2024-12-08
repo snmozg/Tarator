@@ -16,11 +16,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 
 @Composable
 fun EditPageImage(
     imageViewModel: ImageViewModel,
+    filterViewModel: FilterViewModel,
     hasPermission: MutableState<Boolean>,
     galleryLauncher: () -> Unit,
     permissionLauncher: () -> Unit
@@ -32,7 +34,7 @@ fun EditPageImage(
             painter = rememberAsyncImagePainter(
                 ImageRequest.Builder(context).data(it).build()
             ),
-            //colorFilter = imageViewModel.filter,
+            colorFilter = filterViewModel.filter.value,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()

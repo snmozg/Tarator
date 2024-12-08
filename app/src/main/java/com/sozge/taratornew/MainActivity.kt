@@ -1,5 +1,6 @@
 package com.sozge.taratornew
 
+import BottomSheetViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.pages.EditPage
 import com.sozge.taratornew.pages.FeedbackPage
@@ -29,6 +31,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val imageViewModel: ImageViewModel = viewModel()
+            val filterViewmodel: FilterViewModel = viewModel()
+            val bottomSheetViewModel: BottomSheetViewModel = viewModel()
 
             TaratorNewTheme {
                 NavHost(
@@ -39,7 +43,7 @@ class MainActivity : ComponentActivity() {
                         HomePage(navController, imageViewModel)
                     }
                     composable(route = "EditPage") {
-                        EditPage(navController, imageViewModel)
+                        EditPage(navController, imageViewModel, bottomSheetViewModel, filterViewmodel)
                     }
                     composable(route = "FeedbackPage") {
                         FeedbackPage(navController)

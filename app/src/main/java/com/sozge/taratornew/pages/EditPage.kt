@@ -1,5 +1,6 @@
 package com.sozge.taratornew.pages
 
+import BottomSheetViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
@@ -12,7 +13,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sozge.taratornew.components.CustomOptionsButton
 import com.sozge.taratornew.components.EditPageImage
+import com.sozge.taratornew.components.FilterSection
 import com.sozge.taratornew.components.HeaderBar
+import com.sozge.taratornew.components.RowButtons
+import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.checkPermission
 import com.sozge.taratornew.utils.getRequiredPermission
@@ -24,6 +28,8 @@ import com.sozge.taratornew.utils.rememberPermissionLauncher
 fun EditPage(
     navController: NavController,
     imageViewModel: ImageViewModel,
+    bottomSheetViewModel: BottomSheetViewModel,
+    filterViewModel: FilterViewModel
 ) {
     var hasPermission by remember { mutableStateOf(false) }
     val permissionLauncher = rememberPermissionLauncher(mutableStateOf(hasPermission))
@@ -58,6 +64,7 @@ fun EditPage(
             ) {
                 EditPageImage(
                     imageViewModel = imageViewModel,
+                    filterViewModel = filterViewModel,
                     hasPermission = mutableStateOf(hasPermission),
                     galleryLauncher = { galleryLauncher.launch("image/*") },
                     permissionLauncher = {
@@ -67,30 +74,38 @@ fun EditPage(
 
                 Spacer(modifier = Modifier.height(50.dp))
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(2.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    CustomOptionsButton(
-                        Icons.Rounded.FilterAlt,
-                        "Filter Button",
-                        "FILTERS",
-                        onClick = { /* Your code for opening filters */ }
-                    )
-                    CustomOptionsButton(
-                        Icons.Rounded.Crop,
-                        "Tools Button",
-                        "TOOLS",
-                        onClick = { /* Your code for opening tools */ }
-                    )
-                    CustomOptionsButton(
-                        Icons.Rounded.Brush,
-                        "Brush Button",
-                        "BRUSH",
-                        onClick = { /* Your code for opening brush */ }
-                    )
+                RowButtons(
+                    onFilterClick = { bottomSheetViewModel.openFilterSheet() },
+                    onToolsClick = { bottomSheetViewModel.openToolsSheet() },
+                    onBrushClick = { bottomSheetViewModel.openBrushSheet() }
+                )
+
+                // ModalBottomSheets controlled by ViewModel
+                if (bottomSheetViewModel.isFilterSheetOpen.value) {
+                    ModalBottomSheet(
+                        onDismissRequest = { bottomSheetViewModel.closeFilterSheet() },
+                        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+                    ) {
+                        FilterSection(imageViewModel, filterViewModel)
+                    }
+                }
+
+                if (bottomSheetViewModel.isToolsSheetOpen.value) {
+                    ModalBottomSheet(
+                        onDismissRequest = { bottomSheetViewModel.closeToolsSheet() },
+                        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+                    ) {
+                        //ToolsSection()
+                    }
+                }
+
+                if (bottomSheetViewModel.isBrushSheetOpen.value) {
+                    ModalBottomSheet(
+                        onDismissRequest = { bottomSheetViewModel.closeBrushSheet() },
+                        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+                    ) {
+                        //BrushSection(0, imageViewModel = imageViewModel, drawingViewModel = drawingViewModel)
+                    }
                 }
             }
         }
