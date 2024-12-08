@@ -25,12 +25,16 @@ import androidx.navigation.NavController
 import com.sozge.taratornew.R
 import com.sozge.taratornew.components.CustomButton
 import com.sozge.taratornew.components.HeaderBar
+import com.sozge.taratornew.models.DrawingViewModel
+import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 
 @Composable
 fun HomePage(
     navController: NavController,
     imageViewModel: ImageViewModel,
+    drawingViewModel: DrawingViewModel,
+    filterViewModel: FilterViewModel
 ) {
     val activity = (LocalContext.current as? Activity)
     Scaffold(
@@ -41,6 +45,8 @@ fun HomePage(
                 actionContentDescription = "logout",
                 isBackButtonEnable = false,
                 imageViewModel = imageViewModel,
+                drawingViewModel = drawingViewModel,
+                filterViewModel = filterViewModel,
                 onClick = {
                     activity?.finish()
                 }

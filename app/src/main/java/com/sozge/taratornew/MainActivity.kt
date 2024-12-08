@@ -42,16 +42,16 @@ class MainActivity : ComponentActivity() {
                     startDestination = "HomePage"
                 ) {
                     composable(route = "HomePage") {
-                        HomePage(navController, imageViewModel)
+                        HomePage(navController, imageViewModel, drawingViewModel, filterViewmodel)
                     }
                     composable(route = "EditPage") {
                         EditPage(navController, imageViewModel, bottomSheetViewModel, filterViewmodel, drawingViewModel)
                     }
                     composable(route = "FeedbackPage") {
-                        FeedbackPage(navController)
+                        FeedbackPage(navController, imageViewModel, drawingViewModel, filterViewmodel)
                     }
                     composable(route = "SettingsPage") {
-                        SettingsPage(navController)
+                        SettingsPage(navController, drawingViewModel, filterViewmodel, imageViewModel)
                     }
                 }
             }

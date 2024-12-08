@@ -16,6 +16,7 @@ import com.sozge.taratornew.components.filters.FilterSection
 import com.sozge.taratornew.components.HeaderBar
 import com.sozge.taratornew.components.RowButtons
 import com.sozge.taratornew.components.brushes.BrushSection
+import com.sozge.taratornew.components.tools.ToolsSection
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
@@ -51,6 +52,8 @@ fun EditPage(
                 actionContentDescription = "save button",
                 isBackButtonEnable = true,
                 imageViewModel = imageViewModel,
+                drawingViewModel = drawingViewModel,
+                filterViewModel = filterViewModel,
                 onClick = {
                     println("download the photo")
                 }
@@ -67,6 +70,7 @@ fun EditPage(
                 EditPageImage(
                     imageViewModel = imageViewModel,
                     filterViewModel = filterViewModel,
+                    drawingViewModel = drawingViewModel,
                     hasPermission = mutableStateOf(hasPermission),
                     galleryLauncher = { galleryLauncher.launch("image/*") },
                     permissionLauncher = {
@@ -101,7 +105,7 @@ fun EditPage(
                         onDismissRequest = { bottomSheetViewModel.closeToolsSheet() },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                     ) {
-                        //ToolsSection()
+                        ToolsSection()
                     }
                 }
 

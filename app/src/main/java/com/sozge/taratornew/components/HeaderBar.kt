@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
+import com.sozge.taratornew.models.DrawingViewModel
+import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,6 +30,8 @@ fun HeaderBar(
     actionContentDescription: String,
     isBackButtonEnable: Boolean,
     imageViewModel: ImageViewModel,
+    drawingViewModel: DrawingViewModel,
+    filterViewModel: FilterViewModel,
     onClick: () -> Unit,
 ) {
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
@@ -48,6 +52,9 @@ fun HeaderBar(
             IconButton(onClick = {
                 navController.popBackStack()
                 imageViewModel.deleteImage()
+                filterViewModel.deleteFilter()
+                drawingViewModel.clearDrawing()
+
             }) {
                 Icon(
                     Icons.Rounded.ArrowBack,
