@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BrushColorPicker(selectedColor: State<Color>, onColorSelected: (Color) -> Unit) {
-    // List of colors for the picker
+
     val colors = listOf(Color.Black, Color.Red, Color.Green, Color.Blue, Color.Yellow)
 
     Row(

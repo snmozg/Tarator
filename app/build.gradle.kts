@@ -85,5 +85,9 @@ dependencies {
 
     implementation ("androidx.compose.ui:ui:1.7.5") // veya daha yeni sürüm
     implementation ("androidx.compose.foundation:foundation:1.7.5") // veya daha yeni sürüm
-    //implementation ("com.github.QuadFlask:colorpicker:0.0.13")
+
+
+    //icons
+    implementation ("androidx.compose.material:material-icons-extended:<1.7.5>")
+
 }

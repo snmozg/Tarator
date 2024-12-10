@@ -105,7 +105,7 @@ fun EditPage(
                         onDismissRequest = { bottomSheetViewModel.closeToolsSheet() },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                     ) {
-                        ToolsSection()
+                        ToolsSection(imageViewModel)
                     }
                 }
 

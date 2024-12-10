@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                         FeedbackPage(navController, imageViewModel, drawingViewModel, filterViewmodel)
                     }
                     composable(route = "SettingsPage") {
-                        SettingsPage(navController, drawingViewModel, filterViewmodel, imageViewModel)
+                        SettingsPage(navController,imageViewModel,drawingViewModel,filterViewmodel)
                     }
                 }
             }

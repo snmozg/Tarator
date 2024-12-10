@@ -46,7 +46,7 @@ fun BrushSection(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Görüntü ve çizim alanı
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,10 +71,9 @@ fun BrushSection(
                             }
                         }
                 ) {
-                    // Arka planda görüntüyü çiz
                     drawImage(imageBitmap)
 
-                    // Çizgileri çiz
+
                     drawingViewModel.lines.forEach { line ->
                         drawLine(
                             color = line.color,
@@ -88,7 +87,7 @@ fun BrushSection(
             }
         }
 
-        // Araçlar ve ayarlar bölümü
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
