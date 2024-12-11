@@ -45,7 +45,6 @@ fun CropToolView(
                     .fillMaxSize()
                     .pointerInput(Unit) {
                         detectDragGestures { _, dragAmount ->
-
                             cropRect = cropRect.copy(
                                 left = cropRect.left + dragAmount.x,
                                 top = cropRect.top + dragAmount.y
@@ -80,9 +79,8 @@ fun CropToolView(
 
         Button(
             onClick = {
-
                 val cropped = imageBitmap?.let { cropImage(it, cropRect) }
-                cropped?.let { onCrop(it) } // Kırpılmış resmi geri gönder
+                cropped?.let { onCrop(it) }
             },
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {

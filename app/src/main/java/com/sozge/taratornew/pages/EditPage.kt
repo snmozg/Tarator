@@ -1,6 +1,7 @@
 package com.sozge.taratornew.pages
 
 import BottomSheetViewModel
+import ToolsSection
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
@@ -16,7 +17,6 @@ import com.sozge.taratornew.components.filters.FilterSection
 import com.sozge.taratornew.components.HeaderBar
 import com.sozge.taratornew.components.RowButtons
 import com.sozge.taratornew.components.brushes.BrushSection
-import com.sozge.taratornew.components.tools.ToolsSection
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel

@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CustomSettingsCard(
+fun SettingsCard(
     imageVector: ImageVector,
     contentDescription: String,
     itemText: String,

@@ -1,5 +1,3 @@
-package com.sozge.taratornew.components.tools
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,10 +26,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.unit.dp
+import com.sozge.taratornew.components.tools.BrightnessToolView
+import com.sozge.taratornew.components.tools.ContrastToolView
+import com.sozge.taratornew.components.tools.CropToolView
+import com.sozge.taratornew.components.tools.ShadowToolView
+import com.sozge.taratornew.components.tools.toolButton
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.toBitmap
-
 
 @Composable
 fun ToolsSection(
@@ -86,16 +89,16 @@ fun ToolsSection(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                ToolButton(icon = Icons.Default.Crop, description = "Crop") {
+                toolButton(icon = Icons.Default.Crop, description = "Crop") {
                     selectedTool = ToolType.Crop
                 }
-                ToolButton(icon = Icons.Default.Brightness6, description = "Brightness") {
+                toolButton(icon = Icons.Default.Brightness6, description = "Brightness") {
                     selectedTool = ToolType.Brightness
                 }
-                ToolButton(icon = Icons.Default.Tune, description = "Contrast") {
+                toolButton(icon = Icons.Default.Tune, description = "Contrast") {
                     selectedTool = ToolType.Contrast
                 }
-                ToolButton(icon = Icons.Default.WbSunny, description = "Shadow") {
+                toolButton(icon = Icons.Default.WbSunny, description = "Shadow") {
                     selectedTool = ToolType.Shadow
                 }
             }
@@ -119,8 +122,9 @@ fun ToolsSection(
             }
         }
     }
+
+
 }
-
-
-
-
+enum class ToolType {
+    Crop, Brightness, Contrast, Shadow
+}
