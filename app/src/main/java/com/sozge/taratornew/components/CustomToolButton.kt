@@ -1,4 +1,4 @@
-package com.sozge.taratornew.components.tools
+package com.sozge.taratornew.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun toolButton(
+fun CustomToolButton(
     icon: ImageVector,
     description: String,
     onClick: () -> Unit
