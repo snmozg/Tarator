@@ -8,22 +8,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.sozge.taratornew.utils.adjustShadow
+import com.sozge.taratornew.utils.adjustDetails
 
 @Composable
-fun Shadow(
-    shadow: Float,
-    displayBitmap: Bitmap?,
-    bitmap: Bitmap?,
-    onShadowChanged: (Float, Bitmap?) -> Unit
-) {
-    Text(text = "Shadow", style = MaterialTheme.typography.bodyMedium)
+fun Details(detail: Float,
+            displayBitmap: Bitmap?,
+            bitmap: Bitmap?,
+            onDetailChanged: (Float, Bitmap?) -> Unit){
+    Text(text = "Details", style = MaterialTheme.typography.bodyMedium)
     Slider(
-        value = shadow,
-        onValueChange = { newShadow ->
-            onShadowChanged(newShadow, bitmap?.adjustShadow(newShadow))
+        value = detail,
+        onValueChange = {
+                newDetail ->
+            onDetailChanged(newDetail, bitmap?.adjustDetails(newDetail))
         },
         valueRange = 0f..1f,
         modifier = Modifier.padding(horizontal = 16.dp)
     )
 }
+

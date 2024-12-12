@@ -1,5 +1,6 @@
 package com.sozge.taratornew.components.tools
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -11,18 +12,29 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.sozge.taratornew.utils.adjustBrightness
+import com.sozge.taratornew.utils.adjustContrast
 
 @Composable
-fun Contrast() {
-    var contrast by remember { mutableStateOf(1f) }
+fun Contrast(
+    contrast: Float,
+    displayBitmap: Bitmap?,
+    bitmap: Bitmap?,
+    onContrastChanged: (Float, Bitmap?) -> Unit
+
+) {
+
 
     Text(text = "Contrast", style = MaterialTheme.typography.bodyMedium)
     Slider(
-    value = contrast,
-    onValueChange =
-    { contrast = it },
-    valueRange = 0f..10f,
-    modifier = Modifier.padding(horizontal = 16.dp)
+        value = contrast,
+        onValueChange = {
+                newContrast ->
+            onContrastChanged(newContrast, bitmap?.adjustContrast(newContrast))
+        },
+        valueRange = 0f..10f,
+        modifier = Modifier.padding(horizontal = 16.dp)
     )
+
 
 }

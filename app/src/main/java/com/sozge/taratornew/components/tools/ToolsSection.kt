@@ -1,5 +1,6 @@
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,9 +11,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Details
+import androidx.compose.material.icons.filled.HdrEnhancedSelect
+import androidx.compose.material.icons.filled.Vignette
 import androidx.compose.material.icons.outlined.Brightness6
 import androidx.compose.material.icons.outlined.Crop
+import androidx.compose.material.icons.outlined.Rotate90DegreesCw
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +41,10 @@ import com.sozge.taratornew.components.tools.Brightness
 import com.sozge.taratornew.components.tools.Contrast
 import com.sozge.taratornew.components.tools.Crop
 import com.sozge.taratornew.components.CustomToolButton
+import com.sozge.taratornew.components.tools.Details
+import com.sozge.taratornew.components.tools.Rotate
+import com.sozge.taratornew.components.tools.Shadow
+import com.sozge.taratornew.components.tools.Vignette
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.toBitmap
 
@@ -56,6 +66,9 @@ fun ToolsSection(
     var brightness by remember { mutableFloatStateOf(1f) }
     var contrast by remember { mutableStateOf(1f) }
     var shadow by remember { mutableStateOf(0f) }
+    var rotationAngle by remember { mutableStateOf(0f) }
+    var vignetteIntensity by remember { mutableFloatStateOf(0f) }
+    var detail by remember { mutableFloatStateOf(0f) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -81,6 +94,8 @@ fun ToolsSection(
                             alpha = brightness.coerceIn(0f, 4f)
                             contrast = contrast.coerceIn(0f, 10f)
                             shadowElevation = shadow.coerceIn(0f, 10f)
+                            rotationZ = rotationAngle
+
                         }
                 )
             }
@@ -100,8 +115,11 @@ fun ToolsSection(
             )
 
             Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .horizontalScroll(rememberScrollState())
             ) {
                 CustomToolButton(icon = Icons.Outlined.Crop, description = "Crop") {
                     selectedTool = ToolType.Crop
@@ -114,6 +132,18 @@ fun ToolsSection(
                 }
                 CustomToolButton(icon = Icons.Outlined.WbSunny, description = "Shadow") {
                     selectedTool = ToolType.Shadow
+                }
+                CustomToolButton(icon = Icons.Outlined.Rotate90DegreesCw, description = "Rotate") {
+                    selectedTool = ToolType.Rotate
+                }
+                CustomToolButton(icon = Icons.Filled.Vignette, description = "Vignette") {
+                    selectedTool = ToolType.Vignette
+                }
+                CustomToolButton(icon = Icons.Filled.Details, description = "Details") {
+                    selectedTool = ToolType.Details
+                }
+                CustomToolButton(icon = Icons.Filled.HdrEnhancedSelect, description = "HDR") {
+                    selectedTool = ToolType.HDR
                 }
             }
 
@@ -134,15 +164,45 @@ fun ToolsSection(
                     }
                 }
 
-                ToolType.Contrast -> Contrast()
+                ToolType.Contrast -> {
+                    Contrast(
+                        contrast = contrast,
+                        displayBitmap = displayBitmap,
+                        bitmap = bitmap
+                    ) { newContrast,newBitmap ->
+                        contrast = newContrast
+                        displayBitmap = newBitmap
+                    }
+                }
                 ToolType.Shadow -> {
-                    Text(text = "Shadow", style = MaterialTheme.typography.bodyMedium)
-                    Slider(
-                        value = shadow,
-                        onValueChange = { shadow = it },
-                        valueRange = 0f..4f,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
+                    Shadow(
+                        shadow = shadow,
+                        displayBitmap = displayBitmap,
+                        bitmap = bitmap
+                    ) { newShadow, newBitmap ->
+                        shadow = newShadow
+                        displayBitmap = newBitmap
+                    }
+                }
+                ToolType.Rotate -> {
+                    Rotate(
+                        rotationAngle = rotationAngle,
+                        displayBitmap = displayBitmap,
+                        bitmap = bitmap
+                    ) {  newAngle, newBitmap ->
+                        rotationAngle = newAngle
+                        displayBitmap = newBitmap
+                    }
+                }
+                ToolType.Details -> {
+                    Details(
+                        detail = detail,
+                        displayBitmap = displayBitmap,
+                        bitmap = bitmap
+                    ) { newDetail, newBitmap ->
+                        detail = newDetail
+                        displayBitmap = newBitmap
+                    }
                 }
 
                 else -> Text("Select a tool to start editing.")
@@ -154,7 +214,7 @@ fun ToolsSection(
 }
 
 enum class ToolType {
-    Crop, Brightness, Contrast, Shadow
+    Crop, Brightness, Contrast, Shadow, Rotate, Vignette, Details, HDR
 }
 
 
