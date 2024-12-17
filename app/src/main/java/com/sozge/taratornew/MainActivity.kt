@@ -17,6 +17,7 @@ import com.sozge.taratornew.pages.FeedBackPage
 import com.sozge.taratornew.pages.HomePage
 import com.sozge.taratornew.pages.SettingsPage
 import com.sozge.taratornew.ui.theme.TaratorNewTheme
+import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
             val filterViewmodel: FilterViewModel = viewModel()
             val bottomSheetViewModel: BottomSheetViewModel = viewModel()
             val drawingViewModel: DrawingViewModel = viewModel()
+            val toolsViewModel:ToolsViewModel = viewModel()
 
             TaratorNewTheme {
                 NavHost(
@@ -38,7 +40,7 @@ class MainActivity : ComponentActivity() {
                         HomePage(navController, imageViewModel, drawingViewModel, filterViewmodel)
                     }
                     composable(route = "EditPage") {
-                        EditPage(navController, imageViewModel, bottomSheetViewModel, filterViewmodel, drawingViewModel)
+                        EditPage(navController, imageViewModel, bottomSheetViewModel, filterViewmodel, drawingViewModel,toolsViewModel)
                     }
                     composable(route = "FeedbackPage") {
                         FeedBackPage(navController, imageViewModel, filterViewmodel,drawingViewModel)

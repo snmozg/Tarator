@@ -22,6 +22,7 @@ import coil.request.ImageRequest
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
+import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.toImageBitmap
 
 @Composable
@@ -29,6 +30,7 @@ fun EditPageImage(
     imageViewModel: ImageViewModel,
     filterViewModel: FilterViewModel,
     drawingViewModel: DrawingViewModel,
+    toolsViewModel: ToolsViewModel,
     hasPermission: MutableState<Boolean>,
     galleryLauncher: () -> Unit,
     permissionLauncher: () -> Unit
@@ -36,7 +38,7 @@ fun EditPageImage(
     val context = LocalContext.current
     val imageBitmap = imageViewModel.myImage.value?.toImageBitmap(context)
 
-    // Eğer bir resim seçilmişse
+
     if (imageBitmap != null) {
         Box(
             modifier = Modifier
@@ -44,7 +46,7 @@ fun EditPageImage(
                 .height(600.dp)
                 .padding(10.dp)
         ) {
-            // Resmi göster
+
             Image(
                 painter = rememberAsyncImagePainter(
                     ImageRequest.Builder(context)
@@ -75,7 +77,7 @@ fun EditPageImage(
             }
         }
     } else {
-        // Eğer resim yoksa, galeriye yönlendirme butonu
+
         Image(
             imageVector = Icons.Rounded.AddCircleOutline,
             contentDescription = "add icon",

@@ -21,6 +21,7 @@ import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.checkPermission
+import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.getRequiredPermission
 import com.sozge.taratornew.utils.rememberGalleryLauncher
 import com.sozge.taratornew.utils.rememberPermissionLauncher
@@ -32,7 +33,8 @@ fun EditPage(
     imageViewModel: ImageViewModel,
     bottomSheetViewModel: BottomSheetViewModel,
     filterViewModel: FilterViewModel,
-    drawingViewModel: DrawingViewModel
+    drawingViewModel: DrawingViewModel,
+    toolsViewModel: ToolsViewModel
 ) {
     var hasPermission by remember { mutableStateOf(false) }
     val permissionLauncher = rememberPermissionLauncher(mutableStateOf(hasPermission))
@@ -71,6 +73,7 @@ fun EditPage(
                     imageViewModel = imageViewModel,
                     filterViewModel = filterViewModel,
                     drawingViewModel = drawingViewModel,
+                    toolsViewModel = toolsViewModel,
                     hasPermission = mutableStateOf(hasPermission),
                     galleryLauncher = { galleryLauncher.launch("image/*") },
                     permissionLauncher = {
@@ -105,7 +108,7 @@ fun EditPage(
                         onDismissRequest = { bottomSheetViewModel.closeToolsSheet() },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                     ) {
-                        ToolsSection(imageViewModel)
+                        ToolsSection(imageViewModel,toolsViewModel)
                     }
                 }
 
