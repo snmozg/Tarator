@@ -22,7 +22,10 @@ import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.Rotate90DegreesCw
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.outlined.WbSunny
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
@@ -48,6 +51,7 @@ import com.sozge.taratornew.components.tools.Details
 import com.sozge.taratornew.components.tools.Rotate
 import com.sozge.taratornew.components.tools.Shadow
 import com.sozge.taratornew.components.tools.Vignette
+import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
@@ -58,6 +62,7 @@ import com.sozge.taratornew.utils.toBitmap
 fun ToolsSection(
     imageViewModel: ImageViewModel,
     toolsViewModel: ToolsViewModel,
+    filterViewModel: FilterViewModel
 ) {
     val context = LocalContext.current
     val imageUri = imageViewModel.myImage.value
@@ -81,17 +86,7 @@ fun ToolsSection(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = {
 
-            displayBitmap?.let { updatedBitmap ->
-                val updatedUri = bitmapToUri(context, updatedBitmap)
-                updatedUri?.let {
-                    imageViewModel.updateImage(it)
-                }
-            }
-        }) {
-            Text("Kaydet")
-        }
 
         Box(
             modifier = Modifier
@@ -105,6 +100,7 @@ fun ToolsSection(
                 Image(
                     bitmap = it,
                     contentDescription = null,
+                    colorFilter = filterViewModel.filter.value,
                     modifier = Modifier
                         .aspectRatio(it.width.toFloat() / it.height.toFloat())
                         .graphicsLayer {
@@ -125,120 +121,158 @@ fun ToolsSection(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Tools",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
+            if (selectedTool == null) {
+                Text(
+                    text = "Tools",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .horizontalScroll(rememberScrollState())
-            ) {
-                CustomToolButton(icon = Icons.Outlined.Crop, description = "Crop") {
-                    selectedTool = ToolType.Crop
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .horizontalScroll(rememberScrollState())
+                ) {
+                    CustomToolButton(icon = Icons.Outlined.Crop, description = "Crop") {
+                        selectedTool = ToolType.Crop
+                    }
+                    CustomToolButton(
+                        icon = Icons.Outlined.Brightness6,
+                        description = "Brightness"
+                    ) {
+                        selectedTool = ToolType.Brightness
+                    }
+                    CustomToolButton(icon = Icons.Outlined.Tune, description = "Contrast") {
+                        selectedTool = ToolType.Contrast
+                    }
+                    CustomToolButton(icon = Icons.Outlined.WbSunny, description = "Shadow") {
+                        selectedTool = ToolType.Shadow
+                    }
+                    CustomToolButton(
+                        icon = Icons.Outlined.Rotate90DegreesCw,
+                        description = "Rotate"
+                    ) {
+                        selectedTool = ToolType.Rotate
+                    }
+                    CustomToolButton(icon = Icons.Filled.Vignette, description = "Vignette") {
+                        selectedTool = ToolType.Vignette
+                    }
+                    CustomToolButton(icon = Icons.Filled.Details, description = "Details") {
+                        selectedTool = ToolType.Details
+                    }
                 }
-                CustomToolButton(icon = Icons.Outlined.Brightness6, description = "Brightness") {
-                    selectedTool = ToolType.Brightness
+            }
+            else {
+                Spacer(modifier = Modifier.height(16.dp))
+                when (selectedTool) {
+                    ToolType.Crop -> Crop()
+
+                    ToolType.Brightness -> {
+                        Brightness(
+                            brightness = brightness,
+                            displayBitmap = displayBitmap,
+                            bitmap = bitmap,
+                            onBrightnessChanged = { newBrightness, newBitmap ->
+                                toolsViewModel.updateBrightness(newBrightness)
+                                displayBitmap = newBitmap
+                            },
+
+                        )
+                    }
+
+                    ToolType.Contrast -> {
+                        Contrast(
+                            contrast = contrast,
+                            displayBitmap = displayBitmap,
+                            bitmap = bitmap
+                        ) { newContrast, newBitmap ->
+                            toolsViewModel.updateContrast(newContrast)
+                            displayBitmap = newBitmap
+                        }
+                    }
+
+                    ToolType.Shadow -> {
+                        Shadow(
+                            shadow = shadow,
+                            displayBitmap = displayBitmap,
+                            bitmap = bitmap
+                        ) { newShadow, newBitmap ->
+                            toolsViewModel.updateShadow(newShadow)
+                            displayBitmap = newBitmap
+                        }
+                    }
+
+                    ToolType.Rotate -> {
+                        Rotate(
+                            rotationAngle = rotationAngle,
+                            displayBitmap = displayBitmap,
+                            bitmap = bitmap
+                        ) { newAngle, newBitmap ->
+                            toolsViewModel.updateRotationAngle(newAngle)
+                            displayBitmap = newBitmap
+                        }
+                    }
+
+                    ToolType.Details -> {
+                        Details(
+                            detail = detail,
+                            displayBitmap = displayBitmap,
+                            bitmap = bitmap
+                        ) { newDetail, newBitmap ->
+                            toolsViewModel.updateDetail(newDetail)
+                            displayBitmap = newBitmap
+                        }
+                    }
+
+                    ToolType.Vignette -> {
+                        Details(
+                            detail = detail,
+                            displayBitmap = displayBitmap,
+                            bitmap = bitmap
+                        ) { newVignette, newBitmap ->
+                            toolsViewModel.updateVignetteIntensity(newVignette)
+                            displayBitmap = newBitmap
+                        }
+                    }
+
+
+                    else -> Text("Select a tool to start editing.")
                 }
-                CustomToolButton(icon = Icons.Outlined.Tune, description = "Contrast") {
-                    selectedTool = ToolType.Contrast
-                }
-                CustomToolButton(icon = Icons.Outlined.WbSunny, description = "Shadow") {
-                    selectedTool = ToolType.Shadow
-                }
-                CustomToolButton(icon = Icons.Outlined.Rotate90DegreesCw, description = "Rotate") {
-                    selectedTool = ToolType.Rotate
-                }
-                CustomToolButton(icon = Icons.Filled.Vignette, description = "Vignette") {
-                    selectedTool = ToolType.Vignette
-                }
-                CustomToolButton(icon = Icons.Filled.Details, description = "Details") {
-                    selectedTool = ToolType.Details
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+
+                    IconButton(
+                        onClick = {
+                            displayBitmap?.let { updatedBitmap ->
+                                val updatedUri = bitmapToUri(context, updatedBitmap)
+                                updatedUri?.let {
+                                    imageViewModel.updateImage(it)
+                                }
+                            }
+                            selectedTool = null
+                        },
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Check,
+                            contentDescription = "Save Brightness",
+                            tint = Color(0xFFFC6310)
+                        )
+                    }
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-
-            when (selectedTool) {
-                ToolType.Crop -> Crop()
-
-                ToolType.Brightness -> {
-                    Brightness(
-                        brightness = brightness,
-                        displayBitmap = displayBitmap,
-                        bitmap = bitmap
-                    ) { newBrightness, newBitmap ->
-                        toolsViewModel.updateBrightness(newBrightness)
-                        displayBitmap = newBitmap
-                    }
-                }
-
-                ToolType.Contrast -> {
-                    Contrast(
-                        contrast = contrast,
-                        displayBitmap = displayBitmap,
-                        bitmap = bitmap
-                    ) { newContrast, newBitmap ->
-                        toolsViewModel.updateContrast(newContrast)
-                        displayBitmap = newBitmap
-                    }
-                }
-
-                ToolType.Shadow -> {
-                    Shadow(
-                        shadow = shadow,
-                        displayBitmap = displayBitmap,
-                        bitmap = bitmap
-                    ) { newShadow, newBitmap ->
-                        toolsViewModel.updateShadow(newShadow)
-                        displayBitmap = newBitmap
-                    }
-                }
-
-                ToolType.Rotate -> {
-                    Rotate(
-                        rotationAngle = rotationAngle,
-                        displayBitmap = displayBitmap,
-                        bitmap = bitmap
-                    ) { newAngle, newBitmap ->
-                        toolsViewModel.updateRotationAngle(newAngle)
-                        displayBitmap = newBitmap
-                    }
-                }
-
-                ToolType.Details -> {
-                    Details(
-                        detail = detail,
-                        displayBitmap = displayBitmap,
-                        bitmap = bitmap
-                    ) { newDetail, newBitmap ->
-                        toolsViewModel.updateDetail(newDetail)
-                        displayBitmap = newBitmap
-                    }
-                }
-                ToolType.Vignette -> {
-                    Details(
-                        detail = detail,
-                        displayBitmap = displayBitmap,
-                        bitmap = bitmap
-                    ) { newVignette, newBitmap ->
-                        toolsViewModel.updateVignetteIntensity(newVignette)
-                        displayBitmap = newBitmap
-                    }
-                }
-
-
-                else -> Text("Select a tool to start editing.")
-            }
         }
+
     }
 }
 
-enum class ToolType {
-    Crop, Brightness, Contrast, Shadow, Rotate, Vignette, Details
-}
+    enum class ToolType {
+        Crop, Brightness, Contrast, Shadow, Rotate, Vignette, Details
+    }
