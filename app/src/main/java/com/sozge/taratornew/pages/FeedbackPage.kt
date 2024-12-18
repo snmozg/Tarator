@@ -1,14 +1,21 @@
 package com.sozge.taratornew.pages
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Logout
 import androidx.compose.material3.Button
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -19,15 +26,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.sozge.taratornew.R
+import com.sozge.taratornew.components.CustomButton
 import com.sozge.taratornew.components.HeaderBar
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
+import com.sozge.taratornew.utils.com.sozge.taratornew.components.CustomTextInput
+import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
+
 @Composable
 fun FeedBackPage
             (navController: NavController,
@@ -38,6 +53,11 @@ fun FeedBackPage
     val itemName = remember {
         mutableStateOf("")
     }
+    val email = remember { mutableStateOf("") }
+    val subject = remember { mutableStateOf("") }
+    val message = remember { mutableStateOf("") }
+
+    val scrollState = rememberScrollState()
 
     Scaffold(topBar = {
         HeaderBar(
@@ -52,53 +72,72 @@ fun FeedBackPage
                 println("belirsiz")
             }
         )
-    }) { innerpadding ->
-        println(innerpadding)
-    }
+    },
+        floatingActionButton = {
+            CustomButton(
+                containerColor = MaterialTheme.colorScheme.primary,
+                text = "Send"
+            ) {
 
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "We value your thoughts. Share your thoughts with us!",
-            textAlign = TextAlign.Center,
-            color = Color.White,
+    ) { innerpadding ->
+        Column(
             modifier = Modifier
-                .padding(start = 40.dp, end = 40.dp)
-        )
-
-        Spacer(modifier = Modifier.padding(bottom = 40.dp))
-
-        Text(
-            text = "TARATOR",
-            fontSize = 40.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        Spacer(modifier = Modifier.padding(10.dp))
-
-        OutlinedTextField(value = itemName.value,
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-            placeholder = {
-                Text(text = "Write here", color = Color.White)
-            },
-            onValueChange = { itemName.value = it })
-
-        Spacer(modifier = Modifier.padding(5.dp))
-
-        Button(
-            onClick = { /*TODO*/ },
-            shape = RoundedCornerShape(10.dp)
+                .fillMaxSize()
+                .padding(innerpadding),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Send Feedback",
-                color = Color.White,
-                modifier = Modifier.padding(10.dp)
+            Image(
+                painter = painterResource(id = R.drawable.applicationicon),
+                contentDescription = "",
+                contentScale = ContentScale.Fit
             )
+            Text(
+                modifier = Modifier.padding(5.dp),
+                text = "How can we help you?",
+                fontFamily = myFont,
+                fontSize = 22.sp
+            )
+            Column(
+                modifier = Modifier
+                    .imePadding()
+                    .verticalScroll(scrollState),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CustomTextInput(
+                    title = "Email",
+                    label = "Email",
+                    text = email.value,
+                    onValueChange = { email.value = it },
+                    isSingleLine = true,
+                    isVisual = true,
+                    keyboardType = KeyboardType.Email
+                )
+                CustomTextInput(
+                    title = "Subject",
+                    label = "Enter Subject",
+                    text = subject.value,
+                    onValueChange = { subject.value = it },
+                    isSingleLine = true,
+                    isVisual = true,
+                    keyboardType = KeyboardType.Text
+                )
+                CustomTextInput(
+                    title = "Message",
+                    label = "Enter Message",
+                    text = message.value,
+                    onValueChange = { message.value = it },
+                    isSingleLine = true,
+                    isVisual = true,
+                    keyboardType = KeyboardType.Text
+                )
+            }
+
         }
     }
 }

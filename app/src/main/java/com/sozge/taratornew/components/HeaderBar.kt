@@ -1,9 +1,11 @@
 package com.sozge.taratornew.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBackIosNew
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -17,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
@@ -37,17 +40,9 @@ fun HeaderBar(
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
         containerColor = MaterialTheme.colorScheme.background,
         titleContentColor = MaterialTheme.colorScheme.primary,
-    ), title = {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(), contentAlignment = Alignment.Center
-        ) {
-            Text(
-                "TARATOR", textAlign = TextAlign.Center
-            )
-        }
-    }, navigationIcon = {
+    ), title = {  },
+
+        navigationIcon = {
         if (isBackButtonEnable) {
             IconButton(onClick = {
                 navController.popBackStack()
@@ -57,9 +52,12 @@ fun HeaderBar(
 
             }) {
                 Icon(
-                    Icons.Rounded.ArrowBack,
+                    Icons.Outlined.ArrowBackIosNew,
                     contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(5.dp),
                 )
             }
         }
@@ -70,7 +68,10 @@ fun HeaderBar(
             Icon(
                 imageVector = actionImageVector,
                 contentDescription = actionContentDescription,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(5.dp),
             )
         }
     })

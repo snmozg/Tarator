@@ -86,6 +86,8 @@ dependencies {
     implementation ("androidx.compose.ui:ui:1.7.5") // veya daha yeni sürüm
     implementation ("androidx.compose.foundation:foundation:1.7.5") // veya daha yeni sürüm
 
+    //Lottie Animation
+    implementation("com.airbnb.android:lottie-compose:6.1.0")
 
     //icons
     implementation ("androidx.compose.material:material-icons-extended:<1.7.5>")

@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.adjustBrightness
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
@@ -44,6 +45,7 @@ fun Brightness(
         ) {
             Text(
                 text = "Brightness",
+                fontSize = 20.sp,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(bottom = 16.dp)
             )

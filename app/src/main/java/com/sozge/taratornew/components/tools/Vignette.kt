@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.utils.adjustVignette
 
 @Composable
@@ -17,7 +18,7 @@ fun Vignette(
     bitmap: Bitmap?,
     onVignetteChanged: (Float, Bitmap?) -> Unit
 ){
-        Text(text = "Adjust Vignette", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Adjust Vignette",fontSize = 20.sp, style = MaterialTheme.typography.bodyMedium)
         Slider(
             value = vignetteIntensity,
             onValueChange = { newVignette ->

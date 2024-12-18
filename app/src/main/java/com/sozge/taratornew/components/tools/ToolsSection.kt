@@ -124,7 +124,7 @@ fun ToolsSection(
             if (selectedTool == null) {
                 Text(
                     text = "Tools",
-                    style = MaterialTheme.typography.headlineSmall,
+                    style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 

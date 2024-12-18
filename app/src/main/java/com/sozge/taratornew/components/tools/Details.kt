@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.utils.adjustDetails
 
 @Composable
@@ -15,7 +16,7 @@ fun Details(detail: Float,
             displayBitmap: Bitmap?,
             bitmap: Bitmap?,
             onDetailChanged: (Float, Bitmap?) -> Unit){
-    Text(text = "Details", style = MaterialTheme.typography.bodyMedium)
+    Text(text = "Details",fontSize = 20.sp, style = MaterialTheme.typography.bodyMedium)
     Slider(
         value = detail,
         onValueChange = {

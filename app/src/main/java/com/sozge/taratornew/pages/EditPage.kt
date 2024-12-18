@@ -4,6 +4,8 @@ import BottomSheetViewModel
 import ToolsSection
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Download
+import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -50,7 +52,7 @@ fun EditPage(
         topBar = {
             HeaderBar(
                 navController,
-                actionImageVector = Icons.Rounded.SaveAlt,
+                actionImageVector = Icons.Outlined.FileDownload,
                 actionContentDescription = "save button",
                 isBackButtonEnable = true,
                 imageViewModel = imageViewModel,

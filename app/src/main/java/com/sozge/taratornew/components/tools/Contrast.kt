@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.utils.adjustBrightness
 import com.sozge.taratornew.utils.adjustContrast
 
@@ -25,7 +26,7 @@ fun Contrast(
 ) {
 
 
-    Text(text = "Contrast", style = MaterialTheme.typography.bodyMedium)
+    Text(text = "Contrast",fontSize = 20.sp, style = MaterialTheme.typography.bodyMedium)
     Slider(
         value = contrast,
         onValueChange = {
