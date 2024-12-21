@@ -56,7 +56,6 @@ fun FilterCardItem(index: Int, item: OptionCard, imageViewModel: ImageViewModel,
             }
         }
 
-        // Filtre adı
         Text(
             modifier = Modifier.padding(start = 10.dp),
             text = text,

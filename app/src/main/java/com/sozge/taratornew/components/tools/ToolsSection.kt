@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Details
@@ -24,11 +25,14 @@ import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -42,7 +46,9 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.components.tools.Brightness
 import com.sozge.taratornew.components.tools.Contrast
 import com.sozge.taratornew.components.tools.Crop
@@ -62,7 +68,8 @@ import com.sozge.taratornew.utils.toBitmap
 fun ToolsSection(
     imageViewModel: ImageViewModel,
     toolsViewModel: ToolsViewModel,
-    filterViewModel: FilterViewModel
+    filterViewModel: FilterViewModel,
+    bottomSheetViewModel : BottomSheetViewModel
 ) {
     val context = LocalContext.current
     val imageUri = imageViewModel.myImage.value
@@ -87,6 +94,21 @@ fun ToolsSection(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        IconButton(
+            onClick = {
+                bottomSheetViewModel.closeToolsSheet()
+            },
+            modifier = Modifier
+                .width(50.dp)
+                .padding(1.dp)
+                .align(Alignment.End)
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Check,
+                contentDescription = "Save Brightness",
+                tint = Color(0xFFFC6310)
+            )
+        }
 
         Box(
             modifier = Modifier
@@ -121,6 +143,7 @@ fun ToolsSection(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             if (selectedTool == null) {
                 Text(
                     text = "Tools",

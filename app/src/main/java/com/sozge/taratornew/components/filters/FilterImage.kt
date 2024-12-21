@@ -10,7 +10,7 @@ import com.sozge.taratornew.models.ImageViewModel
 fun FilterImage(filterId: Int, imageViewModel: ImageViewModel, filterViewModel: FilterViewModel) {
     val colorFilter = when (filterId) {
         0 -> ColorFilter.colorMatrix(ColorMatrix()) // "None" filter
-        1 -> ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }) // BlackAndWhite filter
+        1 -> ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) })
         2 -> ColorFilter.colorMatrix(
             ColorMatrix(
                 floatArrayOf(
@@ -24,9 +24,9 @@ fun FilterImage(filterId: Int, imageViewModel: ImageViewModel, filterViewModel: 
         3 -> ColorFilter.colorMatrix(
             ColorMatrix(
                 floatArrayOf(
-                    1.2f, 0.3f, 0.1f, 0f, -30f,   // Kırmızı kanal (sıcak tonlar)
-                    0.2f, 1.0f, 0.2f, 0f, -20f,   // Yeşil kanal
-                    0.1f, 0.2f, 0.8f, 0f, -10f,   // Mavi kanal (hafif solukluk)
+                    1.2f, 0.3f, 0.1f, 0f, -30f,
+                    0.2f, 1.0f, 0.2f, 0f, -20f,
+                    0.1f, 0.2f, 0.8f, 0f, -10f,
                     0f, 0f, 0f, 1f, 0f
                 )
             )
@@ -44,9 +44,9 @@ fun FilterImage(filterId: Int, imageViewModel: ImageViewModel, filterViewModel: 
         5 -> ColorFilter.colorMatrix(
             ColorMatrix(
                 floatArrayOf(
-                    0.8f, 0f, 0f, 0f, 0f,    // Kırmızı kanalı azalt
-                    0f, 0.8f, 0f, 0f, 0f,    // Yeşil kanalı azalt
-                    0f, 0f, 1.5f, 0f, 0f,    // Mavi kanalı artır
+                    0.8f, 0f, 0f, 0f, 0f,
+                    0f, 0.8f, 0f, 0f, 0f,
+                    0f, 0f, 1.5f, 0f, 0f,
                     0f, 0f, 0f, 1f, 0f
                 )
             )
@@ -54,9 +54,9 @@ fun FilterImage(filterId: Int, imageViewModel: ImageViewModel, filterViewModel: 
         6 -> ColorFilter.colorMatrix(
             ColorMatrix(
                 floatArrayOf(
-                    1f, 0f, 0f, 0f, -30f, // Kırmızı kanal için hafif karartma
-                    0f, 1f, 0f, 0f, -30f, // Yeşil kanal için hafif karartma
-                    0f, 0f, 1f, 0f, -30f, // Mavi kanal için hafif karartma
+                    1f, 0f, 0f, 0f, -30f,
+                    0f, 1f, 0f, 0f, -30f,
+                    0f, 0f, 1f, 0f, -30f,
                     0f, 0f, 0f, 1f, 0f
                 )
             )
@@ -65,9 +65,9 @@ fun FilterImage(filterId: Int, imageViewModel: ImageViewModel, filterViewModel: 
         8 -> ColorFilter.colorMatrix(
             ColorMatrix(
                 floatArrayOf(
-                    1.2f, 0f, 0f, 0f, 30f,   // Kırmızı kanal
-                    0f, 1f, 0f, 0f, 10f,     // Yeşil kanal
-                    0f, 0f, 1f, 0f, 0f,      // Mavi kanal
+                    1.2f, 0f, 0f, 0f, 30f,
+                    0f, 1f, 0f, 0f, 10f,
+                    0f, 0f, 1f, 0f, 0f,
                     0f, 0f, 0f, 1f, 0f
                 )
             )
@@ -75,9 +75,9 @@ fun FilterImage(filterId: Int, imageViewModel: ImageViewModel, filterViewModel: 
         9 -> ColorFilter.colorMatrix(
             ColorMatrix(
                 floatArrayOf(
-                    0.8f, 0f, 0f, 0f, 0f,   // Kırmızı kanal
-                    0f, 0.8f, 0f, 0f, 0f,   // Yeşil kanal
-                    0f, 0f, 0.8f, 0f, 0f,   // Mavi kanal
+                    0.8f, 0f, 0f, 0f, 0f,
+                    0f, 0.8f, 0f, 0f, 0f,
+                    0f, 0f, 0.8f, 0f, 0f,
                     0f, 0f, 0f, 1.2f, 0f
                 )
             )
@@ -95,9 +95,9 @@ fun FilterImage(filterId: Int, imageViewModel: ImageViewModel, filterViewModel: 
         11 -> ColorFilter.colorMatrix(
             ColorMatrix(
                 floatArrayOf(
-                    1.2f, 0f, 0f, 0f, 50f,   // Kırmızı kanal (gün batımı etkisi)
-                    0f, 0.8f, 0f, 0f, 20f,    // Yeşil kanal
-                    0f, 0f, 0.6f, 0f, 0f,    // Mavi kanal
+                    1.2f, 0f, 0f, 0f, 50f,
+                    0f, 0.8f, 0f, 0f, 20f,
+                    0f, 0f, 0.6f, 0f, 0f,
                     0f, 0f, 0f, 1f, 0f
                 )
             )
@@ -107,5 +107,6 @@ fun FilterImage(filterId: Int, imageViewModel: ImageViewModel, filterViewModel: 
 
     FilterCardImage(viewModel = imageViewModel, colorFilter = colorFilter) {
         filterViewModel.updateFilter(colorFilter)
+
     }
 }

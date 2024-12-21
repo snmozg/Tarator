@@ -64,7 +64,7 @@ fun EditPageImage(
                     .height(600.dp)
             )
 
-            // Çizimleri eklemek için Canvas
+
             Canvas(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -2,6 +2,14 @@ package com.sozge.taratornew.pages
 
 import BottomSheetViewModel
 import ToolsSection
+import android.content.ContentValues
+import android.content.Context
+import android.graphics.Bitmap
+import android.media.MediaScannerConnection
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Download
@@ -24,9 +32,13 @@ import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.checkPermission
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
+import com.sozge.taratornew.utils.com.sozge.taratornew.utils.saveImageToGallery
 import com.sozge.taratornew.utils.getRequiredPermission
 import com.sozge.taratornew.utils.rememberGalleryLauncher
 import com.sozge.taratornew.utils.rememberPermissionLauncher
+import com.sozge.taratornew.utils.toBitmap
+import java.io.File
+import java.io.FileOutputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +71,14 @@ fun EditPage(
                 drawingViewModel = drawingViewModel,
                 filterViewModel = filterViewModel,
                 onClick = {
-                    println("download the photo")
+                    imageViewModel.myImage.value?.let { uri ->
+                        val bitmap = uri.toBitmap(context)
+                        if (bitmap != null) {
+                            saveImageToGallery(bitmap, context)
+                        } else {
+                            Toast.makeText(context, "Bitmap could not be created!", Toast.LENGTH_SHORT).show()
+                        }
+                    } ?: Toast.makeText(context, "Photo not selected!", Toast.LENGTH_SHORT).show()
                 }
             )
         },
@@ -110,7 +129,7 @@ fun EditPage(
                         onDismissRequest = { bottomSheetViewModel.closeToolsSheet() },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                     ) {
-                        ToolsSection(imageViewModel,toolsViewModel,filterViewModel)
+                        ToolsSection(imageViewModel,toolsViewModel,filterViewModel,bottomSheetViewModel)
                     }
                 }
 
@@ -124,7 +143,8 @@ fun EditPage(
                         BrushSection(
                             imageViewModel = imageViewModel,
                             filterViewModel = filterViewModel,
-                            drawingViewModel = drawingViewModel
+                            drawingViewModel = drawingViewModel,
+                            bottomSheetViewModel = bottomSheetViewModel
                         )
                     }
                 }
@@ -132,3 +152,4 @@ fun EditPage(
         }
     )
 }
+

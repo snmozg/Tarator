@@ -1,9 +1,14 @@
 package com.sozge.taratornew.components.brushes
 
+import BottomSheetViewModel
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +36,7 @@ fun BrushSection(
     imageViewModel: ImageViewModel,
     filterViewModel: FilterViewModel,
     drawingViewModel: DrawingViewModel,
+    bottomSheetViewModel: BottomSheetViewModel
 ) {
     val context = LocalContext.current
     val imageUri = imageViewModel.myImage.value
@@ -46,7 +52,21 @@ fun BrushSection(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
+        IconButton(
+            onClick = {
+                bottomSheetViewModel.closeToolsSheet()
+            },
+            modifier = Modifier
+                .width(50.dp)
+                .padding(1.dp)
+                .align(Alignment.End)
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Check,
+                contentDescription = "Save Brightness",
+                tint = Color(0xFFFC6310)
+            )
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
