@@ -24,7 +24,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
@@ -36,7 +38,7 @@ fun BrushSection(
     imageViewModel: ImageViewModel,
     filterViewModel: FilterViewModel,
     drawingViewModel: DrawingViewModel,
-    bottomSheetViewModel: BottomSheetViewModel
+    bottomSheetViewModel: BottomSheetViewModel,
 ) {
     val context = LocalContext.current
     val imageUri = imageViewModel.myImage.value
@@ -52,21 +54,6 @@ fun BrushSection(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        IconButton(
-            onClick = {
-                bottomSheetViewModel.closeToolsSheet()
-            },
-            modifier = Modifier
-                .width(50.dp)
-                .padding(1.dp)
-                .align(Alignment.End)
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Check,
-                contentDescription = "Save Brightness",
-                tint = Color(0xFFFC6310)
-            )
-        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -119,9 +106,13 @@ fun BrushSection(
                 brushColor = color
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
 
-            Text("Stroke Width: ${strokeWidth.value.toInt()}")
+            Text(
+                modifier = Modifier.padding(10.dp),
+                textAlign = TextAlign.Center,
+                text = "Stroke: ${strokeWidth.value.toInt()}",
+                fontSize = 20.sp
+            )
             Slider(
                 value = strokeWidth.value,
                 onValueChange = { strokeWidth = it.dp },
@@ -130,10 +121,22 @@ fun BrushSection(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(onClick = { drawingViewModel.clearDrawing() }) {
-                Text("Clear Drawing", color = Color.White)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(onClick = { drawingViewModel.clearDrawing() }) {
+                    Text("Clear", color = Color.White)
+                }
+                Button(
+                    onClick = {
+                        bottomSheetViewModel.closeBrushSheet()
+                    }) {
+                    Text("Save", color = Color.White)
+                }
             }
         }
     }

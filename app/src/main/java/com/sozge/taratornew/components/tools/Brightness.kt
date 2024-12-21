@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.models.ImageViewModel
@@ -38,27 +39,19 @@ fun Brightness(
     bitmap: Bitmap?,
     onBrightnessChanged: (Float, Bitmap?) -> Unit,
 
-) {
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = "Brightness",
-                fontSize = 20.sp,
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Slider(
-                value = brightness,
-                onValueChange = { newBrightness ->
-                    onBrightnessChanged(newBrightness, bitmap?.adjustBrightness(newBrightness))
-                },
-                valueRange = 0f..4f,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-    }
+    ) {
 
-
-
-
-
+    Text(
+        text = "Brightness",
+        fontSize = 20.sp,
+        style = MaterialTheme.typography.bodyMedium,
+    )
+    Slider(
+        value = brightness,
+        onValueChange = { newBrightness ->
+            onBrightnessChanged(newBrightness, bitmap?.adjustBrightness(newBrightness))
+        },
+        valueRange = 0f..4f,
+        modifier = Modifier.fillMaxWidth()
+    )
+}

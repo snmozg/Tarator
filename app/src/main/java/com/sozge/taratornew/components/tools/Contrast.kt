@@ -24,8 +24,6 @@ fun Contrast(
     onContrastChanged: (Float, Bitmap?) -> Unit,
 
     ) {
-
-
     Text(
         text = "Contrast",
         fontSize = 20.sp,
@@ -38,6 +36,4 @@ fun Contrast(
         valueRange = 0f..10f,
         modifier = Modifier.padding(horizontal = 16.dp)
     )
-
-
 }

@@ -1,7 +1,9 @@
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -69,7 +71,7 @@ fun ToolsSection(
     imageViewModel: ImageViewModel,
     toolsViewModel: ToolsViewModel,
     filterViewModel: FilterViewModel,
-    bottomSheetViewModel : BottomSheetViewModel
+    bottomSheetViewModel: BottomSheetViewModel,
 ) {
     val context = LocalContext.current
     val imageUri = imageViewModel.myImage.value
@@ -93,23 +95,6 @@ fun ToolsSection(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        IconButton(
-            onClick = {
-                bottomSheetViewModel.closeToolsSheet()
-            },
-            modifier = Modifier
-                .width(50.dp)
-                .padding(1.dp)
-                .align(Alignment.End)
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Check,
-                contentDescription = "Save Brightness",
-                tint = Color(0xFFFC6310)
-            )
-        }
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -146,9 +131,16 @@ fun ToolsSection(
 
             if (selectedTool == null) {
                 Text(
-                    text = "Tools",
+                    text = "Save Changes",
                     style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) {
+                            bottomSheetViewModel.closeToolsSheet()
+                        }
+                        .padding(bottom = 16.dp)
                 )
 
                 Row(
@@ -186,8 +178,7 @@ fun ToolsSection(
                         selectedTool = ToolType.Details
                     }
                 }
-            }
-            else {
+            } else {
                 Spacer(modifier = Modifier.height(16.dp))
                 when (selectedTool) {
                     ToolType.Crop -> Crop()
@@ -202,7 +193,7 @@ fun ToolsSection(
                                 displayBitmap = newBitmap
                             },
 
-                        )
+                            )
                     }
 
                     ToolType.Contrast -> {
@@ -260,7 +251,6 @@ fun ToolsSection(
                         }
                     }
 
-
                     else -> Text("Select a tool to start editing.")
                 }
                 Box(
@@ -296,6 +286,6 @@ fun ToolsSection(
     }
 }
 
-    enum class ToolType {
-        Crop, Brightness, Contrast, Shadow, Rotate, Vignette, Details
-    }
+enum class ToolType {
+    Crop, Brightness, Contrast, Shadow, Rotate, Vignette, Details
+}

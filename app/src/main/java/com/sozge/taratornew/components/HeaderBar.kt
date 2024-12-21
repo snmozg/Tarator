@@ -1,11 +1,13 @@
 package com.sozge.taratornew.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
+import androidx.compose.material.icons.outlined.Feedback
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -40,39 +42,52 @@ fun HeaderBar(
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
         containerColor = MaterialTheme.colorScheme.background,
         titleContentColor = MaterialTheme.colorScheme.primary,
-    ), title = {  },
+    ), title = { },
 
         navigationIcon = {
-        if (isBackButtonEnable) {
-            IconButton(onClick = {
-                navController.popBackStack()
-                imageViewModel.deleteImage()
-                filterViewModel.deleteFilter()
-                drawingViewModel.clearDrawing()
+            if (isBackButtonEnable) {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                    imageViewModel.deleteImage()
+                    filterViewModel.deleteFilter()
+                    drawingViewModel.clearDrawing()
 
-            }) {
+                }) {
+                    Icon(
+                        Icons.Outlined.ArrowBackIosNew,
+                        contentDescription = "Back",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(5.dp),
+                    )
+                }
+            } else if (!isBackButtonEnable) {
+                IconButton(onClick = {
+                    navController.navigate("FeedbackPage")
+                }) {
+                    Icon(
+                        Icons.Outlined.Feedback,
+                        contentDescription = "Feedback",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(5.dp),
+                    )
+                }
+            }
+        }, actions = {
+            IconButton(
+                onClick = onClick
+            ) {
                 Icon(
-                    Icons.Outlined.ArrowBackIosNew,
-                    contentDescription = "Back",
+                    imageVector = actionImageVector,
+                    contentDescription = actionContentDescription,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(5.dp),
                 )
             }
-        }
-    }, actions = {
-        IconButton(
-            onClick = onClick
-        ) {
-            Icon(
-                imageVector = actionImageVector,
-                contentDescription = actionContentDescription,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(5.dp),
-            )
-        }
-    })
+        })
 }

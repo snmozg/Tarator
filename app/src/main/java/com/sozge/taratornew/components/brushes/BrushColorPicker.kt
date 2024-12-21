@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -19,7 +21,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BrushColorPicker(selectedColor: State<Color>, onColorSelected: (Color) -> Unit) {
 
-    val colors = listOf(Color.Black, Color.Red, Color.Green, Color.Blue, Color.Yellow)
+    val colors = listOf(Color.Black, Color.Red, Color.Blue, Color.Green, Color.Yellow)
+
 
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -30,7 +33,7 @@ fun BrushColorPicker(selectedColor: State<Color>, onColorSelected: (Color) -> Un
                 onClick = { onColorSelected(color) },
                 colors = ButtonDefaults.buttonColors(containerColor = color),
                 shape = CircleShape,
-                modifier = Modifier.padding(4.dp)
+                modifier = Modifier.padding(5.dp)
             ) {
                 // Empty content as we are using button as color picker
             }
