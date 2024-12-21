@@ -11,6 +11,7 @@ import android.widget.Toast
 import java.io.File
 import java.io.FileOutputStream
 
+/*
 fun saveImageToGallery(bitmap: Bitmap, context: Context) {
 
     if (bitmap == null) {
@@ -49,3 +50,6 @@ fun saveImageToGallery(bitmap: Bitmap, context: Context) {
         MediaScannerConnection.scanFile(context, arrayOf(file.toString()), null, null)
     }
 }
+
+
+ */

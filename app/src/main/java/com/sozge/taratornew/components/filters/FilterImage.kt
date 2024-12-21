@@ -9,7 +9,7 @@ import com.sozge.taratornew.models.ImageViewModel
 @Composable
 fun FilterImage(filterId: Int, imageViewModel: ImageViewModel, filterViewModel: FilterViewModel) {
     val colorFilter = when (filterId) {
-        0 -> ColorFilter.colorMatrix(ColorMatrix()) // "None" filter
+        0 -> ColorFilter.colorMatrix(ColorMatrix())
         1 -> ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) })
         2 -> ColorFilter.colorMatrix(
             ColorMatrix(

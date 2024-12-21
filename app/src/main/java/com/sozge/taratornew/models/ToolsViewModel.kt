@@ -26,7 +26,7 @@ class ToolsViewModel : ViewModel() {
     private val _detail = mutableStateOf(0f)
     val detail: State<Float> = _detail
 
-    // Update functions remain as they are
+
     fun updateBrightness(value: Float) {
         _brightness.value = value
     }

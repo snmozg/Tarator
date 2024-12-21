@@ -23,6 +23,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sozge.taratornew.components.EditPageImage
+import androidx.compose.ui.graphics.asAndroidColorFilter
+
 import com.sozge.taratornew.components.filters.FilterSection
 import com.sozge.taratornew.components.HeaderBar
 import com.sozge.taratornew.components.RowButtons
@@ -32,7 +34,9 @@ import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.checkPermission
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
-import com.sozge.taratornew.utils.com.sozge.taratornew.utils.saveImageToGallery
+import com.sozge.taratornew.utils.com.sozge.taratornew.utils.applyFilterToBitmap
+import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
+import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapWithDrawing
 import com.sozge.taratornew.utils.getRequiredPermission
 import com.sozge.taratornew.utils.rememberGalleryLauncher
 import com.sozge.taratornew.utils.rememberPermissionLauncher
@@ -72,11 +76,23 @@ fun EditPage(
                 filterViewModel = filterViewModel,
                 onClick = {
                     imageViewModel.myImage.value?.let { uri ->
-                        val bitmap = uri.toBitmap(context)
-                        if (bitmap != null) {
-                            saveImageToGallery(bitmap, context)
+                        val originalBitmap = uri.toBitmap(context)
+                        val colorFilter = filterViewModel.filter.value?.asAndroidColorFilter()
+
+                        if (originalBitmap != null) {
+                            val filteredBitmap = applyFilterToBitmap(originalBitmap, colorFilter)
+                            val drawingBitmap = drawingViewModel.getCurrentBitmap(originalBitmap.width, originalBitmap.height)
+                            if (filteredBitmap != null && drawingBitmap != null) {
+                                val finalBitmap = bitmapWithDrawing(filteredBitmap, drawingBitmap)
+                                val savedUri = bitmapToUri(context, finalBitmap)
+                                savedUri?.let {
+                                    Toast.makeText(context, "Photo saved successfully", Toast.LENGTH_SHORT).show()
+                                } ?: Toast.makeText(context, "Failed to save photo!", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(context, "Failed to create final bitmap!", Toast.LENGTH_SHORT).show()
+                            }
                         } else {
-                            Toast.makeText(context, "Bitmap could not be created!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Bitmap is null!", Toast.LENGTH_SHORT).show()
                         }
                     } ?: Toast.makeText(context, "Photo not selected!", Toast.LENGTH_SHORT).show()
                 }
