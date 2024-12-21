@@ -16,9 +16,13 @@ fun Shadow(
     shadow: Float,
     displayBitmap: Bitmap?,
     bitmap: Bitmap?,
-    onShadowChanged: (Float, Bitmap?) -> Unit
+    onShadowChanged: (Float, Bitmap?) -> Unit,
 ) {
-    Text(text = "Shadow",fontSize = 20.sp, style = MaterialTheme.typography.bodyMedium)
+    Text(
+        text = "Shadow",
+        fontSize = 20.sp,
+        style = MaterialTheme.typography.bodyMedium
+    )
     Slider(
         value = shadow,
         onValueChange = { newShadow ->

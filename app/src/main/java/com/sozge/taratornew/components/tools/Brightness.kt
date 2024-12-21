@@ -39,17 +39,14 @@ fun Brightness(
     onBrightnessChanged: (Float, Bitmap?) -> Unit,
 
 ) {
-
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "Brightness",
                 fontSize = 20.sp,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
+                style = MaterialTheme.typography.bodyMedium
             )
-
             Slider(
                 value = brightness,
                 onValueChange = { newBrightness ->

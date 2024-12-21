@@ -1,5 +1,6 @@
 package com.sozge.taratornew.pages
 
+import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sozge.taratornew.components.HeaderBar
@@ -35,6 +37,8 @@ fun SettingsPage(
     filterViewModel: FilterViewModel,
     drawingViewModel: DrawingViewModel
 ) {
+    val context = LocalContext.current
+
     val settingsList = listOf<settingsDataCard>(
         settingsDataCard(
             imageVector = Icons.Rounded.Translate,
@@ -85,12 +89,12 @@ fun SettingsPage(
             navController,
             actionImageVector = Icons.Rounded.Logout,
             actionContentDescription = "Logout",
-            isBackButtonEnable = false,
+            isBackButtonEnable = true,
             imageViewModel = imageViewModel,
             filterViewModel = filterViewModel,
             drawingViewModel = drawingViewModel,
             onClick = {
-                println("belirsiz")
+                (context as? Activity)?.finish()
             }
         )
     }) { innerpadding ->

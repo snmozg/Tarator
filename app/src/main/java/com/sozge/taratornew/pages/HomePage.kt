@@ -76,11 +76,11 @@ fun HomePage(
 
             Row(
                 modifier = Modifier.padding(start = 40.dp, end = 40.dp),
-                verticalAlignment = Alignment.Top,
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 LottieAnimation(
-                    animation = R.raw.camera,
+                    animation = R.raw.lottiecamera,
                     onClick = {  }
                 )
             }
@@ -106,21 +106,20 @@ fun HomePage(
                     modifier = Modifier
                         .fillMaxWidth().padding(2.dp),
                     textAlign = TextAlign.Center,
-                    text = "Unleash your creativity and enhance your memories beautifully. Are you ready?",
+                    text = "It's time to shape your memories together!",
                     fontSize = 15.sp,
                     fontFamily = myFont,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
+                CustomButton(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    onClick = {
+                        navController.navigate("EditPage")
+                    },
+                    text = "Let's Edit!"
+                )
             }
-
-            CustomButton(
-                containerColor = MaterialTheme.colorScheme.primary,
-                onClick = {
-                    navController.navigate("EditPage")
-                },
-                text = "Let's Edit!"
-            )
         }
     }
 }

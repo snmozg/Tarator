@@ -35,7 +35,7 @@ fun CustomButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)
-            .clip(RoundedCornerShape(50.dp))
+            .clip(RoundedCornerShape(30.dp))
     ) {
         Row(
             verticalAlignment = Alignment.Bottom,

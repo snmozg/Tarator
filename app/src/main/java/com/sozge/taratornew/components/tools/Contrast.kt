@@ -21,16 +21,18 @@ fun Contrast(
     contrast: Float,
     displayBitmap: Bitmap?,
     bitmap: Bitmap?,
-    onContrastChanged: (Float, Bitmap?) -> Unit
+    onContrastChanged: (Float, Bitmap?) -> Unit,
 
-) {
+    ) {
 
 
-    Text(text = "Contrast",fontSize = 20.sp, style = MaterialTheme.typography.bodyMedium)
+    Text(
+        text = "Contrast",
+        fontSize = 20.sp,
+        style = MaterialTheme.typography.bodyMedium)
     Slider(
         value = contrast,
-        onValueChange = {
-                newContrast ->
+        onValueChange = { newContrast ->
             onContrastChanged(newContrast, bitmap?.adjustContrast(newContrast))
         },
         valueRange = 0f..10f,

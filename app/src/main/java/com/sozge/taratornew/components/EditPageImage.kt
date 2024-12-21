@@ -3,7 +3,9 @@ package com.sozge.taratornew.components
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,6 +17,7 @@ import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
@@ -48,7 +51,7 @@ fun EditPageImage(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(600.dp)
-                .padding(10.dp)
+                .padding(10.dp),
         ) {
 
             Image(
@@ -86,7 +89,10 @@ fun EditPageImage(
             contentDescription = "add icon",
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
             modifier = Modifier
-                .clickable {
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) {
                     if (hasPermission.value) {
                         galleryLauncher()
                     } else {

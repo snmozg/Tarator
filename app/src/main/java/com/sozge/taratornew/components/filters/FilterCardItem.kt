@@ -2,6 +2,7 @@ package com.sozge.taratornew.components.filters
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.dataclasses.OptionCard
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
+import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
 
 @Composable
 fun FilterCardItem(index: Int, item: OptionCard, imageViewModel: ImageViewModel, filterViewModel: FilterViewModel) {
@@ -51,7 +53,7 @@ fun FilterCardItem(index: Int, item: OptionCard, imageViewModel: ImageViewModel,
                     painterResource(item.image),
                     contentDescription = "logos",
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier
+
                 )
             }
         }
@@ -61,6 +63,7 @@ fun FilterCardItem(index: Int, item: OptionCard, imageViewModel: ImageViewModel,
             text = text,
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
+            fontFamily = myFont,
             fontWeight = FontWeight.Normal,
         )
     }
