@@ -3,15 +3,20 @@ package com.sozge.taratornew.pages
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FileDownload
+import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.rounded.Logout
 import androidx.compose.material3.Button
 import androidx.compose.material3.FabPosition
@@ -28,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -41,67 +47,56 @@ import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.components.CustomTextInput
+import com.sozge.taratornew.utils.com.sozge.taratornew.utils.CustomExtendedFAB
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
 
-@Composable
-fun FeedBackPage
-            (navController: NavController,
-             imageViewModel: ImageViewModel,
-             filterViewModel: FilterViewModel,
-             drawingViewModel: DrawingViewModel
-) {
-    val itemName = remember {
-        mutableStateOf("")
-    }
-    val email = remember { mutableStateOf("") }
-    val subject = remember { mutableStateOf("") }
-    val message = remember { mutableStateOf("") }
+    @Composable
+
+    fun FeedBackPage(
+    navController: NavController,
+    imageViewModel: ImageViewModel,
+    drawingViewModel: DrawingViewModel,
+    filterViewModel: FilterViewModel
+    ) {
+        val email = remember { mutableStateOf("") }
+        val subject = remember { mutableStateOf("") }
+        val message = remember { mutableStateOf("") }
 
     val scrollState = rememberScrollState()
 
-    Scaffold(topBar = {
-        HeaderBar(
-            navController,
-            actionImageVector = Icons.Rounded.Logout,
-            actionContentDescription = "Logout",
-            isBackButtonEnable = true,
-            imageViewModel=imageViewModel,
-            filterViewModel = filterViewModel,
-            drawingViewModel = drawingViewModel,
-            onClick = {
-                println("belirsiz")
-            }
-        )
-    },
+    Scaffold(
+        topBar = {
+            HeaderBar(navController,
+                actionImageVector = Icons.Outlined.Menu,
+                actionContentDescription = "menu button",
+                isBackButtonEnable = true,
+                imageViewModel = imageViewModel,
+                drawingViewModel = drawingViewModel,
+                filterViewModel = filterViewModel,
+                onClick = {
+                    navController.navigate("SettingsPage")
+                }
+            )
+        },
+        modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
-            CustomButton(
-                containerColor = MaterialTheme.colorScheme.primary,
-                text = "Send"
-            ) {
-
-            }
+            CustomExtendedFAB(
+                MaterialTheme.colorScheme.primary,
+                "Send",
+                onClick = {
+                    println("Send fab clicked")
+                })
         },
         floatingActionButtonPosition = FabPosition.Center
-
-    ) { innerpadding ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerpadding),
+                .padding(paddingValues)
+                .background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.applicationicon),
-                contentDescription = "",
-                contentScale = ContentScale.Fit
-            )
-            Text(
-                modifier = Modifier.padding(5.dp),
-                text = "How can we help you?",
-                fontFamily = myFont,
-                fontSize = 22.sp
-            )
             Column(
                 modifier = Modifier
                     .imePadding()
@@ -109,6 +104,29 @@ fun FeedBackPage
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Box(
+                        modifier = Modifier.padding(start = 80.dp, end = 80.dp, top = 5.dp)
+                    ) {
+                        Image(
+                            modifier = Modifier.padding(10.dp),
+                            painter = painterResource(id = R.drawable.logod),
+                            contentDescription = "app logo",
+                            contentScale = ContentScale.Fit
+                        )
+                    }
+                    Text(
+                        text = "How can we help you?",
+                        fontFamily = FontFamily.Default,
+                        fontSize = 18.sp
+                    )
+                }
                 CustomTextInput(
                     title = "Email",
                     label = "Email",
@@ -116,28 +134,36 @@ fun FeedBackPage
                     onValueChange = { email.value = it },
                     isSingleLine = true,
                     isVisual = true,
-                    keyboardType = KeyboardType.Email
-                )
-                CustomTextInput(
-                    title = "Subject",
-                    label = "Enter Subject",
-                    text = subject.value,
-                    onValueChange = { subject.value = it },
-                    isSingleLine = true,
-                    isVisual = true,
-                    keyboardType = KeyboardType.Text
+                    keyboardType = KeyboardType.Email,
+                    isBigCanvas = false
                 )
                 CustomTextInput(
                     title = "Message",
                     label = "Enter Message",
                     text = message.value,
                     onValueChange = { message.value = it },
-                    isSingleLine = true,
+                    isSingleLine = false,
                     isVisual = true,
-                    keyboardType = KeyboardType.Text
+                    keyboardType = KeyboardType.Text,
+                    isBigCanvas = true
                 )
-            }
+                Spacer(modifier = Modifier.padding(40.dp))
 
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Tarator",
+                        textAlign = TextAlign.Center,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = myFont,
+                        color = Color.LightGray
+                    )
+                }
+            }
         }
     }
 }

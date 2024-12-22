@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val imageViewModel: ImageViewModel = viewModel()
-            val filterViewmodel: FilterViewModel = viewModel()
+            val filterViewModel: FilterViewModel = viewModel()
             val bottomSheetViewModel: BottomSheetViewModel = viewModel()
             val drawingViewModel: DrawingViewModel = viewModel()
             val toolsViewModel:ToolsViewModel = viewModel()
@@ -37,16 +37,16 @@ class MainActivity : ComponentActivity() {
                     startDestination = "HomePage"
                 ) {
                     composable(route = "HomePage") {
-                        HomePage(navController, imageViewModel, drawingViewModel, filterViewmodel)
+                        HomePage(navController, imageViewModel, drawingViewModel, filterViewModel)
                     }
                     composable(route = "EditPage") {
-                        EditPage(navController, imageViewModel, bottomSheetViewModel, filterViewmodel, drawingViewModel,toolsViewModel)
+                        EditPage(navController, imageViewModel, bottomSheetViewModel, filterViewModel, drawingViewModel,toolsViewModel)
                     }
                     composable(route = "FeedbackPage") {
-                        FeedBackPage(navController, imageViewModel, filterViewmodel,drawingViewModel)
+                        FeedBackPage(navController, imageViewModel,drawingViewModel, filterViewModel)
                     }
                     composable(route = "SettingsPage") {
-                        SettingsPage(navController,imageViewModel,filterViewmodel,drawingViewModel)
+                        SettingsPage(navController,imageViewModel,drawingViewModel,filterViewModel)
                     }
                 }
             }

@@ -35,6 +35,7 @@ fun CustomTextInput(
     title: String,
     label: String,
     text: String,
+    isBigCanvas: Boolean,
     onValueChange: (String) -> Unit,
     isSingleLine: Boolean,
     isVisual: Boolean,
