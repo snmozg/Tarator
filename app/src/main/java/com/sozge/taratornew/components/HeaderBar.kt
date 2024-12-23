@@ -39,6 +39,8 @@ fun HeaderBar(
     filterViewModel: FilterViewModel,
     onClick: () -> Unit,
 ) {
+    val currentRoute = navController.currentBackStackEntry?.destination?.route
+
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
         containerColor = MaterialTheme.colorScheme.background,
         titleContentColor = MaterialTheme.colorScheme.primary,
@@ -47,11 +49,16 @@ fun HeaderBar(
         navigationIcon = {
             if (isBackButtonEnable) {
                 IconButton(onClick = {
-                    navController.popBackStack()
-                    imageViewModel.deleteImage()
-                    filterViewModel.deleteFilter()
-                    drawingViewModel.clearDrawing()
-
+                    if(currentRoute != "SettingsPage") {
+                        navController.popBackStack()
+                        imageViewModel.deleteImage()
+                        filterViewModel.deleteFilter()
+                        drawingViewModel.clearDrawing()
+                    }else{
+                        navController.navigate("HomePage") {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
                 }) {
                     Icon(
                         Icons.Outlined.ArrowBackIosNew,

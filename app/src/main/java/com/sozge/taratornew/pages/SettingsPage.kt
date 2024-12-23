@@ -51,6 +51,8 @@ fun SettingsPage(
     drawingViewModel: DrawingViewModel,
     filterViewModel: FilterViewModel
 ) {
+    val currentRoute = navController.currentBackStackEntry?.destination?.route
+
     Scaffold(
         topBar = {
             HeaderBar(navController,
@@ -61,7 +63,9 @@ fun SettingsPage(
                 drawingViewModel = drawingViewModel,
                 filterViewModel = filterViewModel,
                 onClick = {
-                    navController.navigate("SettingsPage")
+                    if (currentRoute != "SettingsPage") {
+                        navController.navigate("SettingsPage")
+                    }
                 }
             )
         }
