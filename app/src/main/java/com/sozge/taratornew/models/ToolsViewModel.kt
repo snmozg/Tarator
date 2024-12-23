@@ -1,6 +1,7 @@
 package com.sozge.taratornew.utils.com.sozge.taratornew.models
 
 import ToolType
+import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ColorFilter
@@ -26,6 +27,10 @@ class ToolsViewModel : ViewModel() {
     private val _detail = mutableStateOf(0f)
     val detail: State<Float> = _detail
 
+    private val _bitmap = mutableStateOf<Bitmap?>(null)
+    val bitmap: State<Bitmap?> = _bitmap
+
+
 
     fun updateBrightness(value: Float) {
         _brightness.value = value
@@ -50,6 +55,7 @@ class ToolsViewModel : ViewModel() {
     fun updateDetail(value: Float) {
         _detail.value = value
     }
+
 
     /*
     ////////////////////////////////////////////////////////////////////////

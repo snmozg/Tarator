@@ -181,7 +181,16 @@ fun ToolsSection(
             } else {
                 Spacer(modifier = Modifier.height(16.dp))
                 when (selectedTool) {
-                    ToolType.Crop -> Crop()
+                    ToolType.Crop -> {
+                        Crop(
+                            bitmap = bitmap,
+                            displayBitmap = displayBitmap,
+                            onCropApplied = { croppedBitmap ->
+                                displayBitmap = croppedBitmap
+
+                            }
+                        )
+                    }
 
                     ToolType.Brightness -> {
                         Brightness(

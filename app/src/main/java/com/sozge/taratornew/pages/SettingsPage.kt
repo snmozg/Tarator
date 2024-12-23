@@ -23,10 +23,6 @@ import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material.icons.outlined.PrivacyTip
-import androidx.compose.material.icons.outlined.Security
-import androidx.compose.material.icons.outlined.WebAssetOff
-import androidx.compose.material.icons.rounded.Logout
-import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -41,12 +37,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sozge.taratornew.components.HeaderBar
-import com.sozge.taratornew.components.SettingsCard
-import com.sozge.taratornew.datas.settingsDataCard
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
-import com.sozge.taratornew.components.OptionsCard
+import com.sozge.taratornew.dataclasses.SettingsCard
 import com.sozge.taratornew.utils.com.sozge.taratornew.CustomOptionsCard
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
 
@@ -80,7 +74,7 @@ fun SettingsPage(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val optionsList = listOf<OptionsCard>(
+            val optionsList = listOf<SettingsCard>(
                /* OptionsCard(
                     imageVector = Icons.Outlined.Person,
                     contentDescription = "User Information",
@@ -90,21 +84,21 @@ fun SettingsPage(
                 ),
 
                 */
-                OptionsCard(
+                SettingsCard(
                     imageVector = Icons.Outlined.Phone,
                     contentDescription = "Feedback, Contact",
                     itemText = "Contact",
                     summary = "Send feedback or contact us",
                     onClick = { navController.navigate("FeedbackPage") }
                 ),
-                OptionsCard(
+                SettingsCard(
                     imageVector = Icons.Outlined.PrivacyTip,
                     contentDescription = "Privacy Policy",
                     itemText = "Privacy Policy",
                     summary = "View our privacy policy",
-                    onClick = { println("privacy policy") }
+                    onClick = { navController.navigate("PrivacyPolicyPage") }
                 ),
-                OptionsCard(
+                SettingsCard(
                     imageVector = Icons.Outlined.InsertDriveFile,
                     contentDescription = "Terms of Use",
                     itemText = "Terms of Use",
