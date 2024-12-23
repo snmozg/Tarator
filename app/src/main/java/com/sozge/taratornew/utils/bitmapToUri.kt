@@ -12,7 +12,31 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
+fun bitmapToUri(context: Context, bitmap: Bitmap?): Uri? {
+    if (bitmap == null) return null
 
+    return try {
+        // Geçici dosya oluştur
+        val file = File(context.cacheDir, "edited_image_${System.currentTimeMillis()}.jpg")
+        val outputStream = FileOutputStream(file)
+
+        // Bitmap'i dosyaya yaz
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+
+        // URI'yi döndür
+        FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fileprovider",
+            file
+        )
+    } catch (e: IOException) {
+        Log.e("bitmapToUri", "Failed to create URI: ${e.message}")
+        null
+    }
+}
+/*
 fun bitmapToUri(context: Context, bitmap: Bitmap?): Uri? {
     if (bitmap == null) return null
 
@@ -43,6 +67,8 @@ fun bitmapToUri(context: Context, bitmap: Bitmap?): Uri? {
         null
     }
 }
+
+ */
 
 
 

@@ -128,7 +128,6 @@ fun ToolsSection(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             if (selectedTool == null) {
                 Text(
                     text = "Save Changes",
@@ -138,6 +137,12 @@ fun ToolsSection(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null
                         ) {
+                            displayBitmap?.let { updatedBitmap ->
+                                val updatedUri = bitmapToUri(context, updatedBitmap)
+                                updatedUri?.let {
+                                    imageViewModel.updateImage(it)
+                                }
+                            }
                             bottomSheetViewModel.closeToolsSheet()
                         }
                         .padding(bottom = 16.dp)
@@ -201,8 +206,7 @@ fun ToolsSection(
                                 toolsViewModel.updateBrightness(newBrightness)
                                 displayBitmap = newBitmap
                             },
-
-                            )
+                        )
                     }
 
                     ToolType.Contrast -> {
@@ -251,7 +255,7 @@ fun ToolsSection(
 
                     ToolType.Vignette -> {
                         Vignette(
-                            vignetteIntensity= vignetteIntensity,
+                            vignetteIntensity = vignetteIntensity,
                             displayBitmap = displayBitmap,
                             bitmap = bitmap
                         ) { newVignette, newBitmap ->
@@ -270,12 +274,14 @@ fun ToolsSection(
 
                     IconButton(
                         onClick = {
-                            displayBitmap?.let { updatedBitmap ->
-                                val updatedUri = bitmapToUri(context, updatedBitmap)
-                                updatedUri?.let {
-                                    imageViewModel.updateImage(it)
-                                }
-                            }
+                            /* displayBitmap?.let { updatedBitmap ->
+                                 val updatedUri = bitmapToUri(context, updatedBitmap)
+                                 updatedUri?.let {
+                                     imageViewModel.updateImage(it)
+                                 }
+                             }
+
+                             */
                             selectedTool = null
                         },
                         modifier = Modifier

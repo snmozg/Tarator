@@ -37,6 +37,7 @@ import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.applyFilterToBitmap
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapWithDrawing
+import com.sozge.taratornew.utils.com.sozge.taratornew.utils.saveBitmapToGallery
 import com.sozge.taratornew.utils.getRequiredPermission
 import com.sozge.taratornew.utils.rememberGalleryLauncher
 import com.sozge.taratornew.utils.rememberPermissionLauncher
@@ -52,7 +53,7 @@ fun EditPage(
     bottomSheetViewModel: BottomSheetViewModel,
     filterViewModel: FilterViewModel,
     drawingViewModel: DrawingViewModel,
-    toolsViewModel: ToolsViewModel
+    toolsViewModel: ToolsViewModel,
 ) {
     var hasPermission by remember { mutableStateOf(false) }
     val permissionLauncher = rememberPermissionLauncher(mutableStateOf(hasPermission))
@@ -81,15 +82,33 @@ fun EditPage(
 
                         if (originalBitmap != null) {
                             val filteredBitmap = applyFilterToBitmap(originalBitmap, colorFilter)
-                            val drawingBitmap = drawingViewModel.getCurrentBitmap(originalBitmap.width, originalBitmap.height)
+                            val drawingBitmap = drawingViewModel.getCurrentBitmap(
+                                originalBitmap.width,
+                                originalBitmap.height
+                            )
                             if (filteredBitmap != null && drawingBitmap != null) {
                                 val finalBitmap = bitmapWithDrawing(filteredBitmap, drawingBitmap)
-                                val savedUri = bitmapToUri(context, finalBitmap)
+                                val savedUri = saveBitmapToGallery(
+                                    context,
+                                    finalBitmap
+                                ) // Yeni fonksiyon çağrısı
                                 savedUri?.let {
-                                    Toast.makeText(context, "Photo saved successfully", Toast.LENGTH_SHORT).show()
-                                } ?: Toast.makeText(context, "Failed to save photo!", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Photo saved successfully to gallery!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } ?: Toast.makeText(
+                                    context,
+                                    "Failed to save photo to gallery!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } else {
-                                Toast.makeText(context, "Failed to create final bitmap!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "Failed to create final bitmap!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         } else {
                             Toast.makeText(context, "Bitmap is null!", Toast.LENGTH_SHORT).show()
@@ -145,7 +164,12 @@ fun EditPage(
                         onDismissRequest = { bottomSheetViewModel.closeToolsSheet() },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                     ) {
-                        ToolsSection(imageViewModel,toolsViewModel,filterViewModel,bottomSheetViewModel)
+                        ToolsSection(
+                            imageViewModel,
+                            toolsViewModel,
+                            filterViewModel,
+                            bottomSheetViewModel
+                        )
                     }
                 }
 
