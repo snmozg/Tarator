@@ -19,7 +19,7 @@ fun Vignette(
     onVignetteChanged: (Float, Bitmap?) -> Unit
 ){
         Text(
-            text = "Adjust Vignette",
+            text = "Vignette",
             fontSize = 20.sp, style = MaterialTheme.typography.bodyMedium)
         Slider(
             value = vignetteIntensity,

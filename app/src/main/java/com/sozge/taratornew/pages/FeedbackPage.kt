@@ -59,7 +59,6 @@ import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
     filterViewModel: FilterViewModel
     ) {
         val email = remember { mutableStateOf("") }
-        val subject = remember { mutableStateOf("") }
         val message = remember { mutableStateOf("") }
 
     val scrollState = rememberScrollState()
@@ -150,7 +149,8 @@ import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
                 Spacer(modifier = Modifier.padding(40.dp))
 
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                    ,
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {

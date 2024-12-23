@@ -53,7 +53,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.components.tools.Brightness
 import com.sozge.taratornew.components.tools.Contrast
-import com.sozge.taratornew.components.tools.Crop
 import com.sozge.taratornew.components.CustomToolButton
 import com.sozge.taratornew.components.tools.Details
 import com.sozge.taratornew.components.tools.Rotate
@@ -61,6 +60,7 @@ import com.sozge.taratornew.components.tools.Shadow
 import com.sozge.taratornew.components.tools.Vignette
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
+import com.sozge.taratornew.utils.com.sozge.taratornew.components.tools.Crop
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
 import com.sozge.taratornew.utils.toBitmap
@@ -241,8 +241,8 @@ fun ToolsSection(
                     }
 
                     ToolType.Vignette -> {
-                        Details(
-                            detail = detail,
+                        Vignette(
+                            vignetteIntensity= vignetteIntensity,
                             displayBitmap = displayBitmap,
                             bitmap = bitmap
                         ) { newVignette, newBitmap ->

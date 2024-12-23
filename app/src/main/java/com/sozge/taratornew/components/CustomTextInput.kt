@@ -4,6 +4,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -67,33 +68,66 @@ fun CustomTextInput(
             )
         }
 
-        TextField(
-            singleLine = isSingleLine,
-            value = text,
-            onValueChange = onValueChange,
-            label = { Text(text = label) },
-            visualTransformation = if (!isVisual) PasswordVisualTransformation() else VisualTransformation.None,
-            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        if(!isBigCanvas){
+            TextField(
+                singleLine = isSingleLine,
+                value = text,
+                onValueChange = onValueChange,
+                label = { Text(text = label) },
+                visualTransformation = if (!isVisual) PasswordVisualTransformation() else VisualTransformation.None,
+                keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
 
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .border(
-                    1.dp,
-                    MaterialTheme.colorScheme.onBackground,
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .clip(RoundedCornerShape(20.dp)),
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .border(
+                        1.dp,
+                        MaterialTheme.colorScheme.onBackground,
+                        shape = RoundedCornerShape(20.dp)
+                    )
+                    .clip(RoundedCornerShape(20.dp)),
 
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = MaterialTheme.colorScheme.background,
-                focusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
-                cursorColor = MaterialTheme.colorScheme.primary,
-                focusedLabelColor =
-                if (isFocused) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
-                unfocusedLabelColor = MaterialTheme.colorScheme.onBackground,
-            ),
-        )
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    focusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedLabelColor =
+                    if (isFocused) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
+                    unfocusedLabelColor = MaterialTheme.colorScheme.onBackground,
+                ),
+            )
+        } else{
+            TextField(
+                singleLine = isSingleLine,
+                value = text,
+                onValueChange = onValueChange,
+                label = { Text(text = label) },
+                visualTransformation = if (!isVisual) PasswordVisualTransformation() else VisualTransformation.None,
+                keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .border(
+                        1.dp,
+                        MaterialTheme.colorScheme.onBackground,
+                        shape = RoundedCornerShape(20.dp)
+                    )
+                    .clip(RoundedCornerShape(20.dp)),
+
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    focusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedLabelColor =
+                    if (isFocused) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
+                    unfocusedLabelColor = MaterialTheme.colorScheme.onBackground,
+                ),
+            )
+        }
+
     }
 }
