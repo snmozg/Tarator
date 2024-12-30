@@ -1,5 +1,6 @@
 package com.sozge.taratornew.components.brushes
 
+import BottomSheetViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -19,7 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BrushColorPicker(selectedColor: State<Color>, onColorSelected: (Color) -> Unit) {
+fun BrushColorPicker(
+    selectedColor: State<Color>,
+    bottomSheetViewModel: BottomSheetViewModel,
+    onColorSelected: (Color) -> Unit,
+) {
 
     val colors = listOf(Color.Black, Color.Red, Color.Blue, Color.Green, Color.Yellow)
 
@@ -30,12 +35,15 @@ fun BrushColorPicker(selectedColor: State<Color>, onColorSelected: (Color) -> Un
     ) {
         colors.forEach { color ->
             Button(
-                onClick = { onColorSelected(color) },
+                onClick = {
+                    onColorSelected(color)
+                    bottomSheetViewModel.closeColorSheet()
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = color),
                 shape = CircleShape,
                 modifier = Modifier.padding(5.dp)
             ) {
-                // Empty content as we are using button as color picker
+
             }
         }
     }

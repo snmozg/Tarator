@@ -6,7 +6,9 @@ class BottomSheetViewModel : ViewModel() {
         private set
     var isToolsSheetOpen = mutableStateOf(false)
         private set
-    var isBrushSheetOpen = mutableStateOf(false)
+    var isColorSheetOpen = mutableStateOf(false)
+        private set
+    var isWidthSheetOpen = mutableStateOf(false)
         private set
 
     fun openFilterSheet() {
@@ -25,11 +27,19 @@ class BottomSheetViewModel : ViewModel() {
         isToolsSheetOpen.value = false
     }
 
-    fun openBrushSheet() {
-        isBrushSheetOpen.value = true
+    fun openColorSheet() {
+        isColorSheetOpen.value = true
     }
 
-    fun closeBrushSheet() {
-        isBrushSheetOpen.value = false
+    fun closeColorSheet() {
+        isColorSheetOpen.value = false
+    }
+
+    fun openWidthSheet() {
+        isWidthSheetOpen.value = true
+    }
+
+    fun closeWidthSheet() {
+        isWidthSheetOpen.value = false
     }
 }

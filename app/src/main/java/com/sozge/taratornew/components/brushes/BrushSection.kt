@@ -106,6 +106,7 @@ fun BrushSection(
         }
 
 
+        /*
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -145,11 +146,13 @@ fun BrushSection(
                 }
                 Button(
                     onClick = {
-                        bottomSheetViewModel.closeBrushSheet()
+                        //bottomSheetViewModel.closeBrushSheet()
                     }) {
                     Text("Save", color = Color.White)
                 }
             }
         }
+
+         */
     }
 }

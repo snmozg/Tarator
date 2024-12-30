@@ -18,6 +18,7 @@ import com.sozge.taratornew.pages.HomePage
 import com.sozge.taratornew.pages.SettingsPage
 import com.sozge.taratornew.ui.theme.TaratorNewTheme
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
+import com.sozge.taratornew.utils.com.sozge.taratornew.pages.BrushPage
 import com.sozge.taratornew.utils.com.sozge.taratornew.pages.PrivacyPolicyPage
 
 class MainActivity : ComponentActivity() {
@@ -48,6 +49,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(route = "SettingsPage") {
                         SettingsPage(navController,imageViewModel,drawingViewModel,filterViewModel)
+                    }
+                    composable(route = "BrushPage") {
+                        BrushPage(navController,imageViewModel,drawingViewModel,filterViewModel, bottomSheetViewModel)
                     }
                     composable(route = "PrivacyPolicyPage") {
                         PrivacyPolicyPage(navController,imageViewModel,drawingViewModel,filterViewModel)

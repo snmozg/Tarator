@@ -142,7 +142,7 @@ fun EditPage(
                 RowButtons(
                     onFilterClick = { bottomSheetViewModel.openFilterSheet() },
                     onToolsClick = { bottomSheetViewModel.openToolsSheet() },
-                    onBrushClick = { bottomSheetViewModel.openBrushSheet() }
+                    onBrushClick = { navController.navigate("BrushPage") }
                 )
 
                 // ModalBottomSheets controlled by ViewModel
@@ -173,6 +173,7 @@ fun EditPage(
                     }
                 }
 
+                /*
                 if (bottomSheetViewModel.isBrushSheetOpen.value) {
                     ModalBottomSheet(
                         containerColor = MaterialTheme.colorScheme.background,
@@ -188,6 +189,8 @@ fun EditPage(
                         )
                     }
                 }
+
+                 */
             }
         }
     )

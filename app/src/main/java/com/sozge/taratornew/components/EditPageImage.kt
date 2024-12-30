@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -33,6 +34,7 @@ import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.animations.LottieAnimation
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
+import com.sozge.taratornew.utils.toBitmap
 import com.sozge.taratornew.utils.toImageBitmap
 
 @Composable
@@ -46,7 +48,9 @@ fun EditPageImage(
     permissionLauncher: () -> Unit
 ) {
     val context = LocalContext.current
-    val imageBitmap = imageViewModel.myImage.value?.toImageBitmap(context)
+    val imageUri = imageViewModel.myImage.value
+    val bitmap = imageUri?.toBitmap(context)
+    val imageBitmap = bitmap?.asImageBitmap()
     val height = imageBitmap?.height?.toFloat()
     val width = imageBitmap?.width?.toFloat()
 
