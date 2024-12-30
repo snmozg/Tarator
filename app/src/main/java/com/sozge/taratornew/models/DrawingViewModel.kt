@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 
-class DrawingViewModel : ViewModel() {
+class DrawingViewModel: ViewModel() {
     val lines: SnapshotStateList<Line> = mutableStateListOf()
 
     fun addLine(line: Line) {
@@ -22,6 +22,7 @@ class DrawingViewModel : ViewModel() {
     fun clearDrawing() {
         lines.clear()
     }
+
     fun getCurrentBitmap(width: Int, height: Int): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
@@ -32,7 +33,6 @@ class DrawingViewModel : ViewModel() {
             paint.strokeWidth = line.strokeWith.value
             canvas.drawLine(line.start.x, line.start.y, line.end.x, line.end.y, paint)
         }
-
         return bitmap
     }
 }

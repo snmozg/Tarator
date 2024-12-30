@@ -140,9 +140,21 @@ fun EditPage(
                 Spacer(modifier = Modifier.height(50.dp))
 
                 RowButtons(
-                    onFilterClick = { bottomSheetViewModel.openFilterSheet() },
-                    onToolsClick = { bottomSheetViewModel.openToolsSheet() },
-                    onBrushClick = { navController.navigate("BrushPage") }
+                    onFilterClick = {
+                        if (imageViewModel.myImage.value != null) {
+                            bottomSheetViewModel.openFilterSheet()
+                        }
+                    },
+                    onToolsClick = {
+                        if (imageViewModel.myImage.value != null) {
+                            bottomSheetViewModel.openToolsSheet()
+                        }
+                    },
+                    onBrushClick = {
+                        if (imageViewModel.myImage.value != null) {
+                            navController.navigate("BrushPage")
+                        }
+                    }
                 )
 
                 // ModalBottomSheets controlled by ViewModel
