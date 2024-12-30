@@ -48,18 +48,29 @@ fun HeaderBar(
 
         navigationIcon = {
             if (isBackButtonEnable) {
-                IconButton(onClick = {
-                    if(currentRoute != "SettingsPage") {
-                        navController.popBackStack()
-                        imageViewModel.deleteImage()
-                        filterViewModel.deleteFilter()
-                        drawingViewModel.clearDrawing()
-                    }else{
-                        navController.navigate("HomePage") {
-                            popUpTo(0) { inclusive = true }
+                IconButton(
+                    onClick = {
+                        if (currentRoute == "BrushPage") {
+                            navController.navigate("EditPage")
+                            filterViewModel.deleteFilter()
+                            drawingViewModel.clearDrawing()
+                        } else if (
+                            currentRoute == "EditPage" ||
+                            currentRoute == "FeedbackPage" ||
+                            currentRoute == "SettingsPage" ||
+                            currentRoute == "PrivacyPolicyPage"
+                        // || currentRoute == "TermsOfUsePage"
+                        ) {
+                            navController.popBackStack()
+                            imageViewModel.deleteImage()
+                            filterViewModel.deleteFilter()
+                            drawingViewModel.clearDrawing()
+                        } else {
+                            navController.navigate("HomePage") {
+                                popUpTo(0) { inclusive = true }
+                            }
                         }
-                    }
-                }) {
+                    }) {
                     Icon(
                         Icons.Outlined.ArrowBackIosNew,
                         contentDescription = "Back",

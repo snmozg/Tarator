@@ -60,7 +60,7 @@ fun BrushPage(
     imageViewModel: ImageViewModel,
     drawingViewModel: DrawingViewModel,
     filterViewModel: FilterViewModel,
-    bottomSheetViewModel: BottomSheetViewModel
+    bottomSheetViewModel: BottomSheetViewModel,
 ) {
     val context = LocalContext.current
     var brushColor by remember { mutableStateOf(Color.Black) }
@@ -98,7 +98,7 @@ fun BrushPage(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(height!!.dp)
+                    .height(600.dp)
                     .width(width!!.dp),
             ) {
                 Image(
@@ -111,46 +111,41 @@ fun BrushPage(
                     colorFilter = filterViewModel.filter.value,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(height.dp)
+                        .height(height!!.dp)
                         .width(width.dp)
                 )
-                    Canvas(
-                        modifier = Modifier
-                            .border(2.dp, Color.White)
-                            .fillMaxWidth()
-                            .height(height.dp)
-                            .width(width.dp)
-                            .pointerInput(Unit) {
-                                detectDragGestures { change, dragAmount ->
-                                    change.consume()
+                Canvas(
+                    modifier = Modifier
+                        .border(2.dp, Color.White)
+                        .fillMaxWidth()
+                        .height(height.dp)
+                        .width(width.dp)
+                        .pointerInput(Unit) {
+                            detectDragGestures { change, dragAmount ->
+                                change.consume()
+                                val localPosition = change.position
+                                if (localPosition.x in 0f..size.width.toFloat() && localPosition.y in 0f..size.height.toFloat()) {
                                     val line = Line(
-                                        start = change.position - dragAmount,
-                                        end = change.position,
+                                        start = localPosition - dragAmount,
+                                        end = localPosition,
                                         color = brushColor,
                                         strokeWith = strokeWidth
                                     )
                                     drawingViewModel.addLine(line)
                                 }
                             }
-                    ) {
-                        /*
-                        drawImage(
-                            image = imageBitmap,
-                            dstSize = IntSize(size.width.toInt(), size.height.toInt())
-                        )
-
-                         */
-
-                        drawingViewModel.lines.forEach { line ->
-                            drawLine(
-                                color = line.color,
-                                start = line.start,
-                                end = line.end,
-                                strokeWidth = line.strokeWith.toPx(),
-                                cap = StrokeCap.Round
-                            )
                         }
+                ) {
+                    drawingViewModel.lines.forEach { line ->
+                        drawLine(
+                            color = line.color,
+                            start = line.start,
+                            end = line.end,
+                            strokeWidth = line.strokeWith.toPx(),
+                            cap = StrokeCap.Round
+                        )
                     }
+                }
 
             }
 

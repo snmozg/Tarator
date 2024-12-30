@@ -58,7 +58,7 @@ fun EditPageImage(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(height!!.dp)
+                .height(600.dp)
                 .width(width!!.dp),
         ) {
             Image(
@@ -72,8 +72,9 @@ fun EditPageImage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(height!!.dp)
-                    .width(width!!.dp)
+                    .width(width.dp)
             )
+
             Canvas(
                 modifier = Modifier
                     .border(2.dp, Color.White)
