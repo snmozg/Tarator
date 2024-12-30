@@ -2,6 +2,8 @@ package com.sozge.taratornew.components.brushes
 
 import BottomSheetViewModel
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -25,6 +27,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.models.DrawingViewModel
@@ -45,6 +48,9 @@ fun BrushSection(
     val bitmap = imageUri?.toBitmap(context)
     val imageBitmap = bitmap?.asImageBitmap()
 
+    val height = imageBitmap?.height?.toFloat()
+    val width = imageBitmap?.width?.toFloat()
+
     // Handle Drawing settings
     var brushColor by remember { mutableStateOf(Color.Black) }
     var strokeWidth by remember { mutableStateOf(5.dp) }
@@ -56,15 +62,18 @@ fun BrushSection(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(16.dp),
+                .height(height!!.dp)
+                .width(width!!.dp)
+                .weight(1f),
             contentAlignment = Alignment.Center
         ) {
             imageBitmap?.let {
                 Canvas(
                     modifier = Modifier
-                        .aspectRatio(it.width.toFloat() / it.height.toFloat())
+                        .border(2.dp, Color.White)
+                        .height(height!!.dp)
+                        .width(width!!.dp)
+                        //.aspectRatio(it.width.toFloat() / it.height.toFloat())
                         .pointerInput(Unit) {
                             detectDragGestures { change, dragAmount ->
                                 change.consume()
@@ -78,8 +87,10 @@ fun BrushSection(
                             }
                         }
                 ) {
-                    drawImage(imageBitmap)
-
+                    drawImage(
+                        image = imageBitmap,
+                        dstSize = IntSize(width.toInt(), height.toInt())
+                    )
 
                     drawingViewModel.lines.forEach { line ->
                         drawLine(
@@ -98,7 +109,8 @@ fun BrushSection(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .background(Color.White),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

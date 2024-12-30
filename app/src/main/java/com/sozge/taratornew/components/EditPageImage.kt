@@ -2,6 +2,7 @@ package com.sozge.taratornew.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AddCircleOutline
@@ -19,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -44,16 +47,16 @@ fun EditPageImage(
 ) {
     val context = LocalContext.current
     val imageBitmap = imageViewModel.myImage.value?.toImageBitmap(context)
-
+    val height = imageBitmap?.height?.toFloat()
+    val width = imageBitmap?.width?.toFloat()
 
     if (imageBitmap != null) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(600.dp)
-                .padding(10.dp),
+                .height(height!!.dp)
+                .width(width!!.dp),
         ) {
-
             Image(
                 painter = rememberAsyncImagePainter(
                     ImageRequest.Builder(context)
@@ -64,14 +67,16 @@ fun EditPageImage(
                 colorFilter = filterViewModel.filter.value,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(600.dp)
+                    .height(height!!.dp)
+                    .width(width!!.dp)
             )
-
-
             Canvas(
                 modifier = Modifier
+                    .border(2.dp, Color.White)
                     .fillMaxWidth()
-                    .aspectRatio(imageBitmap.width.toFloat() / imageBitmap.height.toFloat())
+                    .height(height!!.dp)
+                    .width(width!!.dp)
+                    //.aspectRatio(imageBitmap.width.toFloat() / imageBitmap.height.toFloat())
             ) {
                 drawingViewModel.lines.forEach { line ->
                     drawLine(
