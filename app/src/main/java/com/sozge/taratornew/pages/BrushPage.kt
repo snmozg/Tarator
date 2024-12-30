@@ -2,6 +2,7 @@ package com.sozge.taratornew.utils.com.sozge.taratornew.pages
 
 import BottomSheetViewModel
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -40,6 +41,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.sozge.taratornew.components.CustomOptionsButton
 import com.sozge.taratornew.components.HeaderBar
 import com.sozge.taratornew.components.brushes.BrushColorPicker
@@ -98,10 +101,23 @@ fun BrushPage(
                     .height(height!!.dp)
                     .width(width!!.dp),
             ) {
-                imageBitmap.let {
+                Image(
+                    painter = rememberAsyncImagePainter(
+                        ImageRequest.Builder(context)
+                            .data(imageViewModel.myImage.value)
+                            .build()
+                    ),
+                    contentDescription = null,
+                    colorFilter = filterViewModel.filter.value,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(height.dp)
+                        .width(width.dp)
+                )
                     Canvas(
                         modifier = Modifier
                             .border(2.dp, Color.White)
+                            .fillMaxWidth()
                             .height(height.dp)
                             .width(width.dp)
                             .pointerInput(Unit) {
@@ -117,10 +133,13 @@ fun BrushPage(
                                 }
                             }
                     ) {
+                        /*
                         drawImage(
                             image = imageBitmap,
                             dstSize = IntSize(size.width.toInt(), size.height.toInt())
                         )
+
+                         */
 
                         drawingViewModel.lines.forEach { line ->
                             drawLine(
@@ -132,7 +151,7 @@ fun BrushPage(
                             )
                         }
                     }
-                }
+
             }
 
             Spacer(modifier = Modifier.height(50.dp))
