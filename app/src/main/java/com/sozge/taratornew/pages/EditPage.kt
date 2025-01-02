@@ -33,6 +33,7 @@ import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.checkPermission
+import com.sozge.taratornew.utils.com.sozge.taratornew.components.CustomAlertDialog
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.applyFilterToBitmap
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
@@ -59,6 +60,23 @@ fun EditPage(
     val permissionLauncher = rememberPermissionLauncher(mutableStateOf(hasPermission))
     val galleryLauncher = rememberGalleryLauncher(imageViewModel)
     val context = LocalContext.current
+
+    var showDialog by remember { mutableStateOf(false) }
+    var dialogTitle by remember { mutableStateOf("") }
+    var dialogMessage by remember { mutableStateOf("") }
+    var onConfirmAction by remember { mutableStateOf<(() -> Unit)?>(null) }
+
+
+    if (showDialog) {
+        CustomAlertDialog(
+            title = dialogTitle,
+            message = dialogMessage,
+            onDismiss = { showDialog = false },
+            onConfirm = {
+                onConfirmAction?.invoke()
+            }
+        )
+    }
 
     LaunchedEffect(Unit) {
         hasPermission = checkPermission(context, permission = getRequiredPermission())
@@ -91,29 +109,41 @@ fun EditPage(
                                 val savedUri = saveBitmapToGallery(
                                     context,
                                     finalBitmap
-                                ) // Yeni fonksiyon çağrısı
+                                )
                                 savedUri?.let {
-                                    Toast.makeText(
-                                        context,
-                                        "Photo saved successfully to gallery!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } ?: Toast.makeText(
-                                    context,
-                                    "Failed to save photo to gallery!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    showDialog = true
+                                    dialogTitle = "Successfully saved to the gallery"
+                                    dialogMessage = "Keep editing!"
+                                    onConfirmAction = {
+                                        navController.navigate("Homepage") {
+                                            popUpTo("Homepage") { inclusive = true }
+                                            imageViewModel.deleteImage()
+                                        }
+                                    }
+                                } ?: run {
+                                    showDialog = true
+                                    dialogTitle = "There is a problem"
+                                    dialogMessage = "Photo could not be saved!"
+                                    onConfirmAction = null
+                                }
                             } else {
-                                Toast.makeText(
-                                    context,
-                                    "Failed to create final bitmap!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showDialog = true
+                                dialogTitle = "There is a problem"
+                                dialogMessage = "try again!"
+                                onConfirmAction = null
                             }
                         } else {
-                            Toast.makeText(context, "Bitmap is null!", Toast.LENGTH_SHORT).show()
+                            showDialog = true
+                            dialogTitle = "Hata"
+                            dialogMessage = "try again!!"
+                            onConfirmAction = null
                         }
-                    } ?: Toast.makeText(context, "Photo not selected!", Toast.LENGTH_SHORT).show()
+                    } ?: run {
+                        showDialog = true
+                        dialogTitle = "There is a problem"
+                        dialogMessage = "No photo selected!"
+                        onConfirmAction = null
+                    }
                 }
             )
         },
@@ -157,7 +187,7 @@ fun EditPage(
                     }
                 )
 
-                // ModalBottomSheets controlled by ViewModel
+
                 if (bottomSheetViewModel.isFilterSheetOpen.value) {
                     ModalBottomSheet(
                         containerColor = MaterialTheme.colorScheme.background,
@@ -184,25 +214,6 @@ fun EditPage(
                         )
                     }
                 }
-
-                /*
-                if (bottomSheetViewModel.isBrushSheetOpen.value) {
-                    ModalBottomSheet(
-                        containerColor = MaterialTheme.colorScheme.background,
-                        contentColor = MaterialTheme.colorScheme.primary,
-                        onDismissRequest = { bottomSheetViewModel.closeBrushSheet() },
-                        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-                    ) {
-                        BrushSection(
-                            imageViewModel = imageViewModel,
-                            filterViewModel = filterViewModel,
-                            drawingViewModel = drawingViewModel,
-                            bottomSheetViewModel = bottomSheetViewModel
-                        )
-                    }
-                }
-
-                 */
             }
         }
     )
