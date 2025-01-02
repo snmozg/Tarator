@@ -60,7 +60,6 @@ import com.sozge.taratornew.components.tools.Shadow
 import com.sozge.taratornew.components.tools.Vignette
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
-import com.sozge.taratornew.utils.com.sozge.taratornew.components.tools.Crop
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
 import com.sozge.taratornew.utils.toBitmap
@@ -81,7 +80,6 @@ fun ToolsSection(
     var displayBitmap by remember { mutableStateOf<Bitmap?>(bitmap) }
 
     var selectedTool by remember { mutableStateOf<ToolType?>(null) }
-    var croppedImage by remember { mutableStateOf<ImageBitmap?>(null) }
 
     val brightness = toolsViewModel.brightness.value
     val contrast = toolsViewModel.contrast.value
@@ -155,9 +153,7 @@ fun ToolsSection(
                         .padding(16.dp)
                         .horizontalScroll(rememberScrollState())
                 ) {
-                    CustomToolButton(icon = Icons.Outlined.Crop, description = "Crop") {
-                        selectedTool = ToolType.Crop
-                    }
+
                     CustomToolButton(
                         icon = Icons.Outlined.Brightness6,
                         description = "Brightness"
@@ -186,16 +182,6 @@ fun ToolsSection(
             } else {
                 Spacer(modifier = Modifier.height(16.dp))
                 when (selectedTool) {
-                    ToolType.Crop -> {
-                        Crop(
-                            bitmap = bitmap,
-                            displayBitmap = displayBitmap,
-                            onCropApplied = { croppedBitmap ->
-                                displayBitmap = croppedBitmap
-
-                            }
-                        )
-                    }
 
                     ToolType.Brightness -> {
                         Brightness(
@@ -289,7 +275,7 @@ fun ToolsSection(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Check,
-                            contentDescription = "Save Brightness",
+                            contentDescription = "Save",
                             tint = Color(0xFFFC6310)
                         )
                     }
@@ -302,5 +288,5 @@ fun ToolsSection(
 }
 
 enum class ToolType {
-    Crop, Brightness, Contrast, Shadow, Rotate, Vignette, Details
+    Brightness, Contrast, Shadow, Rotate, Vignette, Details
 }

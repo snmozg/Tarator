@@ -184,6 +184,11 @@ fun EditPage(
                         if (imageViewModel.myImage.value != null) {
                             navController.navigate("BrushPage")
                         }
+                    },
+                    onCropClick = {
+                        if (imageViewModel.myImage.value != null) {
+                                navController.navigate("CropPage")
+                        }
                     }
                 )
 
