@@ -8,13 +8,13 @@ import androidx.core.content.FileProvider
 import java.io.File
 
 object CropUtils {
-    fun cropBitmap(bitmap: Bitmap, cropRect: androidx.compose.ui.geometry.Rect, scaleFactor: Float): Bitmap {
+    fun cropBitmap(bitmap: Bitmap, cropRect: android.graphics.Rect): Bitmap {
         return Bitmap.createBitmap(
             bitmap,
-            (cropRect.left * scaleFactor).toInt(),
-            (cropRect.top * scaleFactor).toInt(),
-            (cropRect.width * scaleFactor).toInt(),
-            (cropRect.height * scaleFactor).toInt()
+            cropRect.left,
+            cropRect.top,
+            cropRect.width(),
+            cropRect.height()
         )
     }
 

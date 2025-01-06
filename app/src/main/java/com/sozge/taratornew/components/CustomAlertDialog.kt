@@ -47,7 +47,7 @@ fun CustomAlertDialog(
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = " Okey ")
+                    Text(color = Color.White, text = " Okey ")
                 }
             }
         }

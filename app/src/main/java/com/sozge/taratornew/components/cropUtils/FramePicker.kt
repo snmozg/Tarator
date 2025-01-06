@@ -37,7 +37,7 @@ fun FramePicker(
             Button(
                 onClick = {
                     onFrameSelected(aspectRatio)
-                    bottomSheetViewModel.closeColorSheet()
+                    bottomSheetViewModel.closeCropSheet()
                 },
                 shape = CircleShape,
                 modifier = Modifier
