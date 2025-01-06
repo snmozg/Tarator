@@ -28,6 +28,8 @@ fun CropFrame(
     aspectRatio: Float,
     onCropRectChange: (Rect) -> Unit
 ) {
+
+
     val density = LocalDensity.current.density
     var offset by remember { mutableStateOf(Offset(100f, 100f)) }
     var size by remember { mutableStateOf(Size(300f, 300f)) }
@@ -52,15 +54,22 @@ fun CropFrame(
                             (offset.x + dragAmount.x).coerceIn(0f, boxWidth - size.width),
                             (offset.y + dragAmount.y).coerceIn(0f, boxHeight - size.height)
                         )
-                        onCropRectChange(
-                            Rect(
-                                offset.x / density,
-                                offset.y / density,
-                                (offset.x + size.width) / density,
-                                (offset.y + size.height) / density
-                            )
+
+
+                                 onCropRectChange(
+                                        Rect(
+                                             offset.x / density,
+                                            offset.y / density,
+                                            (offset.x + size.width) / density,
+                                            (offset.y + size.height) / density)
                         )
+
+
+
                     }
+
+
+
                 }
         )
     }

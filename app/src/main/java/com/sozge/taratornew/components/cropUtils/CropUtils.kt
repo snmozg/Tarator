@@ -7,14 +7,18 @@ import android.net.Uri
 import androidx.core.content.FileProvider
 import java.io.File
 
+
+
+
+
 object CropUtils {
     fun cropBitmap(bitmap: Bitmap, cropRect: android.graphics.Rect): Bitmap {
         return Bitmap.createBitmap(
-            bitmap,
+               bitmap,
             cropRect.left,
             cropRect.top,
             cropRect.width(),
-            cropRect.height()
+                cropRect.height()
         )
     }
 
