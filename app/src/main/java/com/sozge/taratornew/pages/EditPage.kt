@@ -187,12 +187,12 @@ fun EditPage(
                     },
                     onCropClick = {
                         if (imageViewModel.myImage.value != null) {
-                                navController.navigate("CropPage")
+                            navController.navigate("CropPage")
                         }
                     }
                 )
 
-
+                // ModalBottomSheets controlled by ViewModel
                 if (bottomSheetViewModel.isFilterSheetOpen.value) {
                     ModalBottomSheet(
                         containerColor = MaterialTheme.colorScheme.background,
@@ -219,6 +219,25 @@ fun EditPage(
                         )
                     }
                 }
+
+                /*
+                if (bottomSheetViewModel.isBrushSheetOpen.value) {
+                    ModalBottomSheet(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.primary,
+                        onDismissRequest = { bottomSheetViewModel.closeBrushSheet() },
+                        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+                    ) {
+                        BrushSection(
+                            imageViewModel = imageViewModel,
+                            filterViewModel = filterViewModel,
+                            drawingViewModel = drawingViewModel,
+                            bottomSheetViewModel = bottomSheetViewModel
+                        )
+                    }
+                }
+
+                 */
             }
         }
     )

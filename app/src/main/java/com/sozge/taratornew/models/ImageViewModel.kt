@@ -19,4 +19,5 @@ class ImageViewModel : ViewModel() {
     fun updateCroppedImage(croppedUri:Uri) {
         _myImage.value = croppedUri
     }
+
 }

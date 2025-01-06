@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
                         PrivacyPolicyPage(navController,imageViewModel,drawingViewModel,filterViewModel)
                     }
                     composable(route = "CropPage") {
-                        CropPage(navController,imageViewModel,drawingViewModel,filterViewModel, bottomSheetViewModel)
+                        CropPage(navController,imageViewModel,filterViewModel, drawingViewModel)
                     }
 
                 }

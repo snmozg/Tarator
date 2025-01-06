@@ -1,11 +1,8 @@
-package com.sozge.taratornew.utils
+package com.sozge.taratornew.utils.com.sozge.taratornew.utils
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
 
 fun Bitmap.adjustDetails(intensity: Float): Bitmap {
     val width = this.width

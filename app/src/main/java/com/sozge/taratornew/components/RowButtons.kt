@@ -6,6 +6,7 @@ import androidx.compose.material.icons.outlined.Brush
 import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.material.icons.outlined.FilterTiltShift
+import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
@@ -49,5 +50,6 @@ fun RowButtons(
             "CROP",
             onClick = { onCropClick() }
         )
+
     }
 }
