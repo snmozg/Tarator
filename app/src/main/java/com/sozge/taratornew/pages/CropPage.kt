@@ -1,5 +1,4 @@
-package com.sozge.taratornew.utils.com.sozge.taratornew.pages
-
+package com.sozge.taratornew.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -31,7 +30,6 @@ import com.sozge.taratornew.components.cropUtils.CropFrame
 import com.sozge.taratornew.components.cropUtils.CropUtils
 import com.sozge.taratornew.utils.toBitmap
 
-
 @Composable
 fun CropPage(
     navController: NavController,
@@ -46,8 +44,6 @@ fun CropPage(
 
     val density = LocalDensity.current.density
     var cropRect by remember { mutableStateOf<Rect?>(null) }
-
-
 
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize()

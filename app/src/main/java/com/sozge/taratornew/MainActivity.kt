@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
+import com.sozge.taratornew.pages.CropPage
 import com.sozge.taratornew.pages.EditPage
 import com.sozge.taratornew.pages.FeedBackPage
 import com.sozge.taratornew.pages.HomePage
@@ -19,7 +20,6 @@ import com.sozge.taratornew.pages.SettingsPage
 import com.sozge.taratornew.ui.theme.TaratorNewTheme
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.pages.BrushPage
-import com.sozge.taratornew.utils.com.sozge.taratornew.pages.CropPage
 import com.sozge.taratornew.utils.com.sozge.taratornew.pages.PrivacyPolicyPage
 
 class MainActivity : ComponentActivity() {
