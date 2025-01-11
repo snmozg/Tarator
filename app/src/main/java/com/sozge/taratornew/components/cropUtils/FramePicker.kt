@@ -14,7 +14,7 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-
+/*
 @Composable
 fun FramePicker(
     selectedFrame: State<Float>,
@@ -49,3 +49,5 @@ fun FramePicker(
         }
     }
 }
+
+ */

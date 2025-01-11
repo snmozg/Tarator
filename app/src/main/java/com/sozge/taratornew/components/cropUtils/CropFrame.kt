@@ -22,8 +22,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 
+/*
 @Composable
-
 fun CropFrame(
     aspectRatio: Float,
     onCropRectChange: (Rect) -> Unit
@@ -74,6 +74,8 @@ fun CropFrame(
         )
     }
 }
+
+ */
 
 
 

@@ -18,7 +18,7 @@ fun RowButtons(
     onFilterClick: () -> Unit,
     onToolsClick: () -> Unit,
     onBrushClick: () -> Unit,
-    onCropClick: () -> Unit
+    //onCropClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -44,12 +44,13 @@ fun RowButtons(
             "BRUSH",
             onClick = { onBrushClick() }
         )
+        /*
         CustomOptionsButton(
             Icons.Outlined.Crop,
             "Crop Button",
             "CROP",
             onClick = { onCropClick() }
         )
-
+         */
     }
 }

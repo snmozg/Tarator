@@ -33,7 +33,7 @@ import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.checkPermission
-import com.sozge.taratornew.utils.com.sozge.taratornew.components.CustomAlertDialog
+import com.sozge.taratornew.components.CustomAlertDialog
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.applyFilterToBitmap
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
@@ -65,7 +65,6 @@ fun EditPage(
     var dialogTitle by remember { mutableStateOf("") }
     var dialogMessage by remember { mutableStateOf("") }
     var onConfirmAction by remember { mutableStateOf<(() -> Unit)?>(null) }
-
 
     if (showDialog) {
         CustomAlertDialog(
@@ -112,8 +111,8 @@ fun EditPage(
                                 )
                                 savedUri?.let {
                                     showDialog = true
-                                    dialogTitle = "Successfully saved to the gallery"
-                                    dialogMessage = "Keep editing!"
+                                    dialogTitle = "Successfully saved"
+                                    dialogMessage = "Photo saved to gallery!"
                                     onConfirmAction = {
                                         navController.navigate("Homepage") {
                                             popUpTo("Homepage") { inclusive = true }
@@ -122,25 +121,25 @@ fun EditPage(
                                     }
                                 } ?: run {
                                     showDialog = true
-                                    dialogTitle = "There is a problem"
+                                    dialogTitle = "WARNING"
                                     dialogMessage = "Photo could not be saved!"
                                     onConfirmAction = null
                                 }
                             } else {
                                 showDialog = true
-                                dialogTitle = "There is a problem"
+                                dialogTitle = "WARNING"
                                 dialogMessage = "try again!"
                                 onConfirmAction = null
                             }
                         } else {
                             showDialog = true
-                            dialogTitle = "Hata"
-                            dialogMessage = "try again!!"
+                            dialogTitle = "WARNING"
+                            dialogMessage = "try again!"
                             onConfirmAction = null
                         }
                     } ?: run {
                         showDialog = true
-                        dialogTitle = "There is a problem"
+                        dialogTitle = "WARNING"
                         dialogMessage = "No photo selected!"
                         onConfirmAction = null
                     }
@@ -185,11 +184,14 @@ fun EditPage(
                             navController.navigate("BrushPage")
                         }
                     },
+                    /*
                     onCropClick = {
                         if (imageViewModel.myImage.value != null) {
                             navController.navigate("CropPage")
                         }
                     }
+
+                     */
                 )
 
                 // ModalBottomSheets controlled by ViewModel

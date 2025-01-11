@@ -12,7 +12,6 @@ import androidx.navigation.compose.rememberNavController
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
-import com.sozge.taratornew.pages.CropPage
 import com.sozge.taratornew.pages.EditPage
 import com.sozge.taratornew.pages.FeedBackPage
 import com.sozge.taratornew.pages.HomePage
@@ -57,9 +56,12 @@ class MainActivity : ComponentActivity() {
                     composable(route = "PrivacyPolicyPage") {
                         PrivacyPolicyPage(navController,imageViewModel,drawingViewModel,filterViewModel)
                     }
+                    /*
                     composable(route = "CropPage") {
                         CropPage(navController,imageViewModel,filterViewModel, drawingViewModel)
                     }
+
+                     */
 
                 }
             }

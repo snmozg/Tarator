@@ -26,10 +26,9 @@ import com.sozge.taratornew.components.HeaderBar
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
-import com.sozge.taratornew.components.cropUtils.CropFrame
-import com.sozge.taratornew.components.cropUtils.CropUtils
 import com.sozge.taratornew.utils.toBitmap
 
+/*
 @Composable
 fun CropPage(
     navController: NavController,
@@ -125,6 +124,8 @@ fun CropPage(
     }
 }
 
+
+ */
 
 
 
