@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BlurOn
 import androidx.compose.material.icons.filled.Details
 import androidx.compose.material.icons.filled.HdrEnhancedSelect
 import androidx.compose.material.icons.filled.Vignette
@@ -54,8 +55,8 @@ import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.components.tools.Brightness
 import com.sozge.taratornew.components.tools.Contrast
 import com.sozge.taratornew.components.CustomToolButton
+import com.sozge.taratornew.components.tools.Blur
 import com.sozge.taratornew.components.tools.Details
-import com.sozge.taratornew.components.tools.Rotate
 import com.sozge.taratornew.components.tools.Shadow
 import com.sozge.taratornew.components.tools.Vignette
 import com.sozge.taratornew.models.FilterViewModel
@@ -84,7 +85,6 @@ fun ToolsSection(
     val brightness = toolsViewModel.brightness.value
     val contrast = toolsViewModel.contrast.value
     val shadow = toolsViewModel.shadow.value
-    val rotationAngle = toolsViewModel.rotationAngle.value
     val vignetteIntensity = toolsViewModel.vignetteIntensity.value
     val detail = toolsViewModel.detail.value
 
@@ -112,7 +112,7 @@ fun ToolsSection(
                             alpha = brightness.coerceIn(0f, 4f)
                             //contrast = contrast.coerceIn(0f, 10f)
                             shadowElevation = shadow.coerceIn(0f, 10f)
-                            rotationZ = rotationAngle
+
 
                         }
                 )
@@ -166,14 +166,11 @@ fun ToolsSection(
                     CustomToolButton(icon = Icons.Outlined.WbSunny, description = "Shadow") {
                         selectedTool = ToolType.Shadow
                     }
-                    CustomToolButton(
-                        icon = Icons.Outlined.Rotate90DegreesCw,
-                        description = "Rotate"
-                    ) {
-                        selectedTool = ToolType.Rotate
-                    }
                     CustomToolButton(icon = Icons.Filled.Vignette, description = "Vignette") {
                         selectedTool = ToolType.Vignette
+                    }
+                    CustomToolButton(icon = Icons.Filled.BlurOn, description = "Blur") {
+                        selectedTool = ToolType.Blur
                     }
                     CustomToolButton(icon = Icons.Filled.Details, description = "Details") {
                         selectedTool = ToolType.Details
@@ -216,17 +213,19 @@ fun ToolsSection(
                             displayBitmap = newBitmap
                         }
                     }
-
-                    ToolType.Rotate -> {
-                        Rotate(
-                            rotationAngle = rotationAngle,
+                    ToolType.Blur -> {
+                        Blur(
+                            blurRadius = toolsViewModel.blurRadius.value,
                             displayBitmap = displayBitmap,
                             bitmap = bitmap
-                        ) { newAngle, newBitmap ->
-                            toolsViewModel.updateRotationAngle(newAngle)
+                        ) { newRadius, newBitmap ->
+                            toolsViewModel.updateBlurRadius(newRadius)
                             displayBitmap = newBitmap
                         }
                     }
+
+
+
 
                     ToolType.Details -> {
                         Details(
@@ -288,5 +287,5 @@ fun ToolsSection(
 }
 
 enum class ToolType {
-    Brightness, Contrast, Shadow, Rotate, Vignette, Details
+    Brightness, Contrast, Shadow, Vignette, Details,Blur
 }
