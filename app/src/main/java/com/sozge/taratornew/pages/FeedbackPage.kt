@@ -26,8 +26,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sozge.taratornew.R
+import com.sozge.taratornew.components.CustomAlertDialog
 import com.sozge.taratornew.components.CustomButton
 import com.sozge.taratornew.components.HeaderBar
 import com.sozge.taratornew.models.DrawingViewModel
@@ -60,6 +63,21 @@ import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
     ) {
         val email = remember { mutableStateOf("") }
         val message = remember { mutableStateOf("") }
+        var showDialog by remember { mutableStateOf(false) }
+        var dialogTitle by remember { mutableStateOf("") }
+        var dialogMessage by remember { mutableStateOf("") }
+        var onConfirmAction by remember { mutableStateOf<(() -> Unit)?>(null) }
+
+        if (showDialog) {
+            CustomAlertDialog(
+                title = dialogTitle,
+                message = dialogMessage,
+                onDismiss = { showDialog = false },
+                onConfirm = {
+                    onConfirmAction?.invoke()
+                }
+            )
+        }
 
     val scrollState = rememberScrollState()
 
@@ -83,7 +101,12 @@ import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
                 MaterialTheme.colorScheme.primary,
                 "Send",
                 onClick = {
-                    println("Send fab clicked")
+
+                        showDialog = true
+                        dialogTitle = "Thanks for your feedback!"
+                        dialogMessage = "We will get back to you as soon as possible."
+                        onConfirmAction = null
+
                 })
         },
         floatingActionButtonPosition = FabPosition.Center
