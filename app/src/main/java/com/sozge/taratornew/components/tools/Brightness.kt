@@ -51,7 +51,7 @@ fun Brightness(
         onValueChange = { newBrightness ->
             onBrightnessChanged(newBrightness, bitmap?.adjustBrightness(newBrightness))
         },
-        valueRange = 0f..4f,
+        valueRange = 0.8f..4f,
         modifier = Modifier.fillMaxWidth()
     )
 }

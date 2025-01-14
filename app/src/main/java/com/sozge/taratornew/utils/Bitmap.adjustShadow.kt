@@ -12,19 +12,22 @@ fun Bitmap.adjustShadow(shadow: Float): Bitmap {
     val bitmap = Bitmap.createBitmap(width, height, this.config!!)
     val canvas = Canvas(bitmap)
     val paint = Paint()
-    val cm = ColorMatrix()
 
+    // Gölgelendirme seviyesi (0.0 - 1.0)
+    val darkeningFactor = 1f - shadow.coerceIn(0f, 1f)
 
-    cm.set(
+    val cm = ColorMatrix(
         floatArrayOf(
-            1f - shadow, 0f, 0f, 0f, shadow * 255,
-            0f, 1f - shadow, 0f, 0f, shadow * 255,
-            0f, 0f, 1f - shadow, 0f, shadow * 255,
+            darkeningFactor, 0f, 0f, 0f, 0f,
+            0f, darkeningFactor, 0f, 0f, 0f,
+            0f, 0f, darkeningFactor, 0f, 0f,
             0f, 0f, 0f, 1f, 0f
         )
     )
+
     val filter = ColorMatrixColorFilter(cm)
     paint.colorFilter = filter
     canvas.drawBitmap(this, 0f, 0f, paint)
     return bitmap
 }
+

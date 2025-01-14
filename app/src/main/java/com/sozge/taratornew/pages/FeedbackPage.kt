@@ -148,13 +148,7 @@ import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
                 )
                 Spacer(modifier = Modifier.padding(40.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                    ,
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
+                Text(
                         text = "Tarator",
                         textAlign = TextAlign.Center,
                         fontSize = 16.sp,
@@ -166,4 +160,3 @@ import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
             }
         }
     }
-}

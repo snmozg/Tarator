@@ -4,43 +4,56 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 
-fun Bitmap.adjustDetails(intensity: Float): Bitmap {
-    val width = this.width
-    val height = this.height
-
-    // Yeni bitmap oluştur
-    val resultBitmap = Bitmap.createBitmap(width, height, this.config!!)
-
-    // Keskinlik için bir kernel tanımla
-    val sharpness = intensity.coerceIn(0f, 10f)
-    val kernel = floatArrayOf(
-        0f, -sharpness, 0f,
-        -sharpness, 1f + 4 * sharpness, -sharpness,
-        0f, -sharpness, 0f
+fun Bitmap.adjustDetails(detailLevel: Float): Bitmap {
+    val kernel = arrayOf(
+        floatArrayOf(0f, -1f, 0f),
+        floatArrayOf(-1f, 4f + detailLevel, -1f),
+        floatArrayOf(0f, -1f, 0f)
     )
 
-    val paint = Paint()
-    val canvas = Canvas(resultBitmap)
+    val width = this.width
+    val height = this.height
+    val output = Bitmap.createBitmap(width, height, this.config!!)
 
+    // Orijinal piksel değerleri
+    val pixels = IntArray(width * height)
+    this.getPixels(pixels, 0, width, 0, 0, width, height)
 
-    // Keskinleştirme işlemi için yeni bir bitmap oluştur
-    val inputBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-    val inputCanvas = Canvas(inputBitmap)
-    inputCanvas.drawBitmap(this, 0f, 0f, paint)
+    // Yeni piksel değerleri
+    val newPixels = IntArray(width * height)
 
-    // Kernel matrisini uygulama
-    val colorMatrix = android.graphics.ColorMatrix()
-    colorMatrix.setSaturation(1f) // Renk doygunluğunu koruyalım
+    // Çekirdek hesaplama
+    for (y in 1 until height - 1) {
+        for (x in 1 until width - 1) {
+            var r = 0f
+            var g = 0f
+            var b = 0f
 
-    // ColorMatrix ile keskinleştirme matrisini uygulayalım
-    val colorFilter = android.graphics.ColorMatrixColorFilter(colorMatrix)
-    paint.colorFilter = colorFilter
+            for (ky in -1..1) {
+                for (kx in -1..1) {
+                    val pixel = pixels[(y + ky) * width + (x + kx)]
+                    val kernelValue = kernel[ky + 1][kx + 1]
 
-    // Yeni bitmap üzerinde keskinleştirme işlemini uygula
-    canvas.drawBitmap(inputBitmap, 0f, 0f, paint)
+                    r += ((pixel shr 16 and 0xFF) * kernelValue)
+                    g += ((pixel shr 8 and 0xFF) * kernelValue)
+                    b += ((pixel and 0xFF) * kernelValue)
+                }
+            }
 
-    return resultBitmap
+            // RGB değerlerini sıkıştır ve sınırlı aralıkta tut
+            val newR = r.coerceIn(0f, 255f).toInt()
+            val newG = g.coerceIn(0f, 255f).toInt()
+            val newB = b.coerceIn(0f, 255f).toInt()
+
+            newPixels[y * width + x] = (0xFF shl 24) or (newR shl 16) or (newG shl 8) or newB
+        }
+    }
+
+    output.setPixels(newPixels, 0, width, 0, 0, width, height)
+    return output
 }
+
+
 
 
 

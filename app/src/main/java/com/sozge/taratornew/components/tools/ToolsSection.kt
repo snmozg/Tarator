@@ -1,4 +1,7 @@
 import android.graphics.Bitmap
+import android.os.Build
+import android.telecom.Call.Details
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +25,7 @@ import androidx.compose.material.icons.filled.Details
 import androidx.compose.material.icons.filled.HdrEnhancedSelect
 import androidx.compose.material.icons.filled.Vignette
 import androidx.compose.material.icons.outlined.Brightness6
+import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.Rotate90DegreesCw
 import androidx.compose.material.icons.outlined.Tune
@@ -57,6 +61,7 @@ import com.sozge.taratornew.components.tools.Contrast
 import com.sozge.taratornew.components.CustomToolButton
 import com.sozge.taratornew.components.tools.Blur
 import com.sozge.taratornew.components.tools.Details
+import com.sozge.taratornew.components.tools.HueChange
 import com.sozge.taratornew.components.tools.Shadow
 import com.sozge.taratornew.components.tools.Vignette
 import com.sozge.taratornew.models.FilterViewModel
@@ -66,6 +71,7 @@ import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
 import com.sozge.taratornew.utils.toBitmap
 
 
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun ToolsSection(
     imageViewModel: ImageViewModel,
@@ -86,7 +92,8 @@ fun ToolsSection(
     val contrast = toolsViewModel.contrast.value
     val shadow = toolsViewModel.shadow.value
     val vignetteIntensity = toolsViewModel.vignetteIntensity.value
-    val detail = toolsViewModel.detail.value
+    var detailValue = toolsViewModel.detailValue.value
+    val hueChange = toolsViewModel.hueValue.value
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -172,6 +179,9 @@ fun ToolsSection(
                     CustomToolButton(icon = Icons.Filled.BlurOn, description = "Blur") {
                         selectedTool = ToolType.Blur
                     }
+                    CustomToolButton(icon = Icons.Outlined.Colorize, description = "Hue Change") {
+                        selectedTool = ToolType.HueChange
+                    }
                     CustomToolButton(icon = Icons.Filled.Details, description = "Details") {
                         selectedTool = ToolType.Details
                     }
@@ -229,11 +239,21 @@ fun ToolsSection(
 
                     ToolType.Details -> {
                         Details(
-                            detail = detail,
+                            detailValue = toolsViewModel.detailValue.value,
+                            displayBitmap = displayBitmap,
+                            bitmap = bitmap,
+                        ){ newDetail, newBitmap ->
+                            toolsViewModel.updateDetail(newDetail)
+                            displayBitmap = newBitmap
+                        }
+                    }
+                    ToolType.HueChange -> {
+                        HueChange(
+                            hueValue = toolsViewModel.hueValue.value,
                             displayBitmap = displayBitmap,
                             bitmap = bitmap
-                        ) { newDetail, newBitmap ->
-                            toolsViewModel.updateDetail(newDetail)
+                        ) { newHue, newBitmap ->
+                            toolsViewModel.updateHueValue(newHue)
                             displayBitmap = newBitmap
                         }
                     }
@@ -287,5 +307,5 @@ fun ToolsSection(
 }
 
 enum class ToolType {
-    Brightness, Contrast, Shadow, Vignette, Details,Blur
+    Brightness, Contrast, Shadow, Vignette, Details,Blur,HueChange
 }
