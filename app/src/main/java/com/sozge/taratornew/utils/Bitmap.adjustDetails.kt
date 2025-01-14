@@ -15,14 +15,14 @@ fun Bitmap.adjustDetails(detailLevel: Float): Bitmap {
     val height = this.height
     val output = Bitmap.createBitmap(width, height, this.config!!)
 
-    // Orijinal piksel değerleri
+
     val pixels = IntArray(width * height)
     this.getPixels(pixels, 0, width, 0, 0, width, height)
 
-    // Yeni piksel değerleri
+
     val newPixels = IntArray(width * height)
 
-    // Çekirdek hesaplama
+
     for (y in 1 until height - 1) {
         for (x in 1 until width - 1) {
             var r = 0f
@@ -40,7 +40,7 @@ fun Bitmap.adjustDetails(detailLevel: Float): Bitmap {
                 }
             }
 
-            // RGB değerlerini sıkıştır ve sınırlı aralıkta tut
+
             val newR = r.coerceIn(0f, 255f).toInt()
             val newG = g.coerceIn(0f, 255f).toInt()
             val newB = b.coerceIn(0f, 255f).toInt()

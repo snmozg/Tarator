@@ -16,7 +16,7 @@ fun saveBitmapToGallery(context: Context, bitmap: Bitmap?): Uri? {
         val contentValues = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, "edited_image_${System.currentTimeMillis()}.jpg")
             put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-            put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/TaratorApp") // Galeride bir klasör ismi
+            put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/Tarator") // Galeride bir klasör ismi
         }
 
         val contentResolver = context.contentResolver

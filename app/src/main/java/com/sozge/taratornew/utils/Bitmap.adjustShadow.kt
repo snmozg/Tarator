@@ -13,7 +13,7 @@ fun Bitmap.adjustShadow(shadow: Float): Bitmap {
     val canvas = Canvas(bitmap)
     val paint = Paint()
 
-    // Gölgelendirme seviyesi (0.0 - 1.0)
+
     val darkeningFactor = 1f - shadow.coerceIn(0f, 1f)
 
     val cm = ColorMatrix(

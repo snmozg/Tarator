@@ -92,6 +92,7 @@ fun ToolsSection(
     val contrast = toolsViewModel.contrast.value
     val shadow = toolsViewModel.shadow.value
     val vignetteIntensity = toolsViewModel.vignetteIntensity.value
+    val blurRadius = toolsViewModel.blurRadius.value
     var detailValue = toolsViewModel.detailValue.value
     val hueChange = toolsViewModel.hueValue.value
 
@@ -195,11 +196,12 @@ fun ToolsSection(
                             brightness = brightness,
                             displayBitmap = displayBitmap,
                             bitmap = bitmap,
-                            onBrightnessChanged = { newBrightness, newBitmap ->
+                        onBrightnessChanged = { newBrightness, newBitmap ->
                                 toolsViewModel.updateBrightness(newBrightness)
                                 displayBitmap = newBitmap
                             },
                         )
+                        bitmapToUri(context, displayBitmap!!)?.let { imageViewModel.updateImage(it) }
                     }
 
                     ToolType.Contrast -> {
@@ -211,6 +213,7 @@ fun ToolsSection(
                             toolsViewModel.updateContrast(newContrast)
                             displayBitmap = newBitmap
                         }
+                        bitmapToUri(context, displayBitmap!!)?.let { imageViewModel.updateImage(it) }
                     }
 
                     ToolType.Shadow -> {
@@ -222,40 +225,40 @@ fun ToolsSection(
                             toolsViewModel.updateShadow(newShadow)
                             displayBitmap = newBitmap
                         }
+                        bitmapToUri(context, displayBitmap!!)?.let { imageViewModel.updateImage(it) }
                     }
                     ToolType.Blur -> {
                         Blur(
-                            blurRadius = toolsViewModel.blurRadius.value,
+                            blurRadius = blurRadius,
                             displayBitmap = displayBitmap,
                             bitmap = bitmap
                         ) { newRadius, newBitmap ->
                             toolsViewModel.updateBlurRadius(newRadius)
                             displayBitmap = newBitmap
                         }
+                        bitmapToUri(context, displayBitmap!!)?.let { imageViewModel.updateImage(it) }
                     }
-
-
-
-
                     ToolType.Details -> {
                         Details(
-                            detailValue = toolsViewModel.detailValue.value,
+                            detailValue = detailValue,
                             displayBitmap = displayBitmap,
                             bitmap = bitmap,
                         ){ newDetail, newBitmap ->
                             toolsViewModel.updateDetail(newDetail)
                             displayBitmap = newBitmap
                         }
+                        bitmapToUri(context, displayBitmap!!)?.let { imageViewModel.updateImage(it) }
                     }
                     ToolType.HueChange -> {
                         HueChange(
-                            hueValue = toolsViewModel.hueValue.value,
+                            hueValue = hueChange,
                             displayBitmap = displayBitmap,
                             bitmap = bitmap
                         ) { newHue, newBitmap ->
                             toolsViewModel.updateHueValue(newHue)
                             displayBitmap = newBitmap
                         }
+                        bitmapToUri(context, displayBitmap!!)?.let { imageViewModel.updateImage(it) }
                     }
 
                     ToolType.Vignette -> {
@@ -267,6 +270,7 @@ fun ToolsSection(
                             toolsViewModel.updateVignetteIntensity(newVignette)
                             displayBitmap = newBitmap
                         }
+                        bitmapToUri(context, displayBitmap!!)?.let { imageViewModel.updateImage(it) }
                     }
 
                     else -> Text("Select a tool to start editing.")

@@ -11,13 +11,12 @@ class ImageViewModel : ViewModel() {
 
     fun updateImage(newValue: Uri) {
         _myImage.value = newValue
+
     }
 
     fun deleteImage() {
         _myImage.value = null
     }
-    fun updateCroppedImage(croppedUri:Uri) {
-        _myImage.value = croppedUri
-    }
+
 
 }
