@@ -12,10 +12,12 @@ import androidx.navigation.compose.rememberNavController
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
+import com.sozge.taratornew.models.TextViewModel
 import com.sozge.taratornew.pages.EditPage
 import com.sozge.taratornew.pages.FeedBackPage
 import com.sozge.taratornew.pages.HomePage
 import com.sozge.taratornew.pages.SettingsPage
+import com.sozge.taratornew.pages.TextPage
 import com.sozge.taratornew.ui.theme.TaratorNewTheme
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.pages.BrushPage
@@ -32,6 +34,7 @@ class MainActivity : ComponentActivity() {
             val bottomSheetViewModel: BottomSheetViewModel = viewModel()
             val drawingViewModel: DrawingViewModel = viewModel()
             val toolsViewModel:ToolsViewModel = viewModel()
+            val textViewModel: TextViewModel = viewModel()
 
             TaratorNewTheme {
                 NavHost(
@@ -56,12 +59,12 @@ class MainActivity : ComponentActivity() {
                     composable(route = "PrivacyPolicyPage") {
                         PrivacyPolicyPage(navController,imageViewModel,drawingViewModel,filterViewModel)
                     }
-                    /*
-                    composable(route = "CropPage") {
-                        CropPage(navController,imageViewModel,filterViewModel, drawingViewModel)
+
+                    composable(route = "TextPage") {
+                        TextPage(navController,imageViewModel,drawingViewModel,filterViewModel,bottomSheetViewModel,textViewModel)
                     }
 
-                     */
+
 
                 }
             }

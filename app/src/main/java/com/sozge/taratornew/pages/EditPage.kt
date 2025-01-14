@@ -105,6 +105,7 @@ fun EditPage(
                             )
                             if (filteredBitmap != null && drawingBitmap != null) {
                                 val finalBitmap = bitmapWithDrawing(filteredBitmap, drawingBitmap)
+
                                 val savedUri = saveBitmapToGallery(
                                     context,
                                     finalBitmap
@@ -184,14 +185,14 @@ fun EditPage(
                             navController.navigate("BrushPage")
                         }
                     },
-                    /*
-                    onCropClick = {
+
+                    onTextClick = {
                         if (imageViewModel.myImage.value != null) {
-                            navController.navigate("CropPage")
+                            navController.navigate("TextPage")
                         }
                     }
 
-                     */
+
                 )
 
                 // ModalBottomSheets controlled by ViewModel

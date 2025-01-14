@@ -7,6 +7,7 @@ import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.material.icons.outlined.FilterTiltShift
 import androidx.compose.material.icons.outlined.StarOutline
+import androidx.compose.material.icons.outlined.TextFields
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
@@ -18,7 +19,7 @@ fun RowButtons(
     onFilterClick: () -> Unit,
     onToolsClick: () -> Unit,
     onBrushClick: () -> Unit,
-    //onCropClick: () -> Unit
+    onTextClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -44,13 +45,13 @@ fun RowButtons(
             "BRUSH",
             onClick = { onBrushClick() }
         )
-        /*
+
         CustomOptionsButton(
-            Icons.Outlined.Crop,
-            "Crop Button",
-            "CROP",
-            onClick = { onCropClick() }
+            Icons.Outlined.TextFields,
+            "Text Button",
+            "TEXT",
+            onClick = { onTextClick() }
         )
-         */
+
     }
 }

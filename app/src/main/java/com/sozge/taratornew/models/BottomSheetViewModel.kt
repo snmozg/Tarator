@@ -10,7 +10,7 @@ class BottomSheetViewModel : ViewModel() {
         private set
     var isWidthSheetOpen = mutableStateOf(false)
         private set
-    var isCropSheetOpen = mutableStateOf(false)
+    var isTextSheetOpen = mutableStateOf(false)
         private set
 
     fun openFilterSheet() {
@@ -44,10 +44,10 @@ class BottomSheetViewModel : ViewModel() {
     fun closeWidthSheet() {
         isWidthSheetOpen.value = false
     }
-    fun openCropSheet() {
-        isCropSheetOpen.value = true
+    fun openTextSheet() {
+        isTextSheetOpen.value = true
     }
-    fun closeCropSheet() {
+    fun closeTextSheet() {
         isWidthSheetOpen.value = false
     }
 }
