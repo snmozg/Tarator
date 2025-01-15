@@ -46,6 +46,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -56,9 +57,12 @@ import com.sozge.taratornew.components.brushes.BrushColorPicker
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
+import com.sozge.taratornew.models.TextData
 import com.sozge.taratornew.models.TextViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
 import com.sozge.taratornew.utils.toBitmap
+import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,7 +72,7 @@ fun TextPage(
     drawingViewModel: DrawingViewModel,
     filterViewModel: FilterViewModel,
     bottomSheetViewModel: BottomSheetViewModel,
-    textViewModel: TextViewModel
+    textViewModel: TextViewModel,
 ) {
     val context = LocalContext.current
     var textColor by remember { mutableStateOf(Color.Black) }
@@ -85,12 +89,7 @@ fun TextPage(
     var displayBitmap by remember { mutableStateOf<Bitmap?>(bitmap) }
 
     val density = LocalDensity.current
-    val textList = textViewModel.textList.collectAsState()
-
-
-
-
-
+    val textList by textViewModel.textList.collectAsState()
 
     LaunchedEffect(showTextField) {
         if (showTextField) focusRequester.requestFocus()
@@ -142,41 +141,20 @@ fun TextPage(
                     )
                 }
 
-
-
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
-                    textList.value.forEachIndexed { index, textData ->
-                        Text(
-                            text = textData.text,
-                            color = textData.color,
-                            fontSize = textData.size,
-                            modifier = Modifier
-                                .offset(
-                                    x = textData.position.x.dp,
-                                    y = textData.position.y.dp
-                                )
-                                .pointerInput(Unit) {
-                                    detectDragGestures { _, dragAmount ->
-                                        val dragXInDp = with(density) { dragAmount.x.toDp() }
-                                        val dragYInDp = with(density) { dragAmount.y.toDp() }
-
-                                        textViewModel.updateTextPosition(
-                                            index = index,
-                                            newPosition = Offset(
-                                                textData.position.x + dragXInDp.value,
-                                                textData.position.y + dragYInDp.value
-                                            )
-                                        )
-                                    }
-                                }
+                    textList.forEachIndexed { index, textData ->
+                        DraggableTextItem(
+                            textData = textData,
+                            onPositionChange = { newPosition ->
+                                textViewModel.updateTextPosition(index, newPosition)
+                            }
                         )
                     }
                 }
             }
-
 
             if (showTextField) {
                 TextField(
@@ -209,7 +187,6 @@ fun TextPage(
                     Text("Done")
                 }
             }
-
 
             Row(
                 modifier = Modifier
@@ -265,9 +242,9 @@ fun TextPage(
                     sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                 ) {
                     Text(
-                        text="Set the font size.",
-                        modifier = Modifier.
-                        padding(10.dp)
+                        text = "Set the font size.",
+                        modifier = Modifier
+                            .padding(10.dp)
                             .align(Alignment.CenterHorizontally)
                     )
                     Slider(
@@ -283,6 +260,30 @@ fun TextPage(
     }
 }
 
+@Composable
+fun DraggableTextItem(
+    textData: TextData,
+    onPositionChange: (Offset) -> Unit,
+) {
+    var dragOffset by remember { mutableStateOf(Offset.Zero) }
 
-
+    Box(
+        modifier = Modifier
+            .offset { IntOffset(dragOffset.x.roundToInt(), dragOffset.y.roundToInt()) }
+            .pointerInput(Unit) {
+                detectDragGestures { change, dragAmount ->
+                    change.consume()
+                    dragOffset += dragAmount
+                    onPositionChange(dragOffset)
+                }
+            }
+    ) {
+        Text(
+            text = textData.text,
+            fontSize = textData.size,
+            color = textData.color,
+            modifier = Modifier.padding(8.dp)
+        )
+    }
+}
 

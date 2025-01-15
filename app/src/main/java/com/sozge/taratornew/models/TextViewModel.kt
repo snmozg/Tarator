@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-
 class TextViewModel : ViewModel() {
     private val _textList = MutableStateFlow<List<TextData>>(emptyList())
     val textList: StateFlow<List<TextData>> get() = _textList
@@ -21,7 +20,7 @@ class TextViewModel : ViewModel() {
         text: String,
         position: Offset,
         color: androidx.compose.ui.graphics.Color,
-        size: TextUnit
+        size: TextUnit,
     ) {
         val newText = TextData(
             text = text,
@@ -41,7 +40,7 @@ class TextViewModel : ViewModel() {
     fun updateImageWithText(
         context: Context,
         textList: List<TextData>,
-        originalBitmap: Bitmap
+        originalBitmap: Bitmap,
     ): Bitmap {
         val canvas = Canvas(originalBitmap)
         val paint = Paint().apply {
@@ -61,17 +60,11 @@ class TextViewModel : ViewModel() {
 
         return originalBitmap
     }
-    }
+}
 
-
-
-        data class TextData(
-            val text: String,
-            val position: Offset,
-            val color: androidx.compose.ui.graphics.Color,
-            val size: TextUnit
-        )
-
-
-
-
+data class TextData(
+    val text: String,
+    val position: Offset,
+    val color: androidx.compose.ui.graphics.Color,
+    val size: TextUnit,
+)

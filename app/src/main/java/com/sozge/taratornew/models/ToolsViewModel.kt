@@ -1,6 +1,6 @@
 package com.sozge.taratornew.utils.com.sozge.taratornew.models
 
-import ToolType
+
 import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
