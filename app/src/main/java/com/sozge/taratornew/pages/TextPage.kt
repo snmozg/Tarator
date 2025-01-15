@@ -1,7 +1,9 @@
 package com.sozge.taratornew.pages
 
 import BottomSheetViewModel
+import android.graphics.Bitmap
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,10 +41,14 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sozge.taratornew.components.CustomOptionsButton
 import com.sozge.taratornew.components.HeaderBar
@@ -73,9 +79,18 @@ fun TextPage(
 
     val imageUri = imageViewModel.myImage.value
     val bitmap = imageUri?.toBitmap(context)
+    val updatedBitmap = imageUri?.toBitmap(context)
     val imageBitmap = bitmap?.asImageBitmap()
 
+    var displayBitmap by remember { mutableStateOf<Bitmap?>(bitmap) }
+
+    val density = LocalDensity.current
     val textList = textViewModel.textList.collectAsState()
+
+
+
+
+
 
     LaunchedEffect(showTextField) {
         if (showTextField) focusRequester.requestFocus()
@@ -94,6 +109,12 @@ fun TextPage(
                 filterViewModel = filterViewModel,
                 onClick = {
                     navController.popBackStack()
+                    displayBitmap?.let { updatedBitmap ->
+                        val updatedUri = bitmapToUri(context, updatedBitmap)
+                        updatedUri?.let {
+                            imageViewModel.updateImage(it)
+                        }
+                    }
                 }
             )
         },
@@ -122,17 +143,37 @@ fun TextPage(
                 }
 
 
-                textList.value.forEach { textData ->
-                    Text(
-                        text = textData.text,
-                        color = textData.color,
-                        fontSize = textData.size,
-                        modifier = Modifier
-                            .offset(
-                                x = textData.position.x.dp,
-                                y = textData.position.y.dp
-                            )
-                    )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    textList.value.forEachIndexed { index, textData ->
+                        Text(
+                            text = textData.text,
+                            color = textData.color,
+                            fontSize = textData.size,
+                            modifier = Modifier
+                                .offset(
+                                    x = textData.position.x.dp,
+                                    y = textData.position.y.dp
+                                )
+                                .pointerInput(Unit) {
+                                    detectDragGestures { _, dragAmount ->
+                                        val dragXInDp = with(density) { dragAmount.x.toDp() }
+                                        val dragYInDp = with(density) { dragAmount.y.toDp() }
+
+                                        textViewModel.updateTextPosition(
+                                            index = index,
+                                            newPosition = Offset(
+                                                textData.position.x + dragXInDp.value,
+                                                textData.position.y + dragYInDp.value
+                                            )
+                                        )
+                                    }
+                                }
+                        )
+                    }
                 }
             }
 
@@ -154,7 +195,7 @@ fun TextPage(
                         val text = if (inputText.isBlank()) "Your Text Here" else inputText
                         textViewModel.addText(
                             text = text,
-                            position = Offset(50f, 50f), // Varsayılan pozisyon
+                            position = Offset(50f, 50f),
                             color = textColor,
                             size = textSize
                         )
@@ -166,7 +207,6 @@ fun TextPage(
                         .padding(vertical = 8.dp)
                 ) {
                     Text("Done")
-
                 }
             }
 
@@ -224,6 +264,12 @@ fun TextPage(
                     onDismissRequest = { bottomSheetViewModel.closeWidthSheet() },
                     sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                 ) {
+                    Text(
+                        text="Set the font size.",
+                        modifier = Modifier.
+                        padding(10.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
                     Slider(
                         value = textSize.value,
                         onValueChange = { textSize = it.sp },
@@ -236,5 +282,7 @@ fun TextPage(
         }
     }
 }
+
+
 
 
