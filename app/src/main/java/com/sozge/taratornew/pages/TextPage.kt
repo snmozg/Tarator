@@ -39,6 +39,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.pointerInput
@@ -108,8 +109,10 @@ fun TextPage(
                 filterViewModel = filterViewModel,
                 onClick = {
                     navController.popBackStack()
-                    displayBitmap?.let { updatedBitmap ->
-                        val updatedUri = bitmapToUri(context, updatedBitmap)
+                    val bitmap = imageBitmap?.asAndroidBitmap()
+                    bitmap?.let { updatedBitmap ->
+                        val updatedBitmapWithText = textViewModel.updateImageWithText(context, textList, updatedBitmap)
+                        val updatedUri = bitmapToUri(context, updatedBitmapWithText)
                         updatedUri?.let {
                             imageViewModel.updateImage(it)
                         }

@@ -40,13 +40,15 @@ class TextViewModel : ViewModel() {
     fun updateImageWithText(
         context: Context,
         textList: List<TextData>,
-        originalBitmap: Bitmap,
+        originalBitmap: Bitmap
     ): Bitmap {
-        val canvas = Canvas(originalBitmap)
+        val updatedBitmap = originalBitmap.copy(originalBitmap.config!!, true)
+        val canvas = Canvas(updatedBitmap)
         val paint = Paint().apply {
             color = Color.BLACK
             textSize = 50f
         }
+
         textList.forEach { textData ->
             paint.color = textData.color.toArgb()
             paint.textSize = textData.size.value
@@ -58,7 +60,7 @@ class TextViewModel : ViewModel() {
             )
         }
 
-        return originalBitmap
+        return updatedBitmap
     }
 }
 
