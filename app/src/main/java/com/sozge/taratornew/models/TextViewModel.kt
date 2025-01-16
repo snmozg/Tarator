@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.TextUnit
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,12 +47,15 @@ class TextViewModel : ViewModel() {
         val canvas = Canvas(updatedBitmap)
         val paint = Paint().apply {
             color = Color.BLACK
-            textSize = 50f
+            textSize = 50f // Default value, overridden below
         }
+
+        // Get density instance from Compose
+        val density = Density(context.resources.displayMetrics.density)
 
         textList.forEach { textData ->
             paint.color = textData.color.toArgb()
-            paint.textSize = textData.size.value
+            paint.textSize = with(density) { textData.size.toPx() } // Convert TextUnit to px
             canvas.drawText(
                 textData.text,
                 textData.position.x,
@@ -64,7 +68,8 @@ class TextViewModel : ViewModel() {
     }
 }
 
-data class TextData(
+
+    data class TextData(
     val text: String,
     val position: Offset,
     val color: androidx.compose.ui.graphics.Color,
