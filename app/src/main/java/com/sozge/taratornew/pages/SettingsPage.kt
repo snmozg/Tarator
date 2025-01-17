@@ -107,7 +107,7 @@ fun SettingsPage(
                     contentDescription = "Terms of Use",
                     itemText = "Terms of Use",
                     summary = "View our terms of use",
-                    onClick = { println("term of use") }
+                    onClick = { navController.navigate("TermsOfUsePage") }
                 )
             )
 

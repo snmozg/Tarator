@@ -1,16 +1,13 @@
 package com.sozge.taratornew.pages
 
 import BottomSheetViewModel
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
@@ -42,15 +39,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sozge.taratornew.components.CustomOptionsButton
 import com.sozge.taratornew.components.HeaderBar
@@ -62,8 +54,6 @@ import com.sozge.taratornew.models.TextViewModel
 import com.sozge.taratornew.text.DraggableTextItem
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
 import com.sozge.taratornew.utils.toBitmap
-import kotlin.math.absoluteValue
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

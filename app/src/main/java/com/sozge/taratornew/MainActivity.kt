@@ -17,6 +17,7 @@ import com.sozge.taratornew.pages.EditPage
 import com.sozge.taratornew.pages.FeedBackPage
 import com.sozge.taratornew.pages.HomePage
 import com.sozge.taratornew.pages.SettingsPage
+import com.sozge.taratornew.pages.TermsOfUsePage
 import com.sozge.taratornew.pages.TextPage
 import com.sozge.taratornew.ui.theme.TaratorNewTheme
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
@@ -62,6 +63,10 @@ class MainActivity : ComponentActivity() {
 
                     composable(route = "TextPage") {
                         TextPage(navController,imageViewModel,drawingViewModel,filterViewModel,bottomSheetViewModel,textViewModel)
+                    }
+
+                    composable(route = "TermsOfUsePage") {
+                        TermsOfUsePage(navController,imageViewModel,drawingViewModel,filterViewModel)
                     }
 
 
