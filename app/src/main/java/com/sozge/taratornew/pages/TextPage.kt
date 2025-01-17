@@ -58,7 +58,6 @@ import com.sozge.taratornew.components.brushes.BrushColorPicker
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
-import com.sozge.taratornew.models.TextData
 import com.sozge.taratornew.models.TextViewModel
 import com.sozge.taratornew.text.DraggableTextItem
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
