@@ -2,11 +2,13 @@ package com.sozge.taratornew.components.brushes
 
 import BottomSheetViewModel
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -26,12 +28,18 @@ fun BrushColorPicker(
     onColorSelected: (Color) -> Unit,
 ) {
 
-    val colors = listOf(Color.Black, Color.Red, Color.Blue, Color.Green, Color.Yellow)
+    val colors = listOf(Color.White,Color.Black, Color.Red,
+                                    Color.Blue,Color.Magenta, Color.Green,
+                                    Color.Cyan,Color.Yellow,
+                                    Color.Gray)
 
 
     Row(
+
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.horizontalScroll(
+            rememberScrollState())
     ) {
         colors.forEach { color ->
             Button(
