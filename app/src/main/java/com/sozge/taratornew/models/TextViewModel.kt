@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.TextUnit
 import androidx.lifecycle.ViewModel
+import com.sozge.taratornew.text.TextData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -47,10 +48,9 @@ class TextViewModel : ViewModel() {
         val canvas = Canvas(updatedBitmap)
         val paint = Paint().apply {
             color = Color.BLACK
-            textSize = 50f // Default value, overridden below
+            textSize = 50f
         }
 
-        // Get density instance from Compose
         val density = Density(context.resources.displayMetrics.density)
 
         textList.forEach { textData ->
@@ -67,11 +67,3 @@ class TextViewModel : ViewModel() {
         return updatedBitmap
     }
 }
-
-
-    data class TextData(
-    val text: String,
-    val position: Offset,
-    val color: androidx.compose.ui.graphics.Color,
-    val size: TextUnit,
-)

@@ -60,6 +60,7 @@ import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.models.TextData
 import com.sozge.taratornew.models.TextViewModel
+import com.sozge.taratornew.text.DraggableTextItem
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
 import com.sozge.taratornew.utils.toBitmap
 import kotlin.math.absoluteValue
@@ -87,9 +88,6 @@ fun TextPage(
     val updatedBitmap = imageUri?.toBitmap(context)
     val imageBitmap = bitmap?.asImageBitmap()
 
-    var displayBitmap by remember { mutableStateOf<Bitmap?>(bitmap) }
-
-    val density = LocalDensity.current
     val textList by textViewModel.textList.collectAsState()
 
     LaunchedEffect(showTextField) {
@@ -263,30 +261,5 @@ fun TextPage(
     }
 }
 
-@Composable
-fun DraggableTextItem(
-    textData: TextData,
-    onPositionChange: (Offset) -> Unit,
-) {
-    var dragOffset by remember { mutableStateOf(Offset.Zero) }
 
-    Box(
-        modifier = Modifier
-            .offset { IntOffset(dragOffset.x.roundToInt(), dragOffset.y.roundToInt()) }
-            .pointerInput(Unit) {
-                detectDragGestures { change, dragAmount ->
-                    change.consume()
-                    dragOffset += dragAmount
-                    onPositionChange(dragOffset)
-                }
-            }
-    ) {
-        Text(
-            text = textData.text,
-            fontSize = textData.size,
-            color = textData.color,
-            modifier = Modifier.padding(8.dp)
-        )
-    }
-}
 
