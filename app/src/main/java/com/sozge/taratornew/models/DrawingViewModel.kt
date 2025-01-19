@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
+import com.sozge.taratornew.components.brushes.Line
 
 class DrawingViewModel: ViewModel() {
     val lines: SnapshotStateList<Line> = mutableStateListOf()
@@ -37,11 +38,3 @@ class DrawingViewModel: ViewModel() {
     }
 }
 
-
-
-data class Line(
-    val start: Offset,
-    val end: Offset,
-    val color: Color = Color.Black,
-    val strokeWith: Dp = 1.dp
-)
