@@ -1,17 +1,25 @@
 package com.sozge.taratornew.utils.com.sozge.taratornew.pages
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -27,7 +35,6 @@ fun PrivacyPolicyPage(
     drawingViewModel: DrawingViewModel,
     filterViewModel: FilterViewModel) {
     val privacyPolicyText = """
-        TARATOR PRIVACY POLICY
         Last Updated: 23.12.2024
         Effective Date: unknown
 
@@ -81,7 +88,7 @@ fun PrivacyPolicyPage(
         - Request deletion of data
         - Object to data processing
         To exercise these rights, you can contact us at:
-        📧 [Email Address]
+        📧 [tarator@gmail.com]
 
         8. THIRD-PARTY LINKS
         Tarator may contain links to third-party websites or services. These sites have their own privacy policies, which are not under our control.
@@ -91,8 +98,8 @@ fun PrivacyPolicyPage(
 
         10. CONTACT
         For questions about the Privacy Policy, you can contact us at:
-        📧 [Email Address]
-        🌐 [Website Address]
+        📧 [tarator@gmail.com]
+        
 
         The Tarator Team is committed to protecting your privacy.
     """.trimIndent()
@@ -118,10 +125,46 @@ fun PrivacyPolicyPage(
                 .verticalScroll(rememberScrollState())
                 .background(MaterialTheme.colorScheme.background)
         ) {
+            Card(
+                shape = RoundedCornerShape(5.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.background)
+            ) {
+                Column(
+
+                    modifier = Modifier
+                        .border(5.dp,MaterialTheme.colorScheme.primary)
+                        .padding(6.dp)
+                        .background(MaterialTheme.colorScheme.background)
+                ) {
+                    Text(
+                        text = "Tarator Privacy Policy",
+                        style =MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(20.dp)
+                    )
+                    Text(
+                        modifier = Modifier.padding(12.dp),
+                        text = privacyPolicyText,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.padding(10.dp))
+
             Text(
-                text = privacyPolicyText
+                text = "Tarator ⓒ 2025",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+                    .wrapContentWidth(Alignment.CenterHorizontally)
             )
         }
-
     }
 }

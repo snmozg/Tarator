@@ -128,13 +128,13 @@ For any questions, suggestions, or feedback regarding Tarator, please contact us
             Spacer(modifier = Modifier.padding(10.dp))
 
             Text(
-                text = "Tarator",
+                text = "Tarator ⓒ 2025",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp) // Alt taraftan biraz boşluk bırakmak için
-                    .wrapContentWidth(Alignment.CenterHorizontally) // Ortalamak için
+                    .padding(bottom = 16.dp)
+                    .wrapContentWidth(Alignment.CenterHorizontally)
             )
         }
         }
