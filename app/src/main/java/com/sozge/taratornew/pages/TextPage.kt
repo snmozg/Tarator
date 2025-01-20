@@ -98,7 +98,8 @@ fun TextPage(
                     navController.popBackStack()
                     val bitmap = imageBitmap?.asAndroidBitmap()
                     bitmap?.let { updatedBitmap ->
-                        val updatedBitmapWithText = textViewModel.updateImageWithText(context, textList, updatedBitmap)
+
+                        val updatedBitmapWithText = textViewModel.textOnBitmap(context, updatedBitmap)
                         val updatedUri = bitmapToUri(context, updatedBitmapWithText)
                         updatedUri?.let {
                             imageViewModel.updateImage(it)

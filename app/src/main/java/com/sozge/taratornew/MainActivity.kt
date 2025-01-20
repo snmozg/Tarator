@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                         HomePage(navController, imageViewModel, drawingViewModel, filterViewModel)
                     }
                     composable(route = "EditPage") {
-                        EditPage(navController, imageViewModel, bottomSheetViewModel, filterViewModel, drawingViewModel,toolsViewModel)
+                        EditPage(navController, imageViewModel, bottomSheetViewModel, filterViewModel, drawingViewModel,toolsViewModel,textViewModel)
                     }
                     composable(route = "FeedbackPage") {
                         FeedBackPage(navController, imageViewModel,drawingViewModel, filterViewModel)

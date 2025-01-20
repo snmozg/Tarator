@@ -5,6 +5,7 @@ import ToolsSection
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Environment
@@ -34,6 +35,7 @@ import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.checkPermission
 import com.sozge.taratornew.components.CustomAlertDialog
+import com.sozge.taratornew.models.TextViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.applyFilterToBitmap
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
@@ -55,6 +57,7 @@ fun EditPage(
     filterViewModel: FilterViewModel,
     drawingViewModel: DrawingViewModel,
     toolsViewModel: ToolsViewModel,
+    textViewModel: TextViewModel
 ) {
     var hasPermission by remember { mutableStateOf(false) }
     val permissionLauncher = rememberPermissionLauncher(mutableStateOf(hasPermission))
@@ -103,12 +106,18 @@ fun EditPage(
                                 originalBitmap.width,
                                 originalBitmap.height
                             )
-                            if (filteredBitmap != null && drawingBitmap != null) {
-                                val finalBitmap = bitmapWithDrawing(filteredBitmap, drawingBitmap)
+
+                            val textBitmap = textViewModel.textOnBitmap(
+                                context = context,
+                                originalBitmap = originalBitmap
+                            )
+
+                            if (filteredBitmap != null && drawingBitmap != null && textBitmap != null) {
+                                val combinedBitmap = combineBitmaps(filteredBitmap, drawingBitmap, textBitmap)
 
                                 val savedUri = saveBitmapToGallery(
                                     context,
-                                    finalBitmap
+                                    combinedBitmap
                                 )
                                 savedUri?.let {
                                     showDialog = true
@@ -241,8 +250,21 @@ fun EditPage(
                 }
 
                  */
+
             }
         }
     )
+}
+fun combineBitmaps(vararg bitmaps: Bitmap): Bitmap {
+    val width = bitmaps[0].width
+    val height = bitmaps[0].height
+    val combinedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(combinedBitmap)
+
+    bitmaps.forEach { bitmap ->
+        canvas.drawBitmap(bitmap, 0f, 0f, null)
+    }
+
+    return combinedBitmap
 }
 

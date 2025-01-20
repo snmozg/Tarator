@@ -39,23 +39,23 @@ class TextViewModel : ViewModel() {
         }
     }
 
-    fun updateImageWithText(
+    fun textOnBitmap(
         context: Context,
-        textList: List<TextData>,
         originalBitmap: Bitmap
     ): Bitmap {
         val updatedBitmap = originalBitmap.copy(originalBitmap.config!!, true)
         val canvas = Canvas(updatedBitmap)
         val paint = Paint().apply {
-            color = Color.BLACK
-            textSize = 50f
+            isAntiAlias = true
         }
+
 
         val density = Density(context.resources.displayMetrics.density)
 
-        textList.forEach { textData ->
+
+        _textList.value.forEach { textData ->
             paint.color = textData.color.toArgb()
-            paint.textSize = with(density) { textData.size.toPx() } // Convert TextUnit to px
+            paint.textSize = with(density) { textData.size.toPx() }
             canvas.drawText(
                 textData.text,
                 textData.position.x,

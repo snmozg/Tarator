@@ -46,11 +46,11 @@ import coil.request.ImageRequest
 import com.sozge.taratornew.components.CustomOptionsButton
 import com.sozge.taratornew.components.HeaderBar
 import com.sozge.taratornew.components.brushes.BrushColorPicker
+import com.sozge.taratornew.components.brushes.Line
 import com.sozge.taratornew.components.filters.FilterSection
 import com.sozge.taratornew.models.DrawingViewModel
 import com.sozge.taratornew.models.FilterViewModel
 import com.sozge.taratornew.models.ImageViewModel
-import com.sozge.taratornew.models.Line
 import com.sozge.taratornew.utils.toBitmap
 
 @OptIn(ExperimentalMaterial3Api::class)
