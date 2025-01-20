@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sozge.taratornew.components.HeaderBar
@@ -160,6 +161,7 @@ fun PrivacyPolicyPage(
                 text = "Tarator ⓒ 2025",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)

@@ -172,7 +172,7 @@ import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
                 Spacer(modifier = Modifier.padding(40.dp))
 
                 Text(
-                        text = "Tarator",
+                        text = "Tarator ⓒ",
                         textAlign = TextAlign.Center,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
