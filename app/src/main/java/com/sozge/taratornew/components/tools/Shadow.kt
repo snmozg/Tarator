@@ -28,7 +28,7 @@ fun Shadow(
         onValueChange = { newShadow ->
             onShadowChanged(newShadow, bitmap?.adjustShadow(newShadow))
         },
-        valueRange = 0f..0.8f,
+        valueRange = 0f..0.1f,
         modifier = Modifier.padding(horizontal = 16.dp)
     )
 }
