@@ -29,7 +29,7 @@ fun HueChange(
         onValueChange = { newHue ->
             onHueChanged(newHue, bitmap?.applyHue(newHue))
         },
-        valueRange = 0f..360f, // Renk tonu 0-360 arasında değişir
+        valueRange = 0f..70f,
         modifier = Modifier.padding(horizontal = 16.dp)
     )
 }
