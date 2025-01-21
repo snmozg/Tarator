@@ -135,7 +135,7 @@ fun SettingsPage(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Tarator",
+                    text = "Tarator ⓒ",
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
