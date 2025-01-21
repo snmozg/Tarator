@@ -13,9 +13,18 @@ fun Bitmap.adjustContrast(contrast: Float): Bitmap {
     val canvas = Canvas(bitmap)
     val paint = Paint()
     val cm = ColorMatrix()
-    cm.setSaturation(contrast)
+    val scale = contrast
+    val translate = (-0.5f * scale + 0.5f) * 255f
+    val contrastMatrix = floatArrayOf(
+        scale, 0f, 0f, 0f, translate,
+        0f, scale, 0f, 0f, translate,
+        0f, 0f, scale, 0f, translate,
+        0f, 0f, 0f, 1f, 0f
+    )
+    cm.set(contrastMatrix)
     val filter = ColorMatrixColorFilter(cm)
     paint.colorFilter = filter
     canvas.drawBitmap(this, 0f, 0f, paint)
     return bitmap
 }
+

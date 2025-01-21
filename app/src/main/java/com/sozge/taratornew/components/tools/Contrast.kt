@@ -33,7 +33,7 @@ fun Contrast(
         onValueChange = { newContrast ->
             onContrastChanged(newContrast, bitmap?.adjustContrast(newContrast))
         },
-        valueRange = 0.8f..10f,
+        valueRange = 0.9f..1.2f,
         modifier = Modifier.padding(horizontal = 16.dp)
     )
 }
