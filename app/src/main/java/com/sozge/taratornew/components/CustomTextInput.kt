@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
+import kotlinx.coroutines.selects.whileSelect
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +66,7 @@ fun CustomTextInput(
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = myFont,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.primary
             )
         }
 
@@ -86,6 +88,10 @@ fun CustomTextInput(
                         shape = RoundedCornerShape(20.dp)
                     )
                     .clip(RoundedCornerShape(20.dp)),
+                textStyle = TextStyle(
+                    color = Color.White,
+                    fontSize = 16.sp
+                ),
 
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -116,6 +122,10 @@ fun CustomTextInput(
                         shape = RoundedCornerShape(20.dp)
                     )
                     .clip(RoundedCornerShape(20.dp)),
+                textStyle = TextStyle(
+                    color = Color.White,
+                    fontSize = 16.sp
+                ),
 
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = MaterialTheme.colorScheme.background,

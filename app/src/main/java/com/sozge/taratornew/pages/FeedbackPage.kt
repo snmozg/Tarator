@@ -5,12 +5,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imeNestedScroll
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -53,37 +56,38 @@ import com.sozge.taratornew.utils.com.sozge.taratornew.components.CustomTextInpu
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.CustomExtendedFAB
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
 
-    @Composable
-
-    fun FeedBackPage(
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun FeedBackPage(
     navController: NavController,
     imageViewModel: ImageViewModel,
     drawingViewModel: DrawingViewModel,
     filterViewModel: FilterViewModel
-    ) {
-        val email = remember { mutableStateOf("") }
-        val message = remember { mutableStateOf("") }
-        var showDialog by remember { mutableStateOf(false) }
-        var dialogTitle by remember { mutableStateOf("") }
-        var dialogMessage by remember { mutableStateOf("") }
-        var onConfirmAction by remember { mutableStateOf<(() -> Unit)?>(null) }
+) {
+    val email = remember { mutableStateOf("") }
+    val message = remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
+    var dialogTitle by remember { mutableStateOf("") }
+    var dialogMessage by remember { mutableStateOf("") }
+    var onConfirmAction by remember { mutableStateOf<(() -> Unit)?>(null) }
 
-        if (showDialog) {
-            CustomAlertDialog(
-                title = dialogTitle,
-                message = dialogMessage,
-                onDismiss = { showDialog = false },
-                onConfirm = {
-                    onConfirmAction?.invoke()
-                }
-            )
-        }
+    if (showDialog) {
+        CustomAlertDialog(
+            title = dialogTitle,
+            message = dialogMessage,
+            onDismiss = { showDialog = false },
+            onConfirm = {
+                onConfirmAction?.invoke()
+            }
+        )
+    }
 
     val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = {
-            HeaderBar(navController,
+            HeaderBar(
+                navController = navController,
                 actionImageVector = Icons.Outlined.Menu,
                 actionContentDescription = "menu button",
                 isBackButtonEnable = true,
@@ -95,91 +99,94 @@ import com.sozge.taratornew.utils.com.sozge.taratornew.utils.myFont
                 }
             )
         },
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .imeNestedScroll(),
         floatingActionButton = {
             CustomExtendedFAB(
-                MaterialTheme.colorScheme.primary,
-                "Send",
+                 MaterialTheme.colorScheme.primary,
+                text = "Send",
                 onClick = {
-
-                        showDialog = true
-                        dialogTitle = "Thanks for your feedback!"
-                        dialogMessage = "We will get back to you as soon as possible."
-                        onConfirmAction = null
-
-                })
+                    showDialog = true
+                    dialogTitle = "Thanks for your feedback!"
+                    dialogMessage = "We will get back to you as soon as possible."
+                    onConfirmAction = null
+                }
+            )
         },
         floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween, // Alanı dikeyde düzenler
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(paddingValues)
-                .background(MaterialTheme.colorScheme.background),
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
+            Box(
                 modifier = Modifier
-                    .imePadding()
-                    .verticalScroll(scrollState),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Box(
-                        modifier = Modifier.padding(start = 80.dp, end = 80.dp, top = 5.dp)
-                    ) {
-                        Image(
-                            modifier = Modifier.padding(10.dp),
-                            painter = painterResource(id = R.drawable.logod),
-                            contentDescription = "app logo",
-                            contentScale = ContentScale.Fit
-                        )
-                    }
-                    Text(
-                        text = "How can we help you?",
-                        fontFamily = FontFamily.Default,
-                        fontSize = 18.sp
-                    )
-                }
-                CustomTextInput(
-                    title = "Email",
-                    label = "Email",
-                    text = email.value,
-                    onValueChange = { email.value = it },
-                    isSingleLine = true,
-                    isVisual = true,
-                    keyboardType = KeyboardType.Email,
-                    isBigCanvas = false
+                Image(
+                    painter = painterResource(id = R.drawable.logod),
+                    contentDescription = "app logo",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.size(120.dp)
                 )
-                CustomTextInput(
-                    title = "Message",
-                    label = "Enter Message",
-                    text = message.value,
-                    onValueChange = { message.value = it },
-                    isSingleLine = false,
-                    isVisual = true,
-                    keyboardType = KeyboardType.Text,
-                    isBigCanvas = true
-                )
-                Spacer(modifier = Modifier.padding(40.dp))
-
-                Text(
-                        text = "Tarator ⓒ",
-                        textAlign = TextAlign.Center,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = myFont,
-                        color = Color.LightGray
-                    )
-                }
             }
+            Text(
+                text = "How can we help you?",
+                fontSize = 18.sp,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+            CustomTextInput(
+                title = "Email",
+                label = "Email",
+                text = email.value,
+                onValueChange = { email.value = it },
+                isSingleLine = true,
+                isVisual = true,
+                keyboardType = KeyboardType.Email,
+                isBigCanvas = false
+            )
+            CustomTextInput(
+                title = "Message",
+                label = "Enter Message",
+                text = message.value,
+                onValueChange = { message.value = it },
+                isSingleLine = false,
+                isVisual = true,
+                keyboardType = KeyboardType.Text,
+                isBigCanvas = true
+            )
         }
     }
+        Text(
+            text = "Tarator ⓒ",
+            textAlign = TextAlign.Center,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+            fontFamily = myFont,
+            color = Color.LightGray,
+            modifier = Modifier
+                .padding(bottom = 16.dp)
+
+        )
+}}
+
+
+
+
