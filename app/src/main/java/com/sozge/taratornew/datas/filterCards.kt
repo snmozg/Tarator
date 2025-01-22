@@ -3,7 +3,6 @@ package com.sozge.taratornew.datas
 import com.sozge.taratornew.R
 import com.sozge.taratornew.dataclasses.OptionCard
 
-// Filtre kartlarını tutan liste
 val filterCards = listOf(
     OptionCard(
         R.drawable.applicationicon,
@@ -54,6 +53,5 @@ val filterCards = listOf(
         R.drawable.applicationicon,
         "Sunset", 11
     ),
-
 )
 

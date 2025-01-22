@@ -22,7 +22,6 @@ fun Bitmap.adjustDetails(detailLevel: Float): Bitmap {
 
     val newPixels = IntArray(width * height)
 
-
     for (y in 1 until height - 1) {
         for (x in 1 until width - 1) {
             var r = 0f

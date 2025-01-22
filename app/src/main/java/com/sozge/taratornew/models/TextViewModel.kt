@@ -49,9 +49,7 @@ class TextViewModel : ViewModel() {
             isAntiAlias = true
         }
 
-
         val density = Density(context.resources.displayMetrics.density)
-
 
         _textList.value.forEach { textData ->
             paint.color = textData.color.toArgb()

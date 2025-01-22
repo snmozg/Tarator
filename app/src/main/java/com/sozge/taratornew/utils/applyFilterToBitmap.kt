@@ -32,12 +32,8 @@ fun applyFilterToBitmap(originalBitmap: Bitmap?, colorFilter: ColorFilter?): Bit
             paint.colorFilter = it
             canvas.drawBitmap(originalBitmap, 0f, 0f, paint)
         }
-
-
-
-
-
         resultBitmap
+
     } catch (e: Exception) {
         Log.e("applyFilterToBitmap", "Error ${e.message}")
         null
