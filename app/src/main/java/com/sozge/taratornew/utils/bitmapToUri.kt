@@ -16,16 +16,16 @@ fun bitmapToUri(context: Context, bitmap: Bitmap?): Uri? {
     if (bitmap == null) return null
 
     return try {
-        // Geçici dosya oluştur
+
         val file = File(context.cacheDir, "edited_image_${System.currentTimeMillis()}.jpg")
         val outputStream = FileOutputStream(file)
 
-        // Bitmap'i dosyaya yaz
+
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
         outputStream.flush()
         outputStream.close()
 
-        // URI'yi döndür
+
         FileProvider.getUriForFile(
             context,
             "${context.packageName}.fileprovider",

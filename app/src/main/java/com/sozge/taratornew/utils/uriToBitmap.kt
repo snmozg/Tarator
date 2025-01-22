@@ -15,7 +15,4 @@ fun Uri.toBitmap(context: Context): Bitmap? {
     return BitmapFactory.decodeStream(inputStream)
 }
 
-fun Uri.toImageBitmap(context: Context): ImageBitmap? {
-    val bitmap = toBitmap(context)
-    return bitmap?.asImageBitmap()
-}
+

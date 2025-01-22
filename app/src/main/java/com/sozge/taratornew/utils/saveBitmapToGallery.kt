@@ -12,7 +12,7 @@ fun saveBitmapToGallery(context: Context, bitmap: Bitmap?): Uri? {
     if (bitmap == null) return null
 
     return try {
-        // Görüntüyü galeriye kaydetmek için MediaStore kullanıyoruz
+
         val contentValues = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, "edited_image_${System.currentTimeMillis()}.jpg")
             put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
