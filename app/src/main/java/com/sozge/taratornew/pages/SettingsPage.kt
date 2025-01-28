@@ -1,6 +1,8 @@
 package com.sozge.taratornew.pages
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -52,6 +54,7 @@ fun SettingsPage(
     filterViewModel: FilterViewModel
 ) {
     val currentRoute = navController.currentBackStackEntry?.destination?.route
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -86,7 +89,6 @@ fun SettingsPage(
                     summary = "View and edit your personal information",
                     onClick = { navController.navigate("UserInformation") }
                 ),
-
                 */
                 SettingsCard(
                     imageVector = Icons.Outlined.Phone,
@@ -100,14 +102,22 @@ fun SettingsPage(
                     contentDescription = "Privacy Policy",
                     itemText = "Privacy Policy",
                     summary = "View our privacy policy",
-                    onClick = { navController.navigate("PrivacyPolicyPage") }
+                    onClick = {
+                        val url = "https://tarator-web.vercel.app/privacy-policy"
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        context.startActivity(intent)
+                    }
                 ),
                 SettingsCard(
                     imageVector = Icons.Outlined.InsertDriveFile,
                     contentDescription = "Terms of Use",
                     itemText = "Terms of Use",
                     summary = "View our terms of use",
-                    onClick = { navController.navigate("TermsOfUsePage") }
+                    onClick = {
+                        val url = "https://tarator-web.vercel.app/term-of-use"
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        context.startActivity(intent)
+                    }
                 )
             )
 
@@ -135,7 +145,7 @@ fun SettingsPage(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Tarator ⓒ",
+                    text = "Tarator",
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,

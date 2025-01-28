@@ -51,7 +51,7 @@ fun HeaderBar(
                 IconButton(
                     onClick = {
                         if (currentRoute == "BrushPage") {
-                            navController.navigate("EditPage")
+                            navController.popBackStack()
                             filterViewModel.deleteFilter()
                             drawingViewModel.clearDrawing()
                         } else if (
@@ -70,7 +70,8 @@ fun HeaderBar(
                                 popUpTo(0) { inclusive = true }
                             }
                         }
-                    }) {
+                    }
+                ) {
                     Icon(
                         Icons.Outlined.ArrowBackIosNew,
                         contentDescription = "Back",

@@ -39,7 +39,6 @@ import com.sozge.taratornew.models.TextViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.applyFilterToBitmap
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapToUri
-import com.sozge.taratornew.utils.com.sozge.taratornew.utils.bitmapWithDrawing
 import com.sozge.taratornew.utils.com.sozge.taratornew.utils.saveBitmapToGallery
 import com.sozge.taratornew.utils.getRequiredPermission
 import com.sozge.taratornew.utils.rememberGalleryLauncher

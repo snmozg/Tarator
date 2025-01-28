@@ -35,7 +35,6 @@ import com.sozge.taratornew.models.ImageViewModel
 import com.sozge.taratornew.utils.com.sozge.taratornew.animations.LottieAnimation
 import com.sozge.taratornew.utils.com.sozge.taratornew.models.ToolsViewModel
 import com.sozge.taratornew.utils.toBitmap
-import com.sozge.taratornew.utils.toImageBitmap
 
 @Composable
 fun EditPageImage(
