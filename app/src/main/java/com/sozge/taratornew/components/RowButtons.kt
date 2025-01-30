@@ -3,13 +3,9 @@ package com.sozge.taratornew.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Brush
-import androidx.compose.material.icons.outlined.Crop
 import androidx.compose.material.icons.outlined.FilterAlt
-import androidx.compose.material.icons.outlined.FilterTiltShift
-import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material.icons.outlined.TextFields
 import androidx.compose.material.icons.outlined.Tune
-import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -52,6 +48,5 @@ fun RowButtons(
             "TEXT",
             onClick = { onTextClick() }
         )
-
     }
 }

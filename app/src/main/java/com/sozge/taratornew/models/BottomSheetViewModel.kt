@@ -44,10 +44,4 @@ class BottomSheetViewModel : ViewModel() {
     fun closeWidthSheet() {
         isWidthSheetOpen.value = false
     }
-    fun openTextSheet() {
-        isTextSheetOpen.value = true
-    }
-    fun closeTextSheet() {
-        isWidthSheetOpen.value = false
-    }
 }
