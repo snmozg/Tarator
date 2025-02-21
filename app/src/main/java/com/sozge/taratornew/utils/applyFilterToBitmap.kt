@@ -11,33 +11,26 @@ fun applyFilterToBitmap(originalBitmap: Bitmap?, colorFilter: ColorFilter?): Bit
         Log.e("applyFilterToBitmap", "Original bitmap is null!")
         return null
     }
-
     return try {
-        val resultBitmap = Bitmap.createBitmap(
-            originalBitmap.width,
-            originalBitmap.height,
-            originalBitmap.config!!
-        )
-
-        val canvas = Canvas(resultBitmap)
-        val paint = Paint()
-
-
-
-        canvas.drawBitmap(originalBitmap, 0f, 0f, paint)
-
-
-
-         colorFilter?.let {
-            paint.colorFilter = it
+        // Eğer filtre uygulanmayacaksa, orijinal bitmap'in kopyasını döndür.
+        if (colorFilter == null) {
+            originalBitmap.copy(originalBitmap.config!!, true)
+        } else {
+            val resultBitmap = Bitmap.createBitmap(
+                originalBitmap.width,
+                originalBitmap.height,
+                originalBitmap.config!!
+            )
+            val canvas = Canvas(resultBitmap)
+            val paint = Paint().apply { this.colorFilter = colorFilter }
             canvas.drawBitmap(originalBitmap, 0f, 0f, paint)
+            resultBitmap
         }
-        resultBitmap
-
     } catch (e: Exception) {
         Log.e("applyFilterToBitmap", "Error ${e.message}")
         null
     }
 }
+
 
 

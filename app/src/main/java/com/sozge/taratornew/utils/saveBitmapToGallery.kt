@@ -10,24 +10,19 @@ import java.io.IOException
 
 fun saveBitmapToGallery(context: Context, bitmap: Bitmap?): Uri? {
     if (bitmap == null) return null
-
     return try {
-
         val contentValues = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, "edited_image_${System.currentTimeMillis()}.jpg")
             put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-            put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/Tarator") // Galeride bir klasör ismi
+            put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/Tarator")
         }
-
         val contentResolver = context.contentResolver
         val imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
         imageUri?.let { uri ->
             contentResolver.openOutputStream(uri)?.use { outputStream ->
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
             }
         }
-
         imageUri
     } catch (e: IOException) {
         Log.e("saveBitmapToGallery", "Failed to save image: ${e.message}")

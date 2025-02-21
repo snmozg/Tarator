@@ -87,7 +87,7 @@ fun EditPage(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             HeaderBar(
-                navController,
+                navController = navController,
                 actionImageVector = Icons.Outlined.FileDownload,
                 actionContentDescription = "save button",
                 isBackButtonEnable = true,
@@ -100,15 +100,22 @@ fun EditPage(
                         val colorFilter = filterViewModel.filter.value?.asAndroidColorFilter()
 
                         if (originalBitmap != null) {
-                            val filteredBitmap = applyFilterToBitmap(originalBitmap, colorFilter)
-                            val drawingBitmap = drawingViewModel.getCurrentBitmap(
-                                originalBitmap.width,
-                                originalBitmap.height
-                            )
+                            // Eğer filtre seçilmişse, orijinal resim üzerinden filtrelenmiş bitmap oluştur
+                            val filteredBitmap = if (colorFilter != null) {
+                                applyFilterToBitmap(originalBitmap, colorFilter)
+                            } else {
+                                originalBitmap.copy(originalBitmap.config!!, true)
+                            }
 
+                            // Filtre uygulandıktan sonra, diğer işlemleri (çizim ve metin) filtrelenmiş bitmap üzerinden yapalım.
+                            val drawingBitmap = drawingViewModel.getCurrentBitmap(
+                                filteredBitmap!!.width,
+                                filteredBitmap.height
+                            )
+                            // Önemli: textViewModel’e de orijinal yerine filtrelenmiş bitmap referansı gönderiyoruz.
                             val textBitmap = textViewModel.textOnBitmap(
                                 context = context,
-                                originalBitmap = originalBitmap
+                                originalBitmap = filteredBitmap
                             )
 
                             if (filteredBitmap != null && drawingBitmap != null && textBitmap != null) {
@@ -125,8 +132,8 @@ fun EditPage(
                                     onConfirmAction = {
                                         navController.navigate("Homepage") {
                                             popUpTo("Homepage") { inclusive = true }
-                                            imageViewModel.deleteImage()
                                         }
+                                        imageViewModel.deleteImage()
                                     }
                                 } ?: run {
                                     showDialog = true
@@ -137,13 +144,13 @@ fun EditPage(
                             } else {
                                 showDialog = true
                                 dialogTitle = "WARNING"
-                                dialogMessage = "try again!"
+                                dialogMessage = "Try again!"
                                 onConfirmAction = null
                             }
                         } else {
                             showDialog = true
                             dialogTitle = "WARNING"
-                            dialogMessage = "try again!"
+                            dialogMessage = "Try again!"
                             onConfirmAction = null
                         }
                     } ?: run {
@@ -160,7 +167,7 @@ fun EditPage(
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize(),
-                verticalArrangement = Arrangement.Bottom,
+                verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 EditPageImage(
@@ -174,8 +181,6 @@ fun EditPage(
                         permissionLauncher.launch(getRequiredPermission())
                     }
                 )
-
-                Spacer(modifier = Modifier.height(50.dp))
 
                 RowButtons(
                     onFilterClick = {
@@ -193,17 +198,13 @@ fun EditPage(
                             navController.navigate("BrushPage")
                         }
                     },
-
                     onTextClick = {
                         if (imageViewModel.myImage.value != null) {
                             navController.navigate("TextPage")
                         }
                     }
-
-
                 )
 
-                // ModalBottomSheets controlled by ViewModel
                 if (bottomSheetViewModel.isFilterSheetOpen.value) {
                     ModalBottomSheet(
                         containerColor = MaterialTheme.colorScheme.background,
@@ -230,26 +231,6 @@ fun EditPage(
                         )
                     }
                 }
-
-                /*
-                if (bottomSheetViewModel.isBrushSheetOpen.value) {
-                    ModalBottomSheet(
-                        containerColor = MaterialTheme.colorScheme.background,
-                        contentColor = MaterialTheme.colorScheme.primary,
-                        onDismissRequest = { bottomSheetViewModel.closeBrushSheet() },
-                        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-                    ) {
-                        BrushSection(
-                            imageViewModel = imageViewModel,
-                            filterViewModel = filterViewModel,
-                            drawingViewModel = drawingViewModel,
-                            bottomSheetViewModel = bottomSheetViewModel
-                        )
-                    }
-                }
-
-                 */
-
             }
         }
     )
